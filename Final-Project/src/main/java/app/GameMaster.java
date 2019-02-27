@@ -19,7 +19,7 @@ public class GameMaster {
 	private static void menu() {
 		boolean quit = false;
 		do {
-			String[] options = {"Start a New Campaign", "Load a Campaign", "Exit"};
+			String[] options = {"Start a New Game", "Load Game", "Exit"};
 			//Use GUI
 			int menuSelection = 0;
 			switch(menuSelection) {
@@ -53,7 +53,7 @@ public class GameMaster {
 			input = "Valid";
 			if(input == null ) {
 				invalid = true;
-				System.out.println("The "+ parameter + " cannot be null. \nTry again");
+				//System.out.println("The "+ parameter + " cannot be null. \nTry again");
 			}else if(input.isEmpty()) {
 				invalid = true;
 				System.out.println("The "+ parameter + " cannot be empty. \nTry again");
