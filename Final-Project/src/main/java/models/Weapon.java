@@ -55,6 +55,7 @@ public class Weapon extends Item {
 			this.value = RNG.generateInt(300, 400);
 			break;
 		case "Flaming Sword":
+			
 			this.value = RNG.generateInt(490, 400);
 			break;
 		case "Wrath of the Gods":

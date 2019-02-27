@@ -7,6 +7,7 @@ public class Item {
 			"Coffee Beans" };
 
 	public Item() {
+		
 		setName(items[1]);
 		setValue(1);
 	}

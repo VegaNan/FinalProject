@@ -8,6 +8,7 @@ public class RNG {
 		Random rng = new Random();
 		int num = rng.nextInt(max + 1 - min) + min;
 		return num;
+		
 	}
 	public static void validateMinandMax(double min, double max)
 	{

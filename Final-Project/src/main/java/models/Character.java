@@ -4,6 +4,7 @@ import models.Armor;
 import models.Weapon;
 
 public abstract class Character {
+	
 	protected String name;
 	protected int strBase;
 	protected int intBase;
