@@ -16,6 +16,10 @@ public class GameMaster {
 	
 	static Game loadedGame;
 	
+	public static void run() {
+		menu();
+	}
+	
 	private static void menu() {
 		boolean quit = false;
 		do {
