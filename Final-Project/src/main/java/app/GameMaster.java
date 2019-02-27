@@ -44,7 +44,10 @@ public class GameMaster {
 	}
 	
 	private static void createGame() {
-		loadedGame = new Game();
+		
+		Player player = new Player();
+		
+		loadedGame = new Game(player);
 		//Add game creation logic
 	}
 	
