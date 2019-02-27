@@ -1,9 +1,17 @@
 package app;
 
+import models.Map;
 import models.Player;
 
 public class Game {
+	
+	private Map map;
+	private Player player;
+	
 
+	public Game(Player player) {
+		this.player = player;
+	}
 	
 	public static void playGame() {
 		
