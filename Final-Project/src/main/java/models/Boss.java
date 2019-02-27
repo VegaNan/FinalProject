@@ -1,5 +1,5 @@
 package models;
 
-public class Boss {
+public class Boss extends Monster{
 
 }

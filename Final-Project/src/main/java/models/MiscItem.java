@@ -1,5 +1,5 @@
 package models;
 
-public class MiscItem {
-
+public class MiscItem extends Item{
+	
 }
