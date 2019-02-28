@@ -4,24 +4,25 @@ import models.Armor;
 import models.Weapon;
 
 public abstract class Character {
-	
+
 	protected String name;
+	protected int level;
 	protected int strBase;
 	protected int intBase;
-	protected int dexBase;
+	protected int luckBase;
 	protected int strMod = 0;
 	protected int intMod = 0;
-	protected int dexMod = 0;
+	protected int luckMod = 0;
 	protected int baseHP;
 	protected int currentHP;
 	protected Weapon equippedWeapon;
 	protected Armor equippedArmor;
 
-	public Character() {
-		setStrBase(1);
-		setIntBase(1);
-		setDexBase(1);
-		setBaseHP(getStrength() * 10);
+	public Character(int strBase, int intBase, int luckBase, int level) {
+		setStrBase(strBase);
+		setIntBase(intBase);
+		setLuckBase(luckBase);
+		setBaseHP(level);
 		setCurrentHP(this.baseHP);
 	}
 
@@ -41,12 +42,12 @@ public abstract class Character {
 		this.intBase = intBase;
 	}
 
-	public int getDexBase() {
-		return dexBase;
+	public int getLuckBase() {
+		return luckBase;
 	}
 
-	public void setDexBase(int dexBase) {
-		this.dexBase = dexBase;
+	public void setLuckBase(int luckBase) {
+		this.luckBase = luckBase;
 	}
 
 	public int getStrMod() {
@@ -65,12 +66,12 @@ public abstract class Character {
 		this.intMod = intmod;
 	}
 
-	public int getDexMod() {
-		return dexMod;
+	public int getLuckMod() {
+		return luckMod;
 	}
 
-	public void setDexMod(int dexmod) {
-		this.dexMod = dexmod;
+	public void setLuckMod(int luckmod) {
+		this.luckMod = luckmod;
 	}
 
 	public int getBaseHP() {
@@ -113,8 +114,8 @@ public abstract class Character {
 		return this.intBase + this.intMod;
 	}
 
-	public int getDexterity() {
-		return this.dexBase + this.dexMod;
+	public int getLuck() {
+		return this.luckBase + this.luckMod;
 	}
 
 	public String getName() {
@@ -132,16 +133,32 @@ public abstract class Character {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append(name).append("[strBase=").append(strBase).append(", intBase=").append(intBase)
-				.append(", dexBase=").append(dexBase).append(", strMod=").append(strMod).append(", intMod=")
-				.append(intMod).append(", dexMod=").append(dexMod).append(", baseHP=").append(baseHP)
-				.append(", currentHP=").append(currentHP).append(", equippedWeapon=").append(equippedWeapon.name)
-				.append(", equippedArmor=").append(equippedArmor.name).append("\noverall strength=")
-				.append(getStrength()).append(", overall itelligence=").append(getIntelligence())
-				.append(", overall dexterity=").append(getDexterity()).append("]");
+		builder.append("Character [name=");
+		builder.append(name);
+		builder.append(", level=");
+		builder.append(level);
+		builder.append(", strBase=");
+		builder.append(strBase);
+		builder.append(", intBase=");
+		builder.append(intBase);
+		builder.append(", luckBase=");
+		builder.append(luckBase);
+		builder.append(", strMod=");
+		builder.append(strMod);
+		builder.append(", intMod=");
+		builder.append(intMod);
+		builder.append(", luckMod=");
+		builder.append(luckMod);
+		builder.append(", baseHP=");
+		builder.append(baseHP);
+		builder.append(", currentHP=");
+		builder.append(currentHP);
+		builder.append(", equippedWeapon=");
+		builder.append(equippedWeapon);
+		builder.append(", equippedArmor=");
+		builder.append(equippedArmor);
+		builder.append("]");
 		return builder.toString();
 	}
 
 }
-
-

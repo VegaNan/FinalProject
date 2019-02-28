@@ -10,9 +10,9 @@ public class Potion extends Item implements Consumable {
 	protected PotionType effect;
 	protected int effectNum;
 
-	public Potion() {
-		setEffect(1);
-		setEffectNum(50);
+	public Potion(PotionType effect, int effectNum) {
+		setEffect(effect);
+		setEffectNum(effectNum);
 		setName(this.effect);
 	}
 
@@ -30,13 +30,16 @@ public class Potion extends Item implements Consumable {
 
 	public void setName(PotionType effect) {
 		switch (effect) {
-		case Dexterity:
+		case LUCK:
 			this.name = "Dexterity Potion";
 			break;
-		case Strength:
+		case HEALING:
+			this.name = "Dexterity Potion";
+			break;
+		case STRENGTH:
 			this.name = "Strength Potion";
 			break;
-		case Intelligence:
+		case INTELLIGENCE:
 			this.name = "Intelligence Potion";
 			break;
 		}
@@ -46,18 +49,8 @@ public class Potion extends Item implements Consumable {
 		return effect;
 	}
 
-	public void setEffect(int num) {
-		switch (num) {
-		case 0:
-			this.effect = PotionType.Dexterity;
-			break;
-		case 1:
-			this.effect = PotionType.Strength;
-			break;
-		case 2:
-			this.effect = PotionType.Intelligence;
-			break;
-		}
+	public void setEffect(PotionType effect) {
+		this.effect = effect;
 	}
 
 	public int getEffectNum() {
@@ -71,27 +64,26 @@ public class Potion extends Item implements Consumable {
 	@Override
 	public void use(Character target) {
 		switch (this.effect) {
-		case Dexterity:
-			System.out.println(target.getName() + " used a " + this.name + " and gained " + this.effectNum
-					+ " points of Dexterity");
-			target.setDexMod(this.effectNum);
+		case LUCK:
+			System.out.println(
+					target.getName() + " used a " + this.name + " and gained " + this.effectNum + " points of Luck");
+			target.setLuckMod(this.effectNum);
 			break;
-		case Strength:
+		case STRENGTH:
 			System.out.println(target.getName() + " used a " + this.name + " and gained " + this.effectNum
 					+ " points of Strength");
 			target.setStrMod(this.effectNum);
 			break;
-		case Intelligence:
+		case INTELLIGENCE:
 			System.out.println(target.getName() + " used a " + this.name + " and gained " + this.effectNum
 					+ " points of Intelligence");
 			target.setIntMod(this.effectNum);
 			break;
+		case HEALING:
+			System.out.println(
+					target.getName() + " used a " + this.name + " and gained " + this.effectNum + " points of Healing");
+			target.setCurrentHP(target.getBaseHP());
 		}
-	}
-
-	@Override
-	public void getDescription() {
-		System.out.println(this.name + ": increases " + this.effect + " by " + this.effectNum + " points");
 	}
 
 	@Override
@@ -101,6 +93,18 @@ public class Potion extends Item implements Consumable {
 				.append(", value=").append(value).append(", name=").append(name).append(", items=")
 				.append(Arrays.toString(items)).append("]");
 		return builder.toString();
+	}
+
+	@Override
+	public void use(java.lang.Character target) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public String getDescription() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

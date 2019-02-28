@@ -2,8 +2,8 @@ package enums;
 
 public enum PotionType {
 HEALING,
-STRENGTHBOOST,
-INTELLIGENCEBOOST,
-LUCKBOOST
+STRENGTH,
+INTELLIGENCE,
+LUCK
 
 }
