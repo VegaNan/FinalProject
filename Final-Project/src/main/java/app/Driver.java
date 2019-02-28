@@ -3,7 +3,7 @@ package app;
 public class Driver {
 
 	public static void main(String[] args) {
-		gui.Start.main(args);
+		gui.Start.main();
 		GameMaster.run();
 	}
 
