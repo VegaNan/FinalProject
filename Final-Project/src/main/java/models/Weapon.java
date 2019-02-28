@@ -1,35 +1,32 @@
 package models;
 
+import java.util.Arrays;
+
 import utilities.RNG;
 
 public class Weapon extends Item {
-	protected int DamageMin;
-	protected int DamageMax;
+	protected int Damage;
 
-	public Weapon() {
-		setDamageMin(1);
-		setDamageMax(RNG.generateInt((this.DamageMin + 10), this.DamageMin));
-		setName(this.DamageMax, this.DamageMin);
+	public Weapon(int Damage, String name) {
+		setName(Damage);
 		setValue(this.name);
 	}
 
-	public void setName(int DamageMax, int DamageMin) {
-		if (DamageMax < 11) {
-			this.name = "Butterknife";
-		} else if (DamageMax < 21 && DamageMax > 10) {
+	public void setName(int damage) {
+		if (damage < 11) {
+			this.name = "Lene";
+		} else if (damage < 21 && damage > 10) {
 			this.name = "Pocket Knife";
-		} else if (DamageMax < 41 && DamageMax > 20) {
+		} else if (damage < 41 && damage > 20) {
 			this.name = "Small Dagger";
-		} else if (DamageMax < 61 && DamageMax > 40) {
+		} else if (damage < 61 && damage > 40) {
 			this.name = "Soldier's Sword";
-		} else if (DamageMax < 81 && DamageMax > 60) {
+		} else if (damage < 81 && damage > 60) {
 			this.name = "Heavy Clamore";
-		} else if (DamageMax > 80) {
-			if (DamageMax == 100 && DamageMin == 90) {
-				this.name = "Wrath of the Gods";
-			} else {
-				this.name = "Flaming Sword";
-			}
+		} else if (damage > 80 && damage < 100) {
+			this.name = "Flaming Sword";
+		} else {
+			this.name = "Wrath of the Gods";
 		}
 	}
 
@@ -55,7 +52,7 @@ public class Weapon extends Item {
 			this.value = RNG.generateInt(300, 400);
 			break;
 		case "Flaming Sword":
-			
+
 			this.value = RNG.generateInt(490, 400);
 			break;
 		case "Wrath of the Gods":
@@ -68,27 +65,27 @@ public class Weapon extends Item {
 		return this.value;
 	}
 
-	public int getDamageMin() {
-		return DamageMin;
+	public int getDamage() {
+		return Damage;
 	}
 
-	public void setDamageMin(int damageMin) {
-		DamageMin = damageMin;
-	}
-
-	public int getDamageMax() {
-		return DamageMax;
-	}
-
-	public void setDamageMax(int damageMax) {
-		DamageMax = damageMax;
+	public void setDamage(int damage) {
+		Damage = damage;
 	}
 
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Weapon \t[name=").append(name).append(", \t\t\tDamageMin=").append(DamageMin)
-				.append(", \t\tDamageMax=").append(DamageMax).append(", \t\t\t\t\tvalue=").append(value).append("]");
+		builder.append("Weapon [Damage=");
+		builder.append(Damage);
+		builder.append(", value=");
+		builder.append(value);
+		builder.append(", name=");
+		builder.append(name);
+		builder.append(", items=");
+		builder.append(Arrays.toString(items));
+		builder.append("]");
 		return builder.toString();
 	}
+
 }
