@@ -1,13 +1,12 @@
 package models;
 
-public class Item {
+public abstract class Item {
 	public int value;
 	public String name;
 	public String[] items = { "Bear Pelt", "Jar of Incense", "Rabbit Skin", "Beer", "Tobacco", "Cloth", "Rug",
-			"Coffee Beans" };
+	"Coffee Beans" };
 
 	public Item() {
-		
 		setName(items[1]);
 		setValue(1);
 	}

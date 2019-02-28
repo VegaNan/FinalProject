@@ -22,12 +22,10 @@ public class Armor extends Item {
 			this.name = "Rogue's Cloak";
 		} else if (armorRating > 11 && armorRating < 15) {
 			this.name = "Soldier's Armor";
-		} else if (armorRating >= 15) {
-			if (armorRating == 17 && damageReduction == 10) {
-				this.name = "Fabled Armor of Horan";
-			} else {
-				this.name = "Heavy Armor";
-			}
+		} else if (armorRating >= 15 && armorRating < 17) {
+			this.name = "Heavy Armor";
+		} else {
+			this.name = "Fabled Armor of Horan";
 		}
 	}
 
