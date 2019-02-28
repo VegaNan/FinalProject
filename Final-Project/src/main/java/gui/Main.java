@@ -11,7 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class Start extends Application {
+public class Main extends Application {
 	
 	public static void run() {
 		launch();

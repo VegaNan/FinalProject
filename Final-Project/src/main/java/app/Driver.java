@@ -1,11 +1,11 @@
 package app;
 
-import gui.Start;
+import gui.Main;
 
 public class Driver {
 
 	public static void main(String[] args) {
-		Start.run();
+		Main.run();
 		GameMaster.run();
 	}
 	
