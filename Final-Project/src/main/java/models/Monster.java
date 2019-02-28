@@ -2,6 +2,11 @@ package models;
 
 public class Monster extends Character{
 
+	public Monster(int strBase, int intBase, int luckBase, int level) {
+		super(strBase, intBase, luckBase, level);
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public int takeDamage(int damage) {
 		// TODO Auto-generated method stub

@@ -96,12 +96,6 @@ public class Potion extends Item implements Consumable {
 	}
 
 	@Override
-	public void use(java.lang.Character target) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public String getDescription() {
 		// TODO Auto-generated method stub
 		return null;

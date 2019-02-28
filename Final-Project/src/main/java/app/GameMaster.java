@@ -45,7 +45,7 @@ public class GameMaster {
 	
 	private static void createGame() {
 		
-		Player player = new Player();
+		Player player = new Player(0, 0, 0, 0);
 		
 		loadedGame = new Game(player);
 		//Add game creation logic
@@ -80,7 +80,7 @@ public class GameMaster {
 		//Add player logic for GUI
 		int currentXP = 0;
 		int level = 0;
-		Player playerCreated = new Player();		
+		Player playerCreated = new Player(level, level, level, level);		
 		return playerCreated;
 	}
 	
