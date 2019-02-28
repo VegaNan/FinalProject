@@ -12,6 +12,10 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Start extends Application {
+	
+	public static void main(String[] args) {
+		launch(args);
+	}
 		
 	@Override
 	public void start(Stage primaryStage) {
@@ -19,7 +23,6 @@ public class Start extends Application {
 			primaryStage.setScene(startMenu(primaryStage));
 			primaryStage.setTitle("Main Menu");
 			primaryStage.show();
-			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -59,6 +62,24 @@ public class Start extends Application {
 		menuOptions.getChildren().add(startNew);
 		menuOptions.getChildren().add(loadGame);
 		menuOptions.getChildren().add(quit);
+		startNew.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				
+			}
+		});
+		loadGame.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				
+			}
+		});
+		quit.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				
+			}
+		});
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Main Menu");
@@ -66,9 +87,7 @@ public class Start extends Application {
 	}
 	
 	
-	public static void main(String[] args) {
-		launch(args);
-	}
+	
 
 
 }
