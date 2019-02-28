@@ -1,14 +1,14 @@
 package models;
 
-public class Armor extends Item {
+import interfaces.Equippable;
+
+public class Armor extends Item implements Equippable{
 	protected int ArmorRating;
 	protected int DamageReduction;
-	protected int AgilityModifier;
 
 	public Armor() {
 		setArmorRating(17);
 		setDamageReduction(10);
-		setAgilityModifier(this.ArmorRating);
 		setName(this.ArmorRating, this.DamageReduction);
 		setValue(this.name);
 	}
@@ -68,52 +68,25 @@ public class Armor extends Item {
 		DamageReduction = damageReducation;
 	}
 
-	public int getAgilityModifier() {
-		return AgilityModifier;
-	}
-
-	public void setAgilityModifier(int armorRating) {
-		switch (armorRating) {
-		case 8:
-			this.AgilityModifier = 0;
-			break;
-		case 9:
-			this.AgilityModifier = -1;
-			break;
-		case 10:
-			this.AgilityModifier = -1;
-			break;
-		case 11:
-			this.AgilityModifier = -2;
-			break;
-		case 12:
-			this.AgilityModifier = -3;
-			break;
-		case 13:
-			this.AgilityModifier = -4;
-			break;
-		case 14:
-			this.AgilityModifier = -5;
-			break;
-		case 15:
-			this.AgilityModifier = -5;
-			break;
-		case 16:
-			this.AgilityModifier = -6;
-			break;
-		case 17:
-			this.AgilityModifier = -6;
-			break;
-		}
-	}
-
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Armor \t[name=").append(name).append(", \t\t\tArmorRating=").append(ArmorRating)
+		builder.append("Armor \t").append(name).append(", \t\t\tArmorRating=").append(ArmorRating)
 				.append(", \tDamageReduction=").append(DamageReduction).append(", \tAgilityModifier=")
-				.append(AgilityModifier).append(", \tvalue=").append(value).append("]");
+				.append(", \tvalue=").append(value);
 		return builder.toString();
+	}
+
+	@Override
+	public boolean equip() {
+		boolean equipped = false;
+		return equipped;
+	}
+
+	@Override
+	public String getDescription() {
+		StringBuilder sb = new StringBuilder();
+		return sb.toString();
 	}
 
 }
