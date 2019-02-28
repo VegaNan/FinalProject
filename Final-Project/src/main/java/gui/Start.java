@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 
 public class Start extends Application {
 	
-	public static void main() {
+	public static void run() {
 		launch();
 	}
 		

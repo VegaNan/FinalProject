@@ -5,7 +5,7 @@ import gui.Start;
 public class Driver {
 
 	public static void main(String[] args) {
-		Start.main();
+		Start.run();
 		GameMaster.run();
 	}
 
