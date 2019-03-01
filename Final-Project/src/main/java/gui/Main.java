@@ -6,8 +6,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -52,6 +51,7 @@ public class Main extends Application {
 	}
 	
 	public void mainMenu(Stage primaryStage) {
+		
 		Button startNew = new Button("Start New Game");
 		Button loadGame = new Button("Load Game");
 		Button quit = new Button("Quit");
@@ -65,13 +65,13 @@ public class Main extends Application {
 		startNew.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				
+				startNewGame(primaryStage);
 			}
 		});
 		loadGame.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				
+				startGame(primaryStage);
 			}
 		});
 		quit.setOnAction(new EventHandler<ActionEvent>() {
@@ -86,7 +86,27 @@ public class Main extends Application {
 		primaryStage.show();
 	}
 	
+	public void startNewGame(Stage primaryStage) {
+		Button start = new Button("Start");
+		Button quit = new Button("Quit");
+		VBox menuOptions = new VBox();
+		Scene scene = new Scene(menuOptions, 1600, 800);
+		menuOptions.setAlignment(Pos.CENTER);
+		menuOptions.setPadding(new Insets(20, 80, 20, 80));
+		menuOptions.getChildren().add(start);
+		menuOptions.getChildren().add(quit);
+	}
 	
+	public void startGame(Stage primaryStage) {
+		
+		ChoiceDialog mainMenu = new ChoiceDialog();
+
+		VBox menuOptions = new VBox();
+		Scene scene = new Scene(menuOptions, 1600, 800);
+		menuOptions.setAlignment(Pos.CENTER);
+		menuOptions.setPadding(new Insets(20, 80, 20, 80));
+
+	}
 	
 
 

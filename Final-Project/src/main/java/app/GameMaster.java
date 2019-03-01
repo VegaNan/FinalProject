@@ -43,7 +43,7 @@ public class GameMaster {
 		}while(!quit);
 	}
 	
-	private static void createGame() {
+	public static void createGame() {
 		
 		Player player = new Player(0, 0, 0, 0);
 		
@@ -51,32 +51,9 @@ public class GameMaster {
 		//Add game creation logic
 	}
 	
-	private static String promptForValidInput(String parameter) {
-		String input;
-		boolean invalid = true;
-		
-		do {
-			//Add logic here for GUI input
-			input = "Valid";
-			if(input == null ) {
-				invalid = true;
-				//System.out.println("The "+ parameter + " cannot be null. \nTry again");
-			}else if(input.isEmpty()) {
-				invalid = true;
-				System.out.println("The "+ parameter + " cannot be empty. \nTry again");
-			}else if(input.trim().isEmpty()) {
-				invalid = true;
-				System.out.println("The "+ parameter + " cannot be whitespace.  \nTry again");
-			}else {
-				invalid = false;
-			}
-		}while(invalid);
-		return input;
-	}
-	
 	private static Player createPlayer(){
-		String playerName = promptForValidInput("player name");
-		String characterName = promptForValidInput("character name");
+		String playerName ;
+		String characterName ;
 		//Add player logic for GUI
 		int currentXP = 0;
 		int level = 0;
@@ -120,19 +97,20 @@ public class GameMaster {
 	}
 	
 
-	private static boolean loadGame() {
-		boolean complete = false;
-		String path = promptForValidInput("path to the save file");
+	public static String[] loadGame() {
+		String path = "save";
 		File ppath = new File(path);
+		
+		String[] options = {""};
+
 		if(ppath.exists()) {
+
 			FileInputStream fileIn = null;
 			ObjectInputStream objectIn = null;
 			try {
-			
 				fileIn = new FileInputStream(path);
 				objectIn = new ObjectInputStream(fileIn);
 				loadedGame = (Game) objectIn.readObject();
-				complete = true;
 			}catch(FileNotFoundException fnf) {
 				System.out.println("Path does not exist.");
 			}catch(ClassNotFoundException cnfe) {
@@ -151,11 +129,11 @@ public class GameMaster {
 				}
 			}
 		}
-		return complete;
+		return options;
 	}
 	
 	private static void saveGame() {
-		String path = promptForValidInput("path");
+		String path = "path";
 		FileOutputStream fileOut = null;
 		ObjectOutputStream objectOut = null;
 		try {
