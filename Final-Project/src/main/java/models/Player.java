@@ -1,6 +1,42 @@
 package models;
 
-public class Player extends Character{
+public class Player extends Character {
+	protected int xp;
+	protected int nextLevelXP;
+
+	public Player(int strBase, int intBase, int luckBase, int level) {
+		super(strBase, intBase, luckBase, level);
+
+	}
+
+	public void checkLevelUp(int xp, int nextLevelXP) {
+		do {
+			if (xp >= nextLevelXP) {
+				this.level++;
+				setNextLevelXP(this.level);
+			}
+		} while (xp >= nextLevelXP);
+	}
+
+	public int getXp() {
+		return xp;
+	}
+
+	public void setXp(int xp) {
+		this.xp = xp;
+	}
+
+	public int getNextLevelXP() {
+		return nextLevelXP;
+	}
+
+	public int setNextLevelXP(int level) {
+		if (level == 1) {
+			return 1000;
+		} else {
+			return (level*1000) + setNextLevelXP(level - 1);
+		}
+	}
 
 	@Override
 	public int takeDamage(int damage) {
@@ -13,6 +49,5 @@ public class Player extends Character{
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
 
 }
