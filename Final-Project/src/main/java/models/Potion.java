@@ -61,7 +61,6 @@ public class Potion extends Item implements Consumable {
 		this.effectNum = effectNum;
 	}
 
-	@Override
 	public void use(Character target) {
 		switch (this.effect) {
 		case LUCK:

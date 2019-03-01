@@ -6,6 +6,7 @@ import models.Weapon;
 public abstract class Character {
 
 	protected String name;
+	protected boolean isAlive;
 	protected int level;
 	protected int strBase;
 	protected int intBase;
@@ -124,6 +125,22 @@ public abstract class Character {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public boolean isAlive() {
+		return isAlive;
+	}
+
+	public void setAlive(boolean isAlive) {
+		this.isAlive = isAlive;
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
 	}
 
 	public abstract int takeDamage(int damage);
