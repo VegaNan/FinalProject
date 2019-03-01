@@ -34,10 +34,6 @@ public class GameMaster {
 			case 2:
 				loadGame();
 				GameView();
-<<<<<<< HEAD
-				
-=======
->>>>>>> branch 'master' of https://github.com/VegaNan/FinalProject.git
 				break;
 			case 3:
 				quit = true;
