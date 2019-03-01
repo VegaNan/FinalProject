@@ -3,7 +3,6 @@ package gui;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 
 import enums.SpaceType;
 import javafx.application.Application;
@@ -62,7 +61,7 @@ public class Main extends Application {
 		switchBox.setPadding(new Insets(20, 80, 20, 80));
 		switchBox.getChildren().add(StartButton);
 		root.getChildren().addAll(Start, switchBox);
-		Scene scene = new Scene(root, 1600, 800);
+		Scene scene = new Scene(root, 800, 800);
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		return scene;
 	}
@@ -74,7 +73,7 @@ public class Main extends Application {
 		Button quit = new Button("Quit");
 		Button testing = new Button("Testing");
 		VBox menuOptions = new VBox();
-		Scene scene = new Scene(menuOptions, 1600, 800);
+		Scene scene = new Scene(menuOptions, 800, 800);
 		menuOptions.setAlignment(Pos.CENTER);
 		menuOptions.setPadding(new Insets(20, 80, 20, 80));
 		menuOptions.getChildren().add(startNew);
@@ -117,7 +116,7 @@ public class Main extends Application {
 		Button start = new Button("Start");
 		Button quit = new Button("Quit");
 		VBox menuOptions = new VBox();
-		Scene scene = new Scene(menuOptions, 1600, 800);
+		Scene scene = new Scene(menuOptions, 800, 800);
 		menuOptions.setAlignment(Pos.CENTER);
 		menuOptions.setPadding(new Insets(20, 80, 20, 80));
 		menuOptions.getChildren().add(start);
@@ -129,7 +128,7 @@ public class Main extends Application {
 		ChoiceDialog mainMenu = new ChoiceDialog();
 
 		VBox menuOptions = new VBox();
-		Scene scene = new Scene(menuOptions, 1600, 800);
+		Scene scene = new Scene(menuOptions, 800, 800);
 		menuOptions.setAlignment(Pos.CENTER);
 		menuOptions.setPadding(new Insets(20, 80, 20, 80));
 
@@ -141,11 +140,10 @@ public class Main extends Application {
 		VBox vBox = new VBox();
 		HBox hBox = new HBox();
 		TilePane map = new TilePane();
-		
+
 		root.setTop(vBox);
 		root.setLeft(hBox);
-		root.setBottom(vBox);
-		root.setRight(hBox);
+		root.setPadding(new Insets(10));
 		root.setCenter(map);
 		
 	    vBox.setPadding(new Insets(15, 12, 15, 12));
@@ -156,19 +154,15 @@ public class Main extends Application {
 	    hBox.setSpacing(10);
 	    hBox.setStyle("-fx-background-color: #336699;");
 		
-		map.setPadding(new Insets(5,0,5,0));
-		map.setVgap(4);
-		map.setHgap(4);
-		map.setPrefColumns(2);
-		map.setStyle("-fx-background-color: DAE6F3;");
-		
-		ImageView pages[] = new ImageView[8];
-		for (int i=0; i<8; i++) {
+		ImageView pages[] = new ImageView[225];
+		for (int i=0; i<pages.length; i++) {
 			FileInputStream fileIn = null;
-			ObjectInputStream objectIn = null;
 			try {
 				fileIn = new FileInputStream("graphics/map"+".png");
 				pages[i] = new ImageView(new Image(fileIn));
+				pages[i].setFitHeight(50);
+				pages[i].setFitWidth(50);
+				pages[i].setPreserveRatio(true);
 			}catch(FileNotFoundException fnf) {
 				System.out.println("Path does not exist.");
 			}catch(IOException ioe) {
@@ -182,10 +176,19 @@ public class Main extends Application {
 					ioe.printStackTrace();
 				}
 			}
-		     map.getChildren().add(pages[i]);
+		    map.getChildren().add(pages[i]);  
 		}
 		
-		Scene scene = new Scene(root, 1600, 800);
+		map.setPadding(new Insets(5,5,5,5));;
+		map.setPrefColumns(15);
+		map.setPrefRows(15);
+		map.setPrefTileHeight(50);
+		map.setPrefTileWidth(50);
+		map.setStyle("-fx-background-color: DAE6F3;");
+		
+		
+		
+		Scene scene = new Scene(root, 800, 800);
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Testing");
