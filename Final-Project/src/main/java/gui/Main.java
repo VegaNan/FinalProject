@@ -153,9 +153,8 @@ public class Main extends Application {
 			FileInputStream fileIn = null;
 			ObjectInputStream objectIn = null;
 			try {
-				fileIn = new FileInputStream("graphics/chart_"+(i+1)+".png");
-				new ImageView(new Image(fileIn));
-				objectIn = new ObjectInputStream(fileIn);
+				fileIn = new FileInputStream("graphics/map"+".png");
+				pages[i] = new ImageView(new Image(fileIn));
 			}catch(FileNotFoundException fnf) {
 				System.out.println("Path does not exist.");
 			}catch(IOException ioe) {
@@ -163,16 +162,12 @@ public class Main extends Application {
 				ioe.printStackTrace();
 			}finally {
 				try {
-				objectIn.close();
 				fileIn.close();
 				}catch(IOException ioe) {
 					System.out.println("Either input stream could not close");
 					ioe.printStackTrace();
 				}
 			}
-		     pages[i] = new ImageView();
-
-
 		     map.getChildren().add(pages[i]);
 		}
 		
