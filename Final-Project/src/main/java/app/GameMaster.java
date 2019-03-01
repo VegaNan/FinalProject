@@ -34,9 +34,9 @@ public class GameMaster {
 				GameView();
 				break;
 			case 2:
-				if(loadGame()) {
-					GameView();
-				}
+				loadGame();
+				GameView();
+				
 				break;
 			case 3:
 				quit = true;
