@@ -136,12 +136,26 @@ public class Main extends Application {
 	}
 	
 	public void loadMap(Stage primaryStage, SpaceType[][] spaceTypes) {
-		Label Start = new Label();
 		
 		BorderPane root = new BorderPane();
 		VBox vBox = new VBox();
 		HBox hBox = new HBox();
 		TilePane map = new TilePane();
+		
+		root.setTop(vBox);
+		root.setLeft(hBox);
+		root.setBottom(vBox);
+		root.setRight(hBox);
+		root.setCenter(map);
+		
+	    vBox.setPadding(new Insets(15, 12, 15, 12));
+	    vBox.setSpacing(10);
+	    vBox.setStyle("-fx-background-color: #336699;");
+	     
+	    hBox.setPadding(new Insets(15, 12, 15, 12));
+	    hBox.setSpacing(10);
+	    hBox.setStyle("-fx-background-color: #336699;");
+		
 		map.setPadding(new Insets(5,0,5,0));
 		map.setVgap(4);
 		map.setHgap(4);
@@ -171,25 +185,6 @@ public class Main extends Application {
 		     map.getChildren().add(pages[i]);
 		}
 		
-		root.getChildren().add(vBox);
-		root.getChildren().add(hBox);
-		root.getChildren().add(map);
-		
-		
-		Start.setMinSize(200, 200);
-		Button StartButton = new Button("Start");
-		StartButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				mainMenu(primaryStage);
-			}
-		});
-		
-		VBox switchBox = new VBox();
-		switchBox.setAlignment(Pos.CENTER);
-		switchBox.setPadding(new Insets(20, 80, 20, 80));
-		switchBox.getChildren().add(StartButton);
-		root.getChildren().addAll(Start, switchBox);
 		Scene scene = new Scene(root, 1600, 800);
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		primaryStage.setScene(scene);
