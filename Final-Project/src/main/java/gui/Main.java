@@ -63,6 +63,7 @@ public class Main extends Application {
 				loadMap(primaryStage, new SpaceType[5][5]);	
 			}
 		});
+		
 		Button testing2 = new Button("Testing");
 		root.getChildren().add(testing2);
 		testing.setOnAction(new EventHandler<ActionEvent>() {
@@ -110,7 +111,7 @@ public class Main extends Application {
 		quit.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				
+				primaryStage.close();
 			}
 		});
 		
