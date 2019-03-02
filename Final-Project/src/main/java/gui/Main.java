@@ -31,6 +31,9 @@ public class Main extends Application {
 		
 	@Override
 	public void start(Stage primaryStage) {
+		//Make a method to ask for which scene, 
+		//GameMaster.getScene
+		//primaryStage.setScene(Scene);
 		try {
 			Group g = new Group();
 			g.getChildren().add(new Button("New button"));
