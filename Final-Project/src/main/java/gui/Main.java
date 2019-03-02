@@ -55,6 +55,22 @@ public class Main extends Application {
 				mainMenu(primaryStage);
 			}
 		});
+		Button testing = new Button("Testing Maps");
+		root.getChildren().add(testing);
+		testing.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				loadMap(primaryStage, new SpaceType[5][5]);	
+			}
+		});
+		Button testing2 = new Button("Testing");
+		root.getChildren().add(testing2);
+		testing.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				
+			}
+		});
 		
 		VBox switchBox = new VBox();
 		switchBox.setAlignment(Pos.CENTER);
@@ -71,7 +87,6 @@ public class Main extends Application {
 		Button startNew = new Button("Start New Game");
 		Button loadGame = new Button("Load Game");
 		Button quit = new Button("Quit");
-		Button testing = new Button("Testing");
 		VBox menuOptions = new VBox();
 		Scene scene = new Scene(menuOptions, 800, 800);
 		menuOptions.setAlignment(Pos.CENTER);
@@ -79,7 +94,6 @@ public class Main extends Application {
 		menuOptions.getChildren().add(startNew);
 		menuOptions.getChildren().add(loadGame);
 		menuOptions.getChildren().add(quit);
-		menuOptions.getChildren().add(testing);
 		
 		startNew.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -100,12 +114,6 @@ public class Main extends Application {
 			}
 		});
 		
-		testing.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				loadMap(primaryStage, new SpaceType[5][5]);	
-			}
-		});
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Main Menu");
@@ -185,11 +193,10 @@ public class Main extends Application {
 		map.setPrefTileHeight(50);
 		map.setPrefTileWidth(50);
 		map.setStyle("-fx-background-color: DAE6F3;");
-		
-		
-		
+
 		Scene scene = new Scene(root, 800, 800);
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+		
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Testing");
 		primaryStage.show();
