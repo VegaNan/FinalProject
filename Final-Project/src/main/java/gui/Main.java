@@ -34,7 +34,7 @@ public class Main extends Application {
 		try {
 			Group g = new Group();
 			g.getChildren().add(new Button("New button"));
-			
+			primaryStage.setResizable(false);
 			primaryStage.setScene(startMenu(primaryStage));
 			primaryStage.setTitle("Main Menu");
 			primaryStage.show();
