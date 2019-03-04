@@ -39,19 +39,10 @@ public class Main extends Application {
 		// GameMaster.getScene
 		// primaryStage.setScene(Scene);
 		try {
-			Parent root = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
-			root.setId("mainMenu");
+			Parent root = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
 			Scene scene = new Scene(root);
-			root.getStylesheets().add("application.css");
-			primaryStage.setTitle("Main Menu");
 			primaryStage.setScene(scene);
 			primaryStage.show();
-//			Group g = new Group();
-//			g.getChildren().add(new Button("New button"));
-//			primaryStage.setResizable(false);
-//			primaryStage.setScene(startMenu(primaryStage));
-//			primaryStage.setTitle("Main Menu");
-//			primaryStage.show();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

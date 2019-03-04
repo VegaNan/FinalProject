@@ -1,10 +1,8 @@
 package controllers;
 
-import java.awt.Label;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,21 +16,19 @@ import view.Main;
 public class MainMenuController implements Initializable {
 
 	public void startNewGame(ActionEvent event) throws IOException {
-
-		changeScene("CharacterCreation.fxml", event);
+		changeScene("/view/LoadGame.fxml", event);
 	}
 
 	public void loadGame(ActionEvent event) throws IOException {
-		changeScene("LoadGame.fxml", event);
+		changeScene("/view/LoadGame.fxml", event);
 	}
 
 	private void changeScene(String filename, ActionEvent event) throws IOException {
-		Parent parent;
-		parent = FXMLLoader.load(getClass().getClassLoader().getResource(filename));
+		Parent parent = FXMLLoader.load(getClass().getResource(filename));
 		Scene scene = new Scene(parent);
-		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
 		window.setScene(scene);
-		window.show();
+		window.show();		
 	}
 
 	@Override

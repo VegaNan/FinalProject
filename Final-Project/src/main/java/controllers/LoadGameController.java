@@ -15,15 +15,13 @@ import javafx.stage.Stage;
 public class LoadGameController implements Initializable {
 
 	public void back(ActionEvent event) throws IOException {
-		changeScene("MainMenu.fxml", event);
+		changeScene("/view/MainMenu.fxml", event);
 	}
 
 	public void changeScene(String filename, ActionEvent event) throws IOException {
-		Parent parent;
-		parent = FXMLLoader.load(getClass().getClassLoader().getResource(filename));
+		Parent parent = FXMLLoader.load(getClass().getResource(filename));
 		Scene scene = new Scene(parent);
 		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		window.setTitle("Main Menu");
 		window.setScene(scene);
 		window.show();
 	}

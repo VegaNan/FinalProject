@@ -14,16 +14,16 @@ import javafx.stage.Stage;
 
 public class CharacterCreationController implements Initializable {
 	public void goBackMM(ActionEvent event) throws IOException {
-		changeScene("MainMenu.fxml", event);
+		changeScene("/view/MainMenu.fxml", event);
 	}
 	public void startGame(ActionEvent event) throws IOException
 	{
-		changeScene("Map1.fxml", event);
+		changeScene("/view/Map1.fxml", event);
 	}
 	private void changeScene(String filename, ActionEvent event) throws IOException
 	{
 		Parent parent;
-		parent = FXMLLoader.load(getClass().getClassLoader().getResource(filename));
+		parent = FXMLLoader.load(getClass().getResource(filename));
 		Scene scene = new Scene(parent);
 		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		window.setTitle("Main Menu");
