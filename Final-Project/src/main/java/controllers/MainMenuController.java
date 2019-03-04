@@ -16,7 +16,7 @@ import view.Main;
 public class MainMenuController implements Initializable {
 
 	public void startNewGame(ActionEvent event) throws IOException {
-		changeScene("/view/LoadGame.fxml", event);
+		changeScene("/view/CharacterCreation.fxml", event);
 	}
 
 	public void loadGame(ActionEvent event) throws IOException {
