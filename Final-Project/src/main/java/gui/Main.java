@@ -52,37 +52,36 @@ public class Main extends Application {
 		root.setAlignment(Pos.CENTER);	
 		Start.setMinSize(200, 200);
 		Button StartButton = new Button("Start");
+		Button testingMaps = new Button("Testing Maps");
+		VBox switchBox = new VBox();
+		switchBox.setAlignment(Pos.CENTER);
+		switchBox.setPadding(new Insets(20, 80, 20, 80));
+		switchBox.getChildren().add(StartButton);
+		root.getChildren().addAll(Start, switchBox);
+		root.getChildren().add(testingMaps);
+		Scene scene = new Scene(root, 800, 800);
+		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+		
 		StartButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				mainMenu(primaryStage);
 			}
 		});
-		Button testing = new Button("Testing Maps");
-		root.getChildren().add(testing);
-		testing.setOnAction(new EventHandler<ActionEvent>() {
+		
+		testingMaps.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				loadMap(primaryStage, new SpaceType[5][5]);	
+				SpaceType[][] spaceType = new SpaceType[5][5];
+				for(int j = 0; j < spaceType.length ; j++) {
+					for(int i = 0; i < spaceType[j].length; i++) {
+						spaceType[j][i] = SpaceType.EMPTY;
+					}
+				}
+				loadMap(primaryStage, spaceType);	
 			}
 		});
 		
-		Button testing2 = new Button("Testing");
-		root.getChildren().add(testing2);
-		testing.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				
-			}
-		});
-		
-		VBox switchBox = new VBox();
-		switchBox.setAlignment(Pos.CENTER);
-		switchBox.setPadding(new Insets(20, 80, 20, 80));
-		switchBox.getChildren().add(StartButton);
-		root.getChildren().addAll(Start, switchBox);
-		Scene scene = new Scene(root, 800, 800);
-		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		return scene;
 	}
 	
