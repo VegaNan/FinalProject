@@ -14,16 +14,22 @@ import javafx.stage.Stage;
 
 public class CharacterCreationController implements Initializable {
 	public void goBackMM(ActionEvent event) throws IOException {
-		Parent mainMenuParent;
-		mainMenuParent = FXMLLoader.load(getClass().getClassLoader().getResource("MainMenu.fxml"));
-		Scene scene = new Scene(mainMenuParent);
+		changeScene("MainMenu.fxml", event);
+	}
+	public void startGame(ActionEvent event) throws IOException
+	{
+		changeScene("Map1.fxml", event);
+	}
+	private void changeScene(String filename, ActionEvent event) throws IOException
+	{
+		Parent parent;
+		parent = FXMLLoader.load(getClass().getClassLoader().getResource(filename));
+		Scene scene = new Scene(parent);
 		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//		mainMenuParent.getStylesheets().add("application.css");
 		window.setTitle("Main Menu");
 		window.setScene(scene);
 		window.show();
 	}
-
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
