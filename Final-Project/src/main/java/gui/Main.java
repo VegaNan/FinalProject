@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import enums.SceneType;
 import enums.SpaceType;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -25,6 +26,8 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 	
+	private static Stage primaryStage;
+
 	public static void run() {
 		launch();
 	}
@@ -36,14 +39,31 @@ public class Main extends Application {
 		//primaryStage.setScene(Scene);
 		try {
 			Group g = new Group();
-			g.getChildren().add(new Button("New button"));
 			primaryStage.setResizable(false);
 			primaryStage.setScene(startMenu(primaryStage));
 			primaryStage.setTitle("Main Menu");
 			primaryStage.show();
+			this.primaryStage = primaryStage;
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void sceneController(SceneType sceneType) {
+		if(sceneType == SceneType.MAINMENU) {
+			primaryStage.setScene(mainMenu());
+		}else if(sceneType == SceneType.MAP1) {
+			System.out.println("map 1");
+		}else if(sceneType == SceneType.MAP2) {
+			System.out.println("map 2");
+		}else if(sceneType == SceneType.MAP3) {
+			System.out.println("map 3");
+		}else if(sceneType == SceneType.MAP4) {
+			System.out.println("map 4");
+		}else if(sceneType == SceneType.NEWGAME) {
+			primaryStage.setScene(startNewGame());
+		}
+		primaryStage.show();
 	}
 		
 	public Scene startMenu(Stage primaryStage) {
@@ -65,7 +85,7 @@ public class Main extends Application {
 		StartButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				mainMenu(primaryStage);
+				sceneController(SceneType.MAINMENU);
 			}
 		});
 		
@@ -78,14 +98,24 @@ public class Main extends Application {
 						spaceType[j][i] = SpaceType.EMPTY;
 					}
 				}
-				loadMap(primaryStage, spaceType);	
+				loadMap(spaceType);	
 			}
 		});
 		
 		return scene;
 	}
 	
-	public void mainMenu(Stage primaryStage) {
+	public void map1() {
+		SpaceType[][] spaceType = new SpaceType[10][10];
+		for(int j = 0; j < spaceType.length ; j++) {
+			for(int i = 0; i < spaceType[j].length; i++) {
+				spaceType[j][i] = SpaceType.EMPTY;
+			}
+		}
+		loadMap(spaceType);	
+	}
+	
+	public Scene mainMenu() {
 		
 		Button startNew = new Button("Start New Game");
 		Button loadGame = new Button("Load Game");
@@ -101,13 +131,13 @@ public class Main extends Application {
 		startNew.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				startNewGame(primaryStage);
+				sceneController(SceneType.NEWGAME);
 			}
 		});
 		loadGame.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				startGame(primaryStage);
+				startGame();
 			}
 		});
 		quit.setOnAction(new EventHandler<ActionEvent>() {
@@ -118,12 +148,10 @@ public class Main extends Application {
 		});
 		
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-		primaryStage.setScene(scene);
-		primaryStage.setTitle("Main Menu");
-		primaryStage.show();
+		return scene;
 	}
 	
-	public void startNewGame(Stage primaryStage) {
+	public Scene startNewGame() {
 		Button start = new Button("Start");
 		Button quit = new Button("Quit");
 		VBox menuOptions = new VBox();
@@ -132,20 +160,19 @@ public class Main extends Application {
 		menuOptions.setPadding(new Insets(20, 80, 20, 80));
 		menuOptions.getChildren().add(start);
 		menuOptions.getChildren().add(quit);
+		return scene;
 	}
 	
-	public void startGame(Stage primaryStage) {
-		
+	public Scene startGame() {
 		ChoiceDialog mainMenu = new ChoiceDialog();
-
 		VBox menuOptions = new VBox();
 		Scene scene = new Scene(menuOptions, 800, 800);
 		menuOptions.setAlignment(Pos.CENTER);
 		menuOptions.setPadding(new Insets(20, 80, 20, 80));
-
+		return scene;
 	}
 	
-	public void loadMap(Stage primaryStage, SpaceType[][] spaceTypes) {
+	public Scene loadMap(SpaceType[][] spaceTypes) {
 		
 		BorderPane root = new BorderPane();
 		VBox vBox = new VBox();
@@ -200,10 +227,7 @@ public class Main extends Application {
 		Scene scene = new Scene(root, 800, 800);
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		
-		primaryStage.setScene(scene);
-		primaryStage.setTitle("Testing");
-		primaryStage.show();
-		
+		return scene;	
 	}
 
 }

@@ -8,11 +8,14 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import enums.SceneType;
+import gui.Main;
 import models.Player;
 
 public class GameMaster {
 
 	static Game loadedGame;
+	static Main gui = new gui.Main();
 
 	public static void run() {
 		Player player1 = new Player(0, 0, 0, 0);
@@ -43,6 +46,7 @@ public class GameMaster {
 	}
 
 	public static void createGame() {
+		gui.sceneController(SceneType.NEWGAME);
 
 		Player player = new Player(0, 0, 0, 0);
 
