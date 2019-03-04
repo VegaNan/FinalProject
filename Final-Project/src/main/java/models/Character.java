@@ -1,9 +1,10 @@
 package models;
 
+import javafx.scene.shape.Rectangle;
 import models.Armor;
 import models.Weapon;
 
-public abstract class Character {
+public abstract class Character extends Rectangle{
 
 	protected String name;
 	protected boolean isAlive;

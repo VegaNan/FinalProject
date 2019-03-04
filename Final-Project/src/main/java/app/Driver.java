@@ -1,6 +1,6 @@
 package app;
 
-import gui.Main;
+import view.Main;
 
 public class Driver {
 

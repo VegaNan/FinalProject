@@ -15,8 +15,6 @@ public class GameMaster {
 	static Game loadedGame;
 
 	public static void run() {
-		Player player1 = new Player(0, 0, 0, 0);
-		System.out.println(player1.setNextLevelXP(4));
 		menu();
 	}
 
@@ -44,7 +42,7 @@ public class GameMaster {
 
 	public static void createGame() {
 
-		Player player = new Player(0, 0, 0, 0);
+		Player player = new Player(0, 0, 0, 0, 0, 0, 0, 0);
 
 		loadedGame = new Game(player);
 		// Add game creation logic
@@ -56,7 +54,7 @@ public class GameMaster {
 		// Add player logic for GUI
 		int currentXP = 0;
 		int level = 0;
-		Player playerCreated = new Player(level, level, level, level);
+		Player playerCreated = new Player(level, level, level, level, level, level, level, level);
 		return playerCreated;
 	}
 

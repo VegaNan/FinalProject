@@ -4,9 +4,26 @@ public class Player extends Character {
 	protected int xp;
 	protected int nextLevelXP;
 
-	public Player(int strBase, int intBase, int luckBase, int level) {
+	public Player(int x, int y, int w, int h, int strBase, int intBase, int luckBase, int level) {
 		super(strBase, intBase, luckBase, level);
+		setTranslateX(x);
+		setTranslateY(y);
+	}
 
+	public void moveLeft() {
+		setTranslateX(getTranslateX() + 5);
+	}
+
+	public void moveRight() {
+		setTranslateX(getTranslateX() - 5);
+	}
+
+	public void moveUp() {
+		setTranslateY(getTranslateY() - 5);
+	}
+
+	public void moveDown() {
+		setTranslateY(getTranslateY() + 5);
 	}
 
 	public void checkLevelUp(int xp, int nextLevelXP) {
@@ -34,7 +51,7 @@ public class Player extends Character {
 		if (level == 1) {
 			return 1000;
 		} else {
-			return (level*1000) + setNextLevelXP(level - 1);
+			return (level * 1000) + setNextLevelXP(level - 1);
 		}
 	}
 

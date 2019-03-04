@@ -1,4 +1,4 @@
-package gui;
+package view;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -8,9 +8,12 @@ import enums.SpaceType;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceDialog;
@@ -24,38 +27,46 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-	
+	private FXMLLoader loader = new FXMLLoader();
+
 	public static void run() {
 		launch();
 	}
-		
+
 	@Override
 	public void start(Stage primaryStage) {
-		//Make a method to ask for which scene, 
-		//GameMaster.getScene
-		//primaryStage.setScene(Scene);
+		// Make a method to ask for which scene,
+		// GameMaster.getScene
+		// primaryStage.setScene(Scene);
 		try {
-			Group g = new Group();
-			g.getChildren().add(new Button("New button"));
-			primaryStage.setResizable(false);
-			primaryStage.setScene(startMenu(primaryStage));
-			primaryStage.setTitle("Main Menu");
+			Parent root = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
+			Scene scene = new Scene(root);
+			primaryStage.setScene(scene);
 			primaryStage.show();
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-		
+
+	public FXMLLoader getLoader() {
+		return loader;
+	}
+
+	public void setLoader(FXMLLoader loader) {
+		this.loader = loader;
+	}
+
 	public Scene startMenu(Stage primaryStage) {
 		Label Start = new Label();
 		VBox root = new VBox();
-		root.setAlignment(Pos.CENTER);	
+		root.setAlignment(Pos.CENTER);
 		Start.setMinSize(200, 200);
 		Button StartButton = new Button("Start");
 		StartButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				mainMenu(primaryStage);
+
+//				mainMenu(primaryStage);
 			}
 		});
 		Button testing = new Button("Testing Maps");
@@ -63,19 +74,19 @@ public class Main extends Application {
 		testing.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				loadMap(primaryStage, new SpaceType[5][5]);	
+				loadMap(primaryStage, new SpaceType[5][5]);
 			}
 		});
-		
+
 		Button testing2 = new Button("Testing");
 		root.getChildren().add(testing2);
 		testing.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				
+
 			}
 		});
-		
+
 		VBox switchBox = new VBox();
 		switchBox.setAlignment(Pos.CENTER);
 		switchBox.setPadding(new Insets(20, 80, 20, 80));
@@ -85,9 +96,9 @@ public class Main extends Application {
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		return scene;
 	}
-	
+
 	public void mainMenu(Stage primaryStage) {
-		
+
 		Button startNew = new Button("Start New Game");
 		Button loadGame = new Button("Load Game");
 		Button quit = new Button("Quit");
@@ -98,7 +109,7 @@ public class Main extends Application {
 		menuOptions.getChildren().add(startNew);
 		menuOptions.getChildren().add(loadGame);
 		menuOptions.getChildren().add(quit);
-		
+
 		startNew.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -117,13 +128,13 @@ public class Main extends Application {
 				primaryStage.close();
 			}
 		});
-		
+
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Main Menu");
 		primaryStage.show();
 	}
-	
+
 	public void startNewGame(Stage primaryStage) {
 		Button start = new Button("Start");
 		Button quit = new Button("Quit");
@@ -134,9 +145,9 @@ public class Main extends Application {
 		menuOptions.getChildren().add(start);
 		menuOptions.getChildren().add(quit);
 	}
-	
+
 	public void startGame(Stage primaryStage) {
-		
+
 		ChoiceDialog mainMenu = new ChoiceDialog();
 
 		VBox menuOptions = new VBox();
@@ -145,9 +156,9 @@ public class Main extends Application {
 		menuOptions.setPadding(new Insets(20, 80, 20, 80));
 
 	}
-	
+
 	public void loadMap(Stage primaryStage, SpaceType[][] spaceTypes) {
-		
+
 		BorderPane root = new BorderPane();
 		VBox vBox = new VBox();
 		HBox hBox = new HBox();
@@ -157,41 +168,42 @@ public class Main extends Application {
 		root.setLeft(hBox);
 		root.setPadding(new Insets(10));
 		root.setCenter(map);
-		
-	    vBox.setPadding(new Insets(15, 12, 15, 12));
-	    vBox.setSpacing(10);
-	    vBox.setStyle("-fx-background-color: #336699;");
-	     
-	    hBox.setPadding(new Insets(15, 12, 15, 12));
-	    hBox.setSpacing(10);
-	    hBox.setStyle("-fx-background-color: #336699;");
-		
+
+		vBox.setPadding(new Insets(15, 12, 15, 12));
+		vBox.setSpacing(10);
+		vBox.setStyle("-fx-background-color: #336699;");
+
+		hBox.setPadding(new Insets(15, 12, 15, 12));
+		hBox.setSpacing(10);
+		hBox.setStyle("-fx-background-color: #336699;");
+
 		ImageView pages[] = new ImageView[225];
-		for (int i=0; i<pages.length; i++) {
+		for (int i = 0; i < pages.length; i++) {
 			FileInputStream fileIn = null;
 			try {
-				fileIn = new FileInputStream("graphics/map"+".png");
+				fileIn = new FileInputStream("graphics/map" + ".png");
 				pages[i] = new ImageView(new Image(fileIn));
 				pages[i].setFitHeight(50);
 				pages[i].setFitWidth(50);
 				pages[i].setPreserveRatio(true);
-			}catch(FileNotFoundException fnf) {
+			} catch (FileNotFoundException fnf) {
 				System.out.println("Path does not exist.");
-			}catch(IOException ioe) {
+			} catch (IOException ioe) {
 				System.out.println("Either input stream could not close");
 				ioe.printStackTrace();
-			}finally {
+			} finally {
 				try {
-				fileIn.close();
-				}catch(IOException ioe) {
+					fileIn.close();
+				} catch (IOException ioe) {
 					System.out.println("Either input stream could not close");
 					ioe.printStackTrace();
 				}
 			}
-		    map.getChildren().add(pages[i]);  
+			map.getChildren().add(pages[i]);
 		}
-		
-		map.setPadding(new Insets(5,5,5,5));;
+
+		map.setPadding(new Insets(5, 5, 5, 5));
+		;
 		map.setPrefColumns(15);
 		map.setPrefRows(15);
 		map.setPrefTileHeight(50);
@@ -200,12 +212,11 @@ public class Main extends Application {
 
 		Scene scene = new Scene(root, 800, 800);
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-		
+
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Testing");
 		primaryStage.show();
-		
+
 	}
 
 }
-
