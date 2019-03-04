@@ -1,4 +1,4 @@
-package gui;
+package view;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -39,7 +39,7 @@ public class Main extends Application {
 		// GameMaster.getScene
 		// primaryStage.setScene(Scene);
 		try {
-			Parent root = FXMLLoader.load(getClass().getResource("/MainMenu.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
 			root.setId("mainMenu");
 			Scene scene = new Scene(root);
 			root.getStylesheets().add("application.css");
