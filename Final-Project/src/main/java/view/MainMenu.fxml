@@ -7,6 +7,6 @@
    <children>
       <Button layoutX="834.0" layoutY="540.0" mnemonicParsing="false" onAction="#startNewGame" prefHeight="51.0" prefWidth="253.0" text="Start New Game" />
       <Button layoutX="834.0" layoutY="602.0" mnemonicParsing="false" onAction="#loadGame" prefHeight="51.0" prefWidth="253.0" text="Load Game" />
-      <Button layoutX="834.0" layoutY="668.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="253.0" text="Exit" />
+      <Button layoutX="834.0" layoutY="668.0" mnemonicParsing="false" onAction="#exit" prefHeight="51.0" prefWidth="253.0" text="Exit" />
    </children>
 </Pane>

@@ -33,6 +33,11 @@ public class MainMenuController implements Initializable {
 		File loadFile = fileChooser.showOpenDialog(window);
 		
 	}
+	public void exit (ActionEvent event) throws IOException {
+		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		window.close();
+	}
+	
 	
 	private void changeScene(String filename, ActionEvent event) throws IOException {
 		// parent takes in the file
@@ -46,6 +51,7 @@ public class MainMenuController implements Initializable {
 		// displays the scene
 		window.show();
 	}
+	
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
