@@ -15,24 +15,24 @@ public class Map1Controller {
 	@FXML private Player player1 = new Player(300,300,100,100, Color.BLUE, 1,1,1,1);
 	@FXML private AnchorPane ap = new AnchorPane();
 	Scene scene = ap.getScene();
-	scene.
-	scene.setOnKeyPressed(new EventHandler<KeyEvent>())
-	{
-		@Override
-		
-		public void handler(KeyEvent event)
-		{
-			switch(event.getCode())
+
+	public static void move() {
+		scene.setOnKeyPressed(new EventHandler<KeyEvent>(){
+			public void handler(KeyEvent event)
 			{
-			case W:
-				break;
-			case S:
-				break;
-			case A:
-				break;
-			case D:
-				break;
+				switch(event.getCode()){
+				case W:
+					break;
+				case S:
+					break;
+				case A:
+					break;
+				case D:
+					break;
+				default:
+					break;
+				}
 			}
-		}
+		});
 	}
 }
