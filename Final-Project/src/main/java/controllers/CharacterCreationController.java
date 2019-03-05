@@ -23,6 +23,7 @@ public class CharacterCreationController implements Initializable {
 
 	private void changeScene(String filename, ActionEvent event) throws IOException {
 		// parent takes in the file
+		
 		Parent parent = FXMLLoader.load(getClass().getResource(filename));
 		// makes new scene based on parent
 		Scene scene = new Scene(parent);

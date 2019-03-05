@@ -30,7 +30,8 @@ public class LoadGameController implements Initializable {
 		// sets the scene
 		window.setScene(scene);
 		// displays the scene
-		window.show();		
+		window.show();
+		
 	}
 
 	@Override

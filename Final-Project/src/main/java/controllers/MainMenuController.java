@@ -31,6 +31,7 @@ public class MainMenuController implements Initializable {
 		fileChooser.getExtensionFilters().add(extensionFilter);
 		Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
 		File loadFile = fileChooser.showOpenDialog(window);
+		
 	}
 	
 	private void changeScene(String filename, ActionEvent event) throws IOException {
