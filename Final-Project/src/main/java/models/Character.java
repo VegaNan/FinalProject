@@ -152,31 +152,29 @@ public abstract class Character extends Rectangle{
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Character [name=");
 		builder.append(name);
-		builder.append(", level=");
+		builder.append(" level ");
 		builder.append(level);
-		builder.append(", strBase=");
+		builder.append("strength ");
 		builder.append(strBase);
-		builder.append(", intBase=");
-		builder.append(intBase);
-		builder.append(", luckBase=");
-		builder.append(luckBase);
-		builder.append(", strMod=");
+		builder.append(" + ");
 		builder.append(strMod);
-		builder.append(", intMod=");
+		builder.append("intelligence");
+		builder.append(intBase);
+		builder.append(" + ");
 		builder.append(intMod);
-		builder.append(", luckMod=");
+		builder.append("luck");
+		builder.append(luckBase);
+		builder.append(" + ");
 		builder.append(luckMod);
-		builder.append(", baseHP=");
-		builder.append(baseHP);
-		builder.append(", currentHP=");
+		builder.append("HP ");
 		builder.append(currentHP);
-		builder.append(", equippedWeapon=");
+		builder.append(" / ");
+		builder.append(baseHP);
+		builder.append("Equipped Weapon: ");
 		builder.append(equippedWeapon);
-		builder.append(", equippedArmor=");
+		builder.append("Equipped Armor: ");
 		builder.append(equippedArmor);
-		builder.append("]");
 		return builder.toString();
 	}
 
