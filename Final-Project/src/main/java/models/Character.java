@@ -1,11 +1,12 @@
 package models;
 
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import models.Armor;
 import models.Weapon;
 
 public abstract class Character extends Rectangle{
-
+	protected Color color;
 	protected String name;
 	protected boolean isAlive;
 	protected int level;
