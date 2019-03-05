@@ -27,5 +27,12 @@ public class Monster extends Character{
 	public ArrayList<Item> getLootItems(){
 		return lootItems;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(super.toString());
+		return builder.toString();
+	}
 
 }
