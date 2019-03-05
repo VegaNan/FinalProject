@@ -19,7 +19,6 @@ public class Map1Controller {
 	scene.setOnKeyPressed(new EventHandler<KeyEvent>())
 	{
 		@Override
-		
 		public void handler(KeyEvent event)
 		{
 			switch(event.getCode())
