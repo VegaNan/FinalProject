@@ -23,6 +23,8 @@ public class MainMenuController implements Initializable {
 
 	public void loadGame(ActionEvent event) throws IOException {
 		changeScene("/view/LoadGame.fxml", event);
+		
+		//Loads file selection through a GUI with filter for only Krebs files
 		ExtensionFilter extensionFilter = new ExtensionFilter("Krebs Files", "*.krebs");
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Open Resource File");
