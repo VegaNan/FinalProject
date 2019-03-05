@@ -21,10 +21,11 @@ public class Map1Controller implements Initializable {
 	private Player player1 = new Player(300, 300, 100, 100, Color.BLUE, 1, 1, 1, 1);
 	@FXML
 	private AnchorPane ap = new AnchorPane();
-	private Scene scene = ap.getScene();
+	Scene scene = ap.getScene();
 
 	public void move() {
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+			@Override
 			public void handle(KeyEvent event) {
 				switch (event.getCode()) {
 				case W:
@@ -39,12 +40,12 @@ public class Map1Controller implements Initializable {
 					break;
 				}
 			}
+
 		});
 	}
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
-
 	}
 }
