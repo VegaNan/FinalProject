@@ -21,15 +21,13 @@ public class CharacterCreationController implements Initializable {
 		changeScene("/view/Map1.fxml", event);
 	}
 
-	private void changeScene(String filename, ActionEvent event) throws IOException {
-		// parent takes in the file
-		
+	private void changeScene(String filename, ActionEvent event) throws IOException
+	{
 		Parent parent = FXMLLoader.load(getClass().getResource(filename));
-		// makes new scene based on parent
 		Scene scene = new Scene(parent);
-		// takes in the stage of this class
+		scene.getStylesheets().add("/view/application.css");
 		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		// sets the scene
+
 		window.setScene(scene);
 		// displays the scene
 		window.show();

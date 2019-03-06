@@ -3,3 +3,12 @@
 {
 	-fx-background-image: url("MainMenuBG.png");
 }
+#pauseScreen
+{
+	-fx-background-color: rgb(0,255,0);
+}
+#inventoryScreen
+{
+	-fx-background-color: rgb(255,0,0);
+}
+
