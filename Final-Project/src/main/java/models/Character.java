@@ -34,7 +34,9 @@ public abstract class Character extends Rectangle{
 	}
 
 	public void setStrBase(int strBase) {
-		this.strBase = strBase;
+		if(strBase > -1) {
+			this.strBase = strBase;
+		}
 	}
 
 	public int getIntBase() {
@@ -42,7 +44,9 @@ public abstract class Character extends Rectangle{
 	}
 
 	public void setIntBase(int intBase) {
-		this.intBase = intBase;
+		if(intBase > -1) {
+			this.intBase = intBase;
+		}
 	}
 
 	public int getLuckBase() {
@@ -50,31 +54,21 @@ public abstract class Character extends Rectangle{
 	}
 
 	public void setLuckBase(int luckBase) {
-		this.luckBase = luckBase;
+		if(luckBase > -1) {
+			this.luckBase = luckBase;
+		}
 	}
 
 	public int getStrMod() {
 		return strMod;
 	}
 
-	public void setStrMod(int strmod) {
-		this.strMod = strmod;
-	}
-
 	public int getIntMod() {
 		return intMod;
 	}
 
-	public void setIntMod(int intmod) {
-		this.intMod = intmod;
-	}
-
 	public int getLuckMod() {
 		return luckMod;
-	}
-
-	public void setLuckMod(int luckmod) {
-		this.luckMod = luckmod;
 	}
 
 	public int getBaseHP() {
