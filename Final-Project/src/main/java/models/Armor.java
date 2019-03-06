@@ -84,6 +84,7 @@ public class Armor extends Item implements Equippable{
 	@Override
 	public String getDescription() {
 		StringBuilder sb = new StringBuilder();
+		sb.append(super.toString());
 		return sb.toString();
 	}
 
