@@ -22,11 +22,10 @@ public class CharacterCreationController implements Initializable {
 	}
 	private void changeScene(String filename, ActionEvent event) throws IOException
 	{
-		Parent parent;
-		parent = FXMLLoader.load(getClass().getResource(filename));
+		Parent parent = FXMLLoader.load(getClass().getResource(filename));
 		Scene scene = new Scene(parent);
+		scene.getStylesheets().add("/view/application.css");
 		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		window.setTitle("Main Menu");
 		window.setScene(scene);
 		window.show();
 	}
