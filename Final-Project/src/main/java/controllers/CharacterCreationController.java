@@ -5,10 +5,19 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
-import javafx.fxml.*;
-import javafx.scene.*;
-import javafx.scene.control.*;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import models.Player;
+import utilities.RNG;
 
 public class CharacterCreationController implements Initializable {
 	@FXML 
@@ -48,6 +57,9 @@ public class CharacterCreationController implements Initializable {
 	
 	private void createPlayer() {
 		String playerName = characterNameField.getText();
+		if(characterNameField.getText().trim().isEmpty()) {
+			playerName = "Buffalo";
+		}
 		String playerClass;
 		//Switch does not accept selected toggle for argument :(
 		if(characterSelection.getSelectedToggle().equals(knightButton)) {
@@ -59,12 +71,38 @@ public class CharacterCreationController implements Initializable {
 		else {
 			playerClass = "Leprechaun";
 		}
-		System.out.println(playerName + ": " + playerClass);
-		
+		int str = generateStat();
+		int intelligence = generateStat();
+		int luck = generateStat();
+		switch(playerClass) {
+		case "Knight":
+			str += 10;
+			break;
+		case "Wizard":
+			intelligence += 10;
+			break;
+		case "Leprechaun":
+			luck += 10;
+			break;
+		}
+
+		Player player = new Player(4, 8, 600, 800, Color.DARKMAGENTA, str, intelligence, luck, 1, playerName);
+		System.out.println(player.toString());
+	}
+	private int generateStat() {
+		int stat = RNG.generateInt(3, 18);
+		if(stat > 16) {
+			int secondRoll = RNG.generateInt(1, 6);
+			stat += secondRoll;
+			if(secondRoll == 6) {
+				stat += RNG.generateInt(1, 6);
+			}
+		}
+		return stat;
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+		leprechaunButton.setSelected(true);
 	}
 }

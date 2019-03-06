@@ -42,7 +42,7 @@ public class GameMaster {
 
 	public static void createGame() {
 
-		Player player = new Player(0, 0, 0, 0, null, 0, 0, 0, 0);
+		Player player = new Player(0, 0, 0, 0, null, 0, 0, 0, 0, null);
 
 		loadedGame = new Game(player);
 		// Add game creation logic
@@ -50,11 +50,11 @@ public class GameMaster {
 
 	private static Player createPlayer() {
 		String playerName;
-		String characterName;
+		String characterName = null;
 		// Add player logic for GUI
 		int currentXP = 0;
 		int level = 0;
-		Player playerCreated = new Player(level, level, level, level, null, level, level, level, level);
+		Player playerCreated = new Player(level, level, level, level, null, level, level, level, level, characterName);
 		return playerCreated;
 	}
 

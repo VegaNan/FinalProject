@@ -17,7 +17,6 @@ import javafx.stage.Stage;
 import models.Player;
 
 public class Map1Controller implements Initializable{
-	@FXML private Player player1 = new Player(300,300,100,100, Color.BLUE, 1,1,1,1);
 	@FXML private AnchorPane ap = new AnchorPane();
 	Scene scene = ap.getScene();
 
