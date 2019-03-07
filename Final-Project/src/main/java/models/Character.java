@@ -8,6 +8,8 @@ import models.Weapon;
 public abstract class Character extends Rectangle{
 	protected String name;
 	protected boolean isAlive;
+	protected int coordX;
+	protected int coordY;
 	protected int level;
 	protected int strBase;
 	protected int intBase;
@@ -20,14 +22,14 @@ public abstract class Character extends Rectangle{
 	protected Weapon equippedWeapon;
 	protected Armor equippedArmor;
 
-	public Character(int x, int y, int w, int h, Color color, int strBase, int intBase, int luckBase, int level) {
+	public Character(int coordX, int coordY, int w, int h, Color color, int strBase, int intBase, int luckBase, int level) {
 		setStrBase(strBase);
 		setIntBase(intBase);
 		setLuckBase(luckBase);
 		setBaseHP(level);
 		setCurrentHP(this.baseHP);
-		setTranslateX(x);
-		setTranslateY(y);
+		setCoordX(coordX);
+		setCoordY(coordY);
 		setWidth(w);
 		setHeight(h);
 		setFill(color);
@@ -149,6 +151,22 @@ public abstract class Character extends Rectangle{
 		this.level = level;
 	}
 	
+	public int getCoordX() {
+		return coordX;
+	}
+
+	public void setCoordX(int coordX) {
+		this.coordX = coordX;
+	}
+
+	public int getCoordY() {
+		return coordY;
+	}
+
+	public void setCoordY(int coordY) {
+		this.coordY = coordY;
+	}
+
 	public abstract int takeDamage(int damage);
 
 	public abstract int attack();

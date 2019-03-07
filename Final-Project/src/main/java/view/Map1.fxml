@@ -31,6 +31,6 @@
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Button fx:id="myButton" mnemonicParsing="false" text="Button" />
+      <Button fx:id="myButton" mnemonicParsing="false" prefHeight="31.0" prefWidth="7.0" />
    </children>
 </GridPane>
