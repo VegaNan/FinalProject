@@ -123,7 +123,7 @@ public class Map1Controller implements Initializable {
 				break;
 			}
 		});
-		monster1 = new Monster(6, 6, 193, 110, Color.RED, 1, 1, 1, 1);
+		monster1 = new Monster(6, 6, 193, 110, Color.RED, 1, 1, 1, 1, null);
 		player1 = new Player(5, 5, 193, 110, Color.BLUE, 1, 1, 1, 1, null);
 		map1Grid.add((Node) player1, player1.getCoordX(), player1.getCoordY());
 		map1Grid.add((Node) monster1, monster1.getCoordX(), player1.getCoordY());

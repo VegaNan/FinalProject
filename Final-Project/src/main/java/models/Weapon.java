@@ -5,10 +5,6 @@ import utilities.RNG;
 public class Weapon extends Item {
 	protected int Damage;
 
-
-	public Weapon(int Damage, String name) {
-		super("", 1);
-
 	public Weapon(int Damage, String name, int value) {
 		super(name, value);
 
@@ -88,7 +84,6 @@ public class Weapon extends Item {
 		builder.append(name);
 
 		builder.append(", items=");
-
 
 		builder.append("]");
 		return builder.toString();
