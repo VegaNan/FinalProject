@@ -10,7 +10,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CharacterCreationController">
    <children>
       <HBox layoutX="31.0" layoutY="169.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
@@ -29,7 +28,7 @@
             <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0">
                <children>
                   <RadioButton fx:id="knightButton" mnemonicParsing="false" text="Knight" toggleGroup="$characterSelection" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="-Increased Strength (increased attack power)" wrappingWidth="274.6708984375" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="-Increased Strength (increased attack power, increased health)" wrappingWidth="274.6708984375" />
                </children>
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0">
