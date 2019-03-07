@@ -1,9 +1,12 @@
 package controllers;
 
+import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,10 +22,10 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import models.Player;
 
-public class Map1Controller implements Initializable {
+public class Map1Controller implements Initializable, KeyListener{
 	@FXML GridPane map1Grid;
 	Player player1;
-	public void keyPressed(KeyEvent e) throws IOException
+	public void keyPressed(KeyEvent e)
 	{
 		System.out.println("Hello");
 		KeyCode key = e.getCode();
@@ -41,6 +44,7 @@ public class Map1Controller implements Initializable {
 			moveRight();
 			break;
 		default:
+			System.out.println("HELLO NEW WORLD!");
 			break;
 		}
 	}
@@ -77,5 +81,21 @@ public class Map1Controller implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		player1  = new Player(5, 5, 100, 100, Color.BLUE, 1, 1, 1, 1);
 		map1Grid.add((Node)player1, (int)player1.getTranslateX(), (int)player1.getTranslateY());		
+	}
+	@Override
+	public void keyPressed(java.awt.event.KeyEvent e) {
+		System.out.println("hello world");		
+	}
+	@Override
+	public void keyReleased(java.awt.event.KeyEvent e) {
+		// TODO Auto-generated method stub
+		System.out.println("hello world");		
+		
+	}
+	@Override
+	public void keyTyped(java.awt.event.KeyEvent e) {
+		System.out.println("hello world");		
+		// TODO Auto-generated method stub
+		
 	}
 }
