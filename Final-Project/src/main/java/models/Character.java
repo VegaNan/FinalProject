@@ -21,7 +21,7 @@ public abstract class Character extends Rectangle{
 	protected Armor equippedArmor;
 
 
-	public Character(int x, int y, int w, int h, Color color, int strBase, int intBase, int luckBase, int level) {
+	public Character(int x, int y, int w, int h, Color color, int strBase, int intBase, int luckBase, int level, String name) {
 		setStrBase(strBase);
 		setIntBase(intBase);
 		setLuckBase(luckBase);

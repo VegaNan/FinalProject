@@ -6,7 +6,8 @@ public class Armor extends Item implements Equippable{
 	protected int ArmorRating;
 	protected int DamageReduction;
 
-	public Armor() {
+	public Armor(String name, int value) {
+		super(name, value);
 		setArmorRating(17);
 		setDamageReduction(10);
 		setName(this.ArmorRating, this.DamageReduction);
