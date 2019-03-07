@@ -33,6 +33,7 @@ public class CharacterCreationController implements Initializable {
 		window.setScene(scene);
 		// displays the scene
 		window.show();
+		
 	}
 
 	@Override

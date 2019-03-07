@@ -24,6 +24,8 @@ public class CharacterCreatorController implements Initializable{
     	} catch(Exception e){
     		e.printStackTrace();
     	}
+    	
+    	
     }
 	
     @Override

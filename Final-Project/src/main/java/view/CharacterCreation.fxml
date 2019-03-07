@@ -6,13 +6,14 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CharacterCreationController">
    <children>
       <Group layoutX="138.0" layoutY="118.0">
          <children>
-            <TextField prefHeight="35.0" prefWidth="217.0" promptText="John Doe" />
+            <TextField id="nameField" prefHeight="35.0" prefWidth="217.0" promptText="John Doe" />
             <Text layoutX="-60.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" wrappingWidth="51.6708984375" />
          </children>
       </Group>
@@ -22,11 +23,20 @@
             <RadioButton layoutX="297.0" layoutY="-6.0" mnemonicParsing="false" text="Knight">
                <toggleGroup>
                   <ToggleGroup fx:id="CharacterSelection" />
-               </toggleGroup></RadioButton>
+               </toggleGroup>
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font></RadioButton>
             <Text layoutX="297.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-Increased Strength (increased attack power)" wrappingWidth="274.6708984375" />
-            <RadioButton layoutX="612.0" layoutY="-6.0" mnemonicParsing="false" text="Leprechaun" toggleGroup="$CharacterSelection" />
+            <RadioButton layoutX="612.0" layoutY="-6.0" mnemonicParsing="false" text="Leprechaun" toggleGroup="$CharacterSelection">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font></RadioButton>
             <Text layoutX="612.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-Increase Luck (increased loot drop rate, increased attack initiative)" wrappingWidth="274.6708984375" />
-            <RadioButton layoutX="-27.0" layoutY="-6.0" mnemonicParsing="false" text="Wizard" toggleGroup="$CharacterSelection" />
+            <RadioButton layoutX="-27.0" layoutY="-6.0" mnemonicParsing="false" text="Wizard" toggleGroup="$CharacterSelection">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font></RadioButton>
          </children>
       </Group>
       <Button layoutX="1437.0" layoutY="725.0" mnemonicParsing="false" onAction="#startGame" prefHeight="42.0" prefWidth="242.0" text="Start Game" />
