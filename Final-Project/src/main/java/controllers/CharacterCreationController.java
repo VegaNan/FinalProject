@@ -1,4 +1,3 @@
-
 package controllers;
 
 import java.io.IOException;
@@ -38,8 +37,7 @@ public class CharacterCreationController implements Initializable {
 	}
 
 	public void startGame(ActionEvent event) throws IOException {
-		createPlayer();
-		changeScene("/view/Map1.fxml", event);
+		loadMapScene("/view/Map1.fxml", event, createPlayer());
 	}
 
 	private void changeScene(String filename, ActionEvent event) throws IOException {
@@ -49,14 +47,32 @@ public class CharacterCreationController implements Initializable {
 		Scene scene = new Scene(parent);
 		// takes in the stage of this class
 		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
 		// sets the scene
 		window.setScene(scene);
+		// displays the scene
+		window.show();
+	}
+	
+	private void loadMapScene(String filename, ActionEvent event, Player player) throws IOException {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource(filename));
+		
+		// parent takes in the file
+		Parent parent = loader.load();
+		// makes new scene based on parent
+		Scene scene = new Scene(parent);
+		Map1Controller controller = loader.getController();
+		controller.importPlayer(player);
+		// takes in the stage of this class
+		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		// sets the scene
+		window.setScene(scene);
+		// displays the scene
 		window.show();
 	}
 
 	
-	private void createPlayer() {
+	private Player createPlayer() {
 		String playerName = characterNameField.getText();
 		if(characterNameField.getText().trim().isEmpty()) {
 			playerName = "Buffalo";
@@ -89,6 +105,7 @@ public class CharacterCreationController implements Initializable {
 
 		Player player = new Player(4, 8, 600, 800, Color.DARKMAGENTA, str, intelligence, luck, 1, playerName);
 		System.out.println(player.toString());
+		return player;
 	}
 	private int generateStat() {
 		int stat = RNG.generateInt(3, 18);
