@@ -1,13 +1,20 @@
+
 package controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import models.Monster;
@@ -26,6 +33,38 @@ public class Map1Controller implements Initializable {
 		if (player1.getCoordX() != 0) {
 			player1.setCoordX(player1.getCoordX() - 1);
 			movePlayer();
+		}
+	}
+
+	public void importPlayer() throws IOException {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("/view/CharacterCreation.fxml"));
+
+		// Set up controller
+		CharacterCreationController controller = loader.getController();
+		player1 = controller.getPlayer();
+		map1Grid.add((Node) player1, (int) player1.getTranslateX(), (int) player1.getTranslateY());
+	}
+
+	public void keyPressed(KeyEvent e) {
+		System.out.println("Hello");
+		KeyCode key = e.getCode();
+		switch (key) {
+		case W:
+			moveUp();
+			break;
+		case S:
+			moveDown();
+			break;
+		case A:
+			moveLeft();
+			break;
+		case D:
+			moveRight();
+			break;
+		default:
+			System.out.println("HELLO NEW WORLD!");
+			break;
 		}
 	}
 
@@ -55,9 +94,16 @@ public class Map1Controller implements Initializable {
 		map1Grid.add((Node) player1, player1.getCoordX(), player1.getCoordY());
 	}
 
+	public void startUp() {
+		myButton.fire();
+	}
+
+	public void startScene(ActionEvent event) throws IOException {
+		importPlayer();
+	}
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-
 		map1Grid.setOnKeyPressed(key -> {
 			KeyCode keycode = key.getCode();
 			switch (keycode) {
@@ -78,8 +124,9 @@ public class Map1Controller implements Initializable {
 			}
 		});
 		monster1 = new Monster(6, 6, 193, 110, Color.RED, 1, 1, 1, 1);
-		player1 = new Player(5, 5, 193, 110, Color.BLUE, 1, 1, 1, 1);
+		player1 = new Player(5, 5, 193, 110, Color.BLUE, 1, 1, 1, 1, null);
 		map1Grid.add((Node) player1, player1.getCoordX(), player1.getCoordY());
 		map1Grid.add((Node) monster1, monster1.getCoordX(), player1.getCoordY());
+		startUp();
 	}
 }

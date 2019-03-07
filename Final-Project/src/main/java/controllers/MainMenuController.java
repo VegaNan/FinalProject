@@ -16,19 +16,21 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
 public class MainMenuController implements Initializable {
-
 	public void startNewGame(ActionEvent event) throws IOException {
 		changeScene("/view/CharacterCreation.fxml", event);
 	}
 
 	public void loadGame(ActionEvent event) throws IOException {
 		changeScene("/view/LoadGame.fxml", event);
+		String path = "saves";
+		File initialFile = new File(path);
 		
 		//Loads file selection through a GUI with filter for only Krebs files
 		ExtensionFilter extensionFilter = new ExtensionFilter("Krebs Files", "*.krebs");
 		FileChooser fileChooser = new FileChooser();
-		fileChooser.setTitle("Open Resource File");
+		fileChooser.setTitle("Select Your Save File");
 		fileChooser.getExtensionFilters().add(extensionFilter);
+		fileChooser.initialDirectoryProperty().set(initialFile);
 		Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
 		File loadFile = fileChooser.showOpenDialog(window);
 		
