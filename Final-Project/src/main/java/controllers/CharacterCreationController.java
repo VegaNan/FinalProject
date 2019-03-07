@@ -49,9 +49,9 @@ public class CharacterCreationController implements Initializable {
 		Scene scene = new Scene(parent);
 		// takes in the stage of this class
 		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
 		// sets the scene
 		window.setScene(scene);
-		// displays the scene
 		window.show();
 	}
 

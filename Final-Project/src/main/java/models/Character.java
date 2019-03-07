@@ -6,7 +6,6 @@ import models.Armor;
 import models.Weapon;
 
 public abstract class Character extends Rectangle{
-	protected Color color;
 	protected String name;
 	protected boolean isAlive;
 	protected int level;
@@ -21,7 +20,8 @@ public abstract class Character extends Rectangle{
 	protected Weapon equippedWeapon;
 	protected Armor equippedArmor;
 
-	public Character(int strBase, int intBase, int luckBase, int level, String name) {
+
+	public Character(int x, int y, int w, int h, Color color, int strBase, int intBase, int luckBase, int level) {
 		setStrBase(strBase);
 		setIntBase(intBase);
 		setLuckBase(luckBase);
@@ -29,6 +29,11 @@ public abstract class Character extends Rectangle{
 		setName(name);
 		setBaseHP(getStrBase() * 10);
 		setCurrentHP(this.baseHP);
+		setTranslateX(x);
+		setTranslateY(y);
+		setWidth(w);
+		setHeight(h);
+		setFill(color);
 	}
 
 	public int getStrBase() {
@@ -179,7 +184,7 @@ public abstract class Character extends Rectangle{
 	public void setLevel(int level) {
 		this.level = level;
 	}
-
+	
 	public abstract int takeDamage(int damage);
 
 	public abstract int attack();
