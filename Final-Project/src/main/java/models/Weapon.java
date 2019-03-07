@@ -8,6 +8,7 @@ public class Weapon extends Item {
 	protected int Damage;
 
 	public Weapon(int Damage, String name) {
+		super("", 1);
 		setName(Damage);
 		setValue(this.name);
 	}
@@ -83,7 +84,6 @@ public class Weapon extends Item {
 		builder.append(", name=");
 		builder.append(name);
 		builder.append(", items=");
-		builder.append(Arrays.toString(items));
 		builder.append("]");
 		return builder.toString();
 	}

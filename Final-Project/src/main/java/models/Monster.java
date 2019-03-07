@@ -8,7 +8,7 @@ public class Monster extends Character{
 	protected ArrayList<Item> lootItems = new ArrayList<>();
 	
 	public Monster(int strBase, int intBase, int luckBase, int level) {
-		super(strBase, intBase, luckBase, level);
+		super(strBase, intBase, luckBase, level, null, level, level, level, level);
 		// TODO Auto-generated constructor stub
 	}
 
