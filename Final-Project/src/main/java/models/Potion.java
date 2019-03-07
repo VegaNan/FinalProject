@@ -1,7 +1,5 @@
 package models;
 
-import java.util.Arrays;
-
 import models.Character;
 import enums.PotionType;
 import interfaces.Consumable;

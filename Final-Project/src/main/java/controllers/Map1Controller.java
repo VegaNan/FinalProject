@@ -1,28 +1,15 @@
 package controllers;
 
-//import java.awt.event.KeyListener;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 import models.Monster;
 import models.Player;
 
@@ -66,19 +53,6 @@ public class Map1Controller implements Initializable {
 	public void movePlayer() {
 		map1Grid.getChildren().remove(player1);
 		map1Grid.add((Node) player1, player1.getCoordX(), player1.getCoordY());
-	}
-
-	public Node checkSpace(int x, int y) {
-		Node result = null;
-		ObservableList<Node> childrens = map1Grid.getChildren();
-
-		for (Node node : childrens) {
-			if (GridPane.getRowIndex(node) == x && GridPane.getColumnIndex(node) == y) {
-				result = node;
-				break;
-			}
-		}
-		return result;
 	}
 
 	@Override

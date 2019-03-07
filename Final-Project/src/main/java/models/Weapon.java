@@ -1,7 +1,5 @@
 package models;
 
-import java.util.Arrays;
-
 import utilities.RNG;
 
 public class Weapon extends Item {
