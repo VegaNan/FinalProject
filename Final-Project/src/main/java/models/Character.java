@@ -20,11 +20,14 @@ public abstract class Character extends Rectangle{
 	protected Weapon equippedWeapon;
 	protected Armor equippedArmor;
 
+
 	public Character(int x, int y, int w, int h, Color color, int strBase, int intBase, int luckBase, int level) {
 		setStrBase(strBase);
 		setIntBase(intBase);
 		setLuckBase(luckBase);
 		setBaseHP(level);
+		setName(name);
+		setBaseHP(getStrBase() * 10);
 		setCurrentHP(this.baseHP);
 		setTranslateX(x);
 		setTranslateY(y);
@@ -38,7 +41,22 @@ public abstract class Character extends Rectangle{
 	}
 
 	public void setStrBase(int strBase) {
-		this.strBase = strBase;
+		if(strBase > -1) {
+			this.strBase = strBase;
+			this.strMod = generateDamageBonus();
+		}
+	}
+	
+	private int generateDamageBonus() {
+		if(getStrBase() > 15) {
+			return (getStrBase() - 15);
+		}
+		else if(getStrBase() < 10) {
+			return (getStrBase() - 10);
+		}
+		else {
+			return 0;
+		}
 	}
 
 	public int getIntBase() {
@@ -46,7 +64,22 @@ public abstract class Character extends Rectangle{
 	}
 
 	public void setIntBase(int intBase) {
-		this.intBase = intBase;
+		if(intBase > -1) {
+			this.intBase = intBase;
+			this.intMod = generateSpecialAttackBonus();
+		}
+	}
+	
+	private int generateSpecialAttackBonus() {
+		if(getIntBase() > 15) {
+			return ((getIntBase() - 15)*2);
+		}
+		else if(getIntBase() < 10) {
+			return ((getIntBase() - 10)*2);
+		}
+		else {
+			return 0;
+		}
 	}
 
 	public int getLuckBase() {
@@ -54,31 +87,34 @@ public abstract class Character extends Rectangle{
 	}
 
 	public void setLuckBase(int luckBase) {
-		this.luckBase = luckBase;
+		if(luckBase > -1) {
+			this.luckBase = luckBase;
+			this.luckMod = generateDodgeBonus();
+		}
+	}
+	
+	private int generateDodgeBonus() {
+		if(getLuckBase() > 15) {
+			return ((getLuckBase() - 15)/2);
+		}
+		else if(getLuckBase() < 11) {
+			return ((getLuckBase() - 11)/2);
+		}
+		else {
+			return 0;
+		}
 	}
 
 	public int getStrMod() {
 		return strMod;
 	}
 
-	public void setStrMod(int strmod) {
-		this.strMod = strmod;
-	}
-
 	public int getIntMod() {
 		return intMod;
 	}
 
-	public void setIntMod(int intmod) {
-		this.intMod = intmod;
-	}
-
 	public int getLuckMod() {
 		return luckMod;
-	}
-
-	public void setLuckMod(int luckmod) {
-		this.luckMod = luckmod;
 	}
 
 	public int getBaseHP() {
@@ -157,27 +193,27 @@ public abstract class Character extends Rectangle{
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append(name);
-		builder.append(" level ");
+		builder.append("\nlevel ");
 		builder.append(level);
-		builder.append("strength ");
+		builder.append("\nstrength ");
 		builder.append(strBase);
 		builder.append(" + ");
 		builder.append(strMod);
-		builder.append("intelligence");
+		builder.append("\nintelligence");
 		builder.append(intBase);
 		builder.append(" + ");
 		builder.append(intMod);
-		builder.append("luck");
+		builder.append("\nluck");
 		builder.append(luckBase);
 		builder.append(" + ");
 		builder.append(luckMod);
-		builder.append("HP ");
+		builder.append("\nHP ");
 		builder.append(currentHP);
 		builder.append(" / ");
 		builder.append(baseHP);
-		builder.append("Equipped Weapon: ");
+		builder.append("\nEquipped Weapon: ");
 		builder.append(equippedWeapon);
-		builder.append("Equipped Armor: ");
+		builder.append("\nEquipped Armor: ");
 		builder.append(equippedArmor);
 		return builder.toString();
 	}
