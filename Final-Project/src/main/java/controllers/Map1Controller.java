@@ -6,26 +6,35 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 import models.Player;
 
 public class Map1Controller implements Initializable, KeyListener{
 	@FXML GridPane map1Grid;
+	@FXML Button button;
 	Player player1;
+	
+
+	public void importPlayer() throws IOException {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("/view/CharacterCreation.fxml"));
+		
+		//Set up controller
+		CharacterCreationController controller = loader.getController();
+		player1 = controller.getPlayer();
+		map1Grid.add((Node)player1, (int)player1.getTranslateX(), (int)player1.getTranslateY());	
+	}
+	
 	public void keyPressed(KeyEvent e)
 	{
 		System.out.println("Hello");
@@ -78,10 +87,18 @@ public class Map1Controller implements Initializable, KeyListener{
 		map1Grid.getChildren().remove(player1);
 		map1Grid.add((Node)player1, (int)player1.getTranslateX(), (int)player1.getTranslateY());
 	}
+	
+	public void startUp() {
+		button.fire();
+	}
+	
+	public void startScene(ActionEvent event) throws IOException{
+		importPlayer();
+	}
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		player1  = new Player(5, 5, 100, 100, Color.BLUE, 1, 1, 1, 1, null);
-		map1Grid.add((Node)player1, (int)player1.getTranslateX(), (int)player1.getTranslateY());		
+		startUp();
 	}
 	@Override
 	public void keyPressed(java.awt.event.KeyEvent e) {

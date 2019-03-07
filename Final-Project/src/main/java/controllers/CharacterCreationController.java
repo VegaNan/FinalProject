@@ -31,13 +31,20 @@ public class CharacterCreationController implements Initializable {
 	@FXML
 	private ToggleGroup characterSelection;
 
+	private Player activePlayer;
+	
+	public Player getPlayer() {
+		activePlayer = createPlayer();
+		return activePlayer;
+	}
 	
 	public void goBackMM(ActionEvent event) throws IOException {
 		changeScene("/view/MainMenu.fxml", event);
 	}
 
 	public void startGame(ActionEvent event) throws IOException {
-		loadMapScene("/view/Map1.fxml", event, createPlayer());
+		
+		loadMapScene("/view/Map1.fxml", event, getPlayer());
 	}
 
 	private void changeScene(String filename, ActionEvent event) throws IOException {
@@ -62,7 +69,7 @@ public class CharacterCreationController implements Initializable {
 		// makes new scene based on parent
 		Scene scene = new Scene(parent);
 		Map1Controller controller = loader.getController();
-		controller.importPlayer(player);
+		
 		// takes in the stage of this class
 		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		// sets the scene
@@ -103,7 +110,7 @@ public class CharacterCreationController implements Initializable {
 			break;
 		}
 
-		Player player = new Player(4, 8, 600, 800, Color.DARKMAGENTA, str, intelligence, luck, 1, playerName);
+		Player player = new Player(5, 5, 100, 100, Color.DARKMAGENTA, str, intelligence, luck, 1, playerName);
 		System.out.println(player.toString());
 		return player;
 	}
