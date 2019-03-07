@@ -1,3 +1,4 @@
+
 package controllers;
 
 import java.io.IOException;
@@ -16,12 +17,12 @@ public class CharacterCreationController implements Initializable {
 	public void goBackMM(ActionEvent event) throws IOException {
 		changeScene("/view/MainMenu.fxml", event);
 	}
-	public void startGame(ActionEvent event) throws IOException
-	{
+
+	public void startGame(ActionEvent event) throws IOException {
 		changeScene("/view/Map1.fxml", event);
 	}
-	private void changeScene(String filename, ActionEvent event) throws IOException
-	{
+
+	private void changeScene(String filename, ActionEvent event) throws IOException {
 		Parent parent = FXMLLoader.load(getClass().getResource(filename));
 		Scene scene = new Scene(parent);
 		scene.getStylesheets().add("/view/application.css");
@@ -29,6 +30,7 @@ public class CharacterCreationController implements Initializable {
 		window.setScene(scene);
 		window.show();
 	}
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub

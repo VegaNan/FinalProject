@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
@@ -30,14 +29,4 @@
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
-   <children>
-      <Label prefHeight="79.0" prefWidth="128.0" text="Door" GridPane.columnIndex="4" />
-      <Label prefHeight="82.0" prefWidth="128.0" stylesheets="@application.css" text="Monster" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-      <Label text="Label" GridPane.columnIndex="4" GridPane.rowIndex="3" />
-      <Label text="Label" GridPane.columnIndex="4" GridPane.rowIndex="4" />
-      <Label text="Label" GridPane.columnIndex="4" GridPane.rowIndex="5" />
-      <Label text="Label" GridPane.columnIndex="4" GridPane.rowIndex="6" />
-      <Label text="Label" GridPane.columnIndex="4" GridPane.rowIndex="7" />
-      <Label onMouseClicked="#move" prefHeight="80.0" prefWidth="128.0" text="Label" GridPane.columnIndex="4" GridPane.rowIndex="8" />
-   </children>
 </GridPane>
