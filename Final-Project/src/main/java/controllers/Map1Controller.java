@@ -80,7 +80,7 @@ public class Map1Controller implements Initializable, KeyListener{
 	}
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		player1  = new Player(5, 5, 100, 100, Color.BLUE, 1, 1, 1, 1);
+		player1  = new Player(5, 5, 100, 100, Color.BLUE, 1, 1, 1, 1, null);
 		map1Grid.add((Node)player1, (int)player1.getTranslateX(), (int)player1.getTranslateY());		
 	}
 	@Override
