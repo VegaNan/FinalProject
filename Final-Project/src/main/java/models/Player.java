@@ -6,8 +6,8 @@ public class Player extends Character {
 	protected int xp;
 	protected int nextLevelXP;
 
-	public Player(int x, int y, int w, int h, Color color, int strBase, int intBase, int luckBase, int level) {
-		super(strBase, intBase, luckBase, level);
+	public Player(int x, int y, int w, int h, Color color, int strBase, int intBase, int luckBase, int level, String name) {
+		super(strBase, intBase, luckBase, level, name);
 		setTranslateX(x);
 		setTranslateY(y);
 	}

@@ -1,3 +1,4 @@
+
 package controllers;
 
 import java.net.URL;
@@ -45,4 +46,3 @@ public class Map1Controller implements Initializable {
 		// TODO Auto-generated method stub
 	}
 }
-
