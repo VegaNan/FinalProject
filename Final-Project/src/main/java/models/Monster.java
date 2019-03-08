@@ -8,12 +8,13 @@ import utilities.RNG;
 
 public class Monster extends Character {
 	protected int xpYield;
-
+	protected MonsterType monster;
 	protected ArrayList<Item> lootItems = new ArrayList<>();
 
 	public Monster(int x, int y, int w, int h, Image img, int strBase, int intBase, int luckBase, int level, String name, MonsterType monster) {
 		super(x, y, w, h, img, strBase, intBase, luckBase, level, name);
 		setName(monster.toString());
+		setMonsterType(monster);
 		int str = 1;
 		int intelligence = 1;
 		int luck = 1;
@@ -46,6 +47,14 @@ public class Monster extends Character {
 		setCurrentHP(getBaseHP());
 		setBaseEnergy(getIntBase() * 7);
 		setCurrentEnergy(getBaseEnergy());
+	}
+
+	public MonsterType getMonsterType() {
+		return monster;
+	}
+	
+	public void setMonsterType(MonsterType monster) {
+		this.monster = monster;
 	}
 
 	@Override
@@ -87,5 +96,6 @@ public class Monster extends Character {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 
 }
