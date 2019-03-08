@@ -33,6 +33,7 @@ import models.Monster;
 import models.Player;
 import models.Potion;
 import models.Space;
+import utilities.RNG;
 
 public class Map1Controller implements Initializable {
 	@FXML
@@ -146,8 +147,39 @@ public class Map1Controller implements Initializable {
 		runAway.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				// TODO quit combat w rand chance
-				window.close();
+
+				//TODO quit combat w rand chance
+				int chance = RNG.generateInt(1, 10) + 10;
+				if(monster.getMonsterType().equals(MonsterType.KREBS)) {
+					Stage bossWindow = new Stage();
+					AnchorPane pane = new AnchorPane();
+					pane.setPrefSize(70, 70);
+					Label label = new Label("YOU CANNOT ESCAPE THE KREBS");
+					HBox escape = new HBox();
+					escape.getChildren().add(label);
+					pane.getChildren().add(escape);
+					Scene bossScene = new Scene(pane);
+					bossWindow.setScene(bossScene);
+					bossWindow.sizeToScene();
+					bossWindow.show();
+				}else {
+					if(RNG.generateInt(1,  10) + player1.getLuckMod() > chance) {
+						window.close();
+					}
+					else {
+						Stage bossWindow = new Stage();
+						AnchorPane pane = new AnchorPane();
+						pane.setPrefSize(70, 70);
+						Label label = new Label("You failed to escape the battle!");
+						HBox escape = new HBox();
+						escape.getChildren().add(label);
+						pane.getChildren().add(escape);
+						Scene bossScene = new Scene(pane);
+						bossWindow.setScene(bossScene);
+						bossWindow.sizeToScene();
+						bossWindow.show();
+					}
+				}
 			}
 		});
 
@@ -292,7 +324,7 @@ public class Map1Controller implements Initializable {
 		});
 		Image img = new Image("/view/knight.png");
 		Image monImg = new Image("file:graphics/character/big_demon_idle_anim_f0.png");
-		monster1 = new Monster(6, 6, 193, 110, monImg, 1, 1, 1, 1, "Supreme", MonsterType.KREBS);
+		monster1 = new Monster(6, 6, 193, 110, monImg, 1, 1, 1, 1, "Supreme", MonsterType.GENERIC_OGRE);
 		importPlayer();
 		initSpaces(map1);
 		map1Grid.add((Node) player1, player1.getCoordX(), player1.getCoordY());
