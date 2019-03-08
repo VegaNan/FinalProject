@@ -4,9 +4,11 @@ package controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import enums.PotionType;
+import enums.SpaceType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,9 +23,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import models.Map;
 import models.Monster;
 import models.Player;
 import models.Potion;
+import models.Space;
 
 public class Map1Controller implements Initializable {
 	@FXML
@@ -100,7 +104,39 @@ public class Map1Controller implements Initializable {
 		map1Grid.getChildren().remove(player1);
 		map1Grid.add((Node) player1, player1.getCoordX(), player1.getCoordY());
 	}
-
+	public void initSpaces(Map map1)
+	{
+		//init safe spaces
+		Image monImg = new Image("/view/grass.png");
+		Image safeImg = new Image("/view/tile.png");
+		//setting safe spaces
+		for(int i = 0; i < 10; i++)
+		{
+			Space sp = new Space(193, 111, SpaceType.EMPTY, safeImg);
+			map1.getSpaces().put(4 + "" + i, sp);
+			map1Grid.add((Node)sp, 4, i);
+		}
+		//setting monster spaces left of path
+		for(int i = 0; i < 4; i++)
+		{
+			for(int i2 = 0; i2 < 10; i2++)
+			{
+			Space sp = new Space(193, 111, SpaceType.MONSTER_ENCOUNTER, monImg);
+			map1.getSpaces().put(i + "" + i2, sp);
+			map1Grid.add(sp, i, i2);
+			}
+		}
+		//setting monster spaces right of the path
+		for(int i = 5; i < 10; i++)
+		{
+			for(int i2 = 0; i2 < 10; i2++)
+			{
+				Space sp = new Space(193, 111, SpaceType.MONSTER_ENCOUNTER, monImg);
+				map1.getSpaces().put(i + "" + i2, sp);
+				map1Grid.add(sp, i, i2);
+			}
+		}
+	}
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		move = true;
@@ -130,10 +166,12 @@ public class Map1Controller implements Initializable {
 				//TODO remove item node 
 			}
 		});
-		Image img = new Image("/view/knight.png");
+		HashMap<String , Space> spaces = new HashMap<>();
+		Map map1 = new Map(spaces);
 		Image monImg = new Image("file:graphics/character/big_demon_idle_anim_f0.png");
 		monster1 = new Monster(6, 6, 193, 110, monImg, 1, 1, 1, 1, null);
-		player1 = new Player(5, 5, 193, 110, img, 1, 1, 1, 1, null);
+		importPlayer();
+		initSpaces(map1);
 		map1Grid.add((Node) player1, player1.getCoordX(), player1.getCoordY());
 		map1Grid.add((Node) monster1, monster1.getCoordX(), player1.getCoordY());
 	}
