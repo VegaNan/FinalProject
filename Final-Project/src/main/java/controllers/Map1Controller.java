@@ -55,13 +55,6 @@ public class Map1Controller implements Initializable {
 		map1Grid.add(itemBox, 1, 1);
 		
 	}
-	
-	public void moveLeft() {
-		if (player1.getCoordX() != 0) {
-			player1.setCoordX(player1.getCoordX() - 1);
-			movePlayer();
-		}
-	}
 
 	public void importPlayer() throws IOException {
 		FXMLLoader loader = new FXMLLoader();
