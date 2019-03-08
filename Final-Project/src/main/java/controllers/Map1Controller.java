@@ -24,8 +24,8 @@ public class Map1Controller implements Initializable {
 	@FXML
 	GridPane map1Grid;
 	@FXML
-	Button myButton;
-
+	Button button;
+	
 	Player player1;
 	Monster monster1;
 
@@ -37,29 +37,7 @@ public class Map1Controller implements Initializable {
 		// Set up controller
 		CharacterCreationController controller = loader.getController();
 		player1 = controller.getPlayer();
-		map1Grid.add((Node) player1, (int) player1.getCoordX(), (int) player1.getCoordY());
-	}
-
-	public void keyPressed(KeyEvent e) {
-		System.out.println("Hello");
-		KeyCode key = e.getCode();
-		switch (key) {
-		case W:
-			moveUp();
-			break;
-		case S:
-			moveDown();
-			break;
-		case A:
-			moveLeft();
-			break;
-		case D:
-			moveRight();
-			break;
-		default:
-			System.out.println("HELLO NEW WORLD!");
-			break;
-		}
+		map1Grid.add((Node) player1, player1.getCoordX(), player1.getCoordY());
 	}
 
 	public void moveLeft() {
@@ -95,7 +73,7 @@ public class Map1Controller implements Initializable {
 	}
 
 	public void startUp() {
-		myButton.fire();
+		button.fire();
 	}
 
 	public void startScene(ActionEvent event) throws IOException {
