@@ -1,3 +1,4 @@
+
 package controllers;
 
 import java.io.IOException;
@@ -131,3 +132,4 @@ public class CharacterCreationController implements Initializable {
 		leprechaunButton.setSelected(true);
 	}
 }
+

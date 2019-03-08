@@ -1,4 +1,3 @@
-
 package controllers;
 
 import java.io.IOException;
@@ -140,3 +139,4 @@ public class Map1Controller implements Initializable {
 		startUp();
 	}
 }
+
