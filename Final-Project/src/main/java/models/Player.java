@@ -53,4 +53,16 @@ public class Player extends Character {
 		return 0;
 	}
 
+	@Override
+	public int specialAttack() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int defend() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }
