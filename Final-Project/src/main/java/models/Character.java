@@ -41,11 +41,11 @@ public abstract class Character extends Rectangle{
 		itemBag.remove(index);
 	}
 	
-	public Character(int coordX, int coordY, int w, int h, Image img, int strBase, int intBase, int luckBase, int level) {
+	public Character(int coordX, int coordY, int w, int h, Image img, int strBase, int intBase, int luckBase, int level, String name) {
 		setStrBase(strBase);
 		setIntBase(intBase);
 		setLuckBase(luckBase);
-		setBaseHP(level);
+		setLevel(level);
 		setName(name);
 		setBaseHP(getStrBase() * 10);
 		setCurrentHP(this.baseHP);
