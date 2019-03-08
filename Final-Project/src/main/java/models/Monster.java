@@ -10,11 +10,8 @@ public class Monster extends Character {
 
 	protected ArrayList<Item> lootItems = new ArrayList<>();
 
-	public Monster(int x, int y, int w, int h, Image img, int strBase, int intBase, int luckBase, int level,
-			String name) {
-		super(x, y, w, h, img, strBase, intBase, luckBase, level);
-
-		// TODO Auto-generated constructor stub
+	public Monster(int x, int y, int w, int h, Image img, int strBase, int intBase, int luckBase, int level, String name) {
+		super(x, y, w, h, img, strBase, intBase, luckBase, level, name);
 	}
 
 	@Override
