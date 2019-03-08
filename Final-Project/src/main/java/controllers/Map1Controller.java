@@ -4,10 +4,12 @@ package controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import enums.MonsterType;
 import enums.PotionType;
+import enums.SpaceType;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -27,9 +29,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import models.Item;
+import models.Map;
 import models.Monster;
 import models.Player;
 import models.Potion;
+import models.Space;
 
 public class Map1Controller implements Initializable {
 	@FXML
@@ -162,6 +166,39 @@ public class Map1Controller implements Initializable {
 		
 	}
 	
+	public void initSpaces(Map map1)
+	{
+		//init safe spaces
+		Image monImg = new Image("/view/grass.png");
+		Image safeImg = new Image("/view/tile.png");
+		//setting safe spaces
+		for(int i = 0; i < 10; i++)
+		{
+			Space sp = new Space(193, 111, SpaceType.EMPTY, safeImg);
+			map1.getSpaces().put(4 + "" + i, sp);
+			map1Grid.add((Node)sp, 4, i);
+		}
+		//setting monster spaces left of path
+		for(int i = 0; i < 4; i++)
+		{
+			for(int i2 = 0; i2 < 10; i2++)
+			{
+				Space sp = new Space(193, 111, SpaceType.MONSTER_ENCOUNTER, monImg);
+				map1.getSpaces().put(i + "" + i2, sp);
+				map1Grid.add(sp, i, i2);
+			}
+		}
+		//setting monster spaces right of the path
+		for(int i = 5; i < 10; i++)
+		{
+			for(int i2 = 0; i2 < 10; i2++)
+			{
+				Space sp = new Space(193, 111, SpaceType.MONSTER_ENCOUNTER, monImg);
+				map1.getSpaces().put(i + "" + i2, sp);
+				map1Grid.add(sp, i, i2);
+			}
+		}
+	}
 	public void checkSpace() {
 		//TODO
 		//if space has monster
@@ -245,11 +282,15 @@ public class Map1Controller implements Initializable {
 				//TODO remove item node 
 			}
 		});
+		HashMap<String , Space> spaces = new HashMap<>();
+		Map map1 = new Map(spaces);
 		Image img = new Image("/view/knight.png");
 		Image monImg = new Image("file:graphics/character/big_demon_idle_anim_f0.png");
 		monster1 = new Monster(6, 6, 193, 110, monImg, 1, 1, 1, 1, null, MonsterType.SUPREME_EMPEROR_OVERLORD_ALPACA);
+		monster1 = new Monster(6, 6, 193, 110, monImg, 1, 1, 1, 1, "Supreme", MonsterType.KREBS);
 		player1 = new Player(5, 5, 193, 110, img, 1, 1, 1, 1, null);
 		map1Grid.add((Node) player1, player1.getCoordX(), player1.getCoordY());
 		map1Grid.add((Node) monster1, monster1.getCoordX(), player1.getCoordY());
+		initSpaces(map1);
 	}
 }
