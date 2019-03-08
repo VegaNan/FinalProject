@@ -255,6 +255,8 @@ public abstract class Character extends Rectangle{
 	public abstract int specialAttack();
 	
 	public abstract int defend();
+	
+	public abstract String getStats();
 
 	@Override
 	public String toString() {

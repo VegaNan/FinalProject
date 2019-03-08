@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import enums.MonsterType;
 import enums.PotionType;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -19,9 +20,11 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import models.Item;
 import models.Monster;
@@ -38,18 +41,21 @@ public class Map1Controller implements Initializable {
 	Monster monster1;
 	boolean move;
 	
-	HBox itemBox;
 
 	public void getItems() {
 		Stage window = new Stage();
-		Pane items = new AnchorPane();
-		itemBox = new HBox();
+		BorderPane items = new BorderPane();
+		HBox itemBox = new HBox();
+		VBox playerStats = new VBox();
+		
+		Label stats = new Label(player1.getStats());
+		playerStats.getChildren().add(stats);
 		
 		player1.addItem(new Potion(PotionType.HEALING, 10, "Healing Potion", 15));
 		
 		for(int i = 0; i < player1.getItemBag().size(); i++) {
-			Pane item = new Pane();
-			item.setMaxSize(100, 100);
+			VBox item = new VBox();
+			item.setMaxSize(300, 300);
 			Label label = new Label(player1.getItemBag().get(i).toString());
 			Button use = new Button("use");
 			if(player1.getItemBag().get(i).name.contains("Potion")) {
@@ -65,14 +71,15 @@ public class Map1Controller implements Initializable {
 					}
 				});
 			}
-			label.autosize();
+			label.setMaxSize(300, 300);
 			item.getChildren().add(label);
 			item.getChildren().add(use);
 			itemBox.getChildren().add(item);
 		}
 		
-		items.getChildren().add(itemBox);
-		items.autosize();
+		items.setCenter(itemBox);
+		items.setTop(playerStats);
+		items.setPrefSize(450, 450);
 		Scene scene = new Scene(items);
 		window.setScene(scene);
 		window.sizeToScene();
@@ -240,7 +247,7 @@ public class Map1Controller implements Initializable {
 		});
 		Image img = new Image("/view/knight.png");
 		Image monImg = new Image("file:graphics/character/big_demon_idle_anim_f0.png");
-		monster1 = new Monster(6, 6, 193, 110, monImg, 1, 1, 1, 1, null, null);
+		monster1 = new Monster(6, 6, 193, 110, monImg, 1, 1, 1, 1, null, MonsterType.SUPREME_EMPEROR_OVERLORD_ALPACA);
 		player1 = new Player(5, 5, 193, 110, img, 1, 1, 1, 1, null);
 		map1Grid.add((Node) player1, player1.getCoordX(), player1.getCoordY());
 		map1Grid.add((Node) monster1, monster1.getCoordX(), player1.getCoordY());
