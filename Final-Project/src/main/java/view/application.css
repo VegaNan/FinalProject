@@ -11,7 +11,7 @@
 {
 	-fx-background-color: rgb(255,0,0);
 }
-#map1Grid
+.safespace
 {
+	-fx-background-color: rgb(0,0,0);
 }
-
