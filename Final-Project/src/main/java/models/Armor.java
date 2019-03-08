@@ -6,7 +6,8 @@ public class Armor extends Item implements Equippable{
 	protected int ArmorRating;
 	protected int DamageReduction;
 
-	public Armor() {
+	public Armor(String name, int value) {
+		super(name, value);
 		setArmorRating(17);
 		setDamageReduction(10);
 		setName(this.ArmorRating, this.DamageReduction);
@@ -69,9 +70,9 @@ public class Armor extends Item implements Equippable{
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Armor \t").append(name).append(", \t\t\tArmorRating=").append(ArmorRating)
-				.append(", \tDamageReduction=").append(DamageReduction).append(", \tAgilityModifier=")
-				.append(", \tvalue=").append(value);
+		builder.append("Armor \t").append(name).append("\n\t\tArmorRating: ").append(ArmorRating)
+				.append("\tDamageReduction:").append(DamageReduction).append("\tAgilityModifier: ")
+				.append("\tvalue:").append(value);
 		return builder.toString();
 	}
 

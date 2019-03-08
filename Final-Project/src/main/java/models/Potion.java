@@ -1,7 +1,5 @@
 package models;
 
-import java.util.Arrays;
-
 import models.Character;
 import enums.PotionType;
 import interfaces.Consumable;
@@ -10,7 +8,9 @@ public class Potion extends Item implements Consumable {
 	protected PotionType effect;
 	protected int effectNum;
 
-	public Potion(PotionType effect, int effectNum) {
+	public Potion(PotionType effect, int effectNum, String name, int value) {
+		super(name, value);
+
 		setEffect(effect);
 		setEffectNum(effectNum);
 		setName(this.effect);
@@ -88,9 +88,9 @@ public class Potion extends Item implements Consumable {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Otherpotion [effect=").append(effect).append(", effectNum=").append(effectNum)
-				.append(", value=").append(value).append(", name=").append(name).append(", items=")
-				.append(Arrays.toString(items)).append("]");
+		builder.append(name).append("\n").append(effect).append(" + ").append(effectNum)
+				.append("\nvalue: ").append(value);
+
 		return builder.toString();
 	}
 
