@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import models.Player;
@@ -109,8 +110,8 @@ public class CharacterCreationController implements Initializable {
 			luck += 10;
 			break;
 		}
-
-		Player player = new Player(5, 5, 100, 100, Color.DARKMAGENTA, str, intelligence, luck, 1, playerName);
+		Image img = new Image("/view/knight.png");
+		Player player = new Player(5, 5, 100, 100, img, str, intelligence, luck, 1, playerName);
 		System.out.println(player.toString());
 		return player;
 	}

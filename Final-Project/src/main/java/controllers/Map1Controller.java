@@ -13,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
@@ -132,9 +133,9 @@ public class Map1Controller implements Initializable {
 				//TODO remove item node 
 			}
 		});
-		
-		monster1 = new Monster(6, 6, 193, 110, Color.RED, 1, 1, 1, 1, null);
-		player1 = new Player(5, 5, 193, 110, Color.BLUE, 1, 1, 1, 1, null);
+		Image img = new Image("/view/knight.png");
+		//monster1 = new Monster(6, 6, 193, 110, img, 1, 1, 1, 1, null);
+		//player1 = new Player(5, 5, 193, 110, img, 1, 1, 1, 1, null);
 		map1Grid.add((Node) player1, player1.getCoordX(), player1.getCoordY());
 		map1Grid.add((Node) monster1, monster1.getCoordX(), player1.getCoordY());
 		startUp();
