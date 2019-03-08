@@ -12,8 +12,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -51,6 +52,16 @@ public class Map1Controller implements Initializable {
 			itemBox.getChildren().add(item);
 		}
 		map1Grid.add(itemBox, 1, 1);
+	}
+	
+	public void loadMapImages() {
+		Image image = new Image("/graphics/background/InternalWall/wall-4x4-2", 100, 100, false, false);
+		ImageView imageView = new ImageView();
+		for(int i = 0; i < 10; i ++) {
+			imageView = new ImageView();
+			imageView.setImage(image);
+			map1Grid.add(imageView, 1, i);
+		}
 	}
 
 	public void importPlayer() throws IOException {
@@ -136,6 +147,7 @@ public class Map1Controller implements Initializable {
 		player1 = new Player(5, 5, 193, 110, Color.BLUE, 1, 1, 1, 1, null);
 		map1Grid.add((Node) player1, player1.getCoordX(), player1.getCoordY());
 		map1Grid.add((Node) monster1, monster1.getCoordX(), player1.getCoordY());
+		loadMapImages();
 		startUp();
 	}
 }
