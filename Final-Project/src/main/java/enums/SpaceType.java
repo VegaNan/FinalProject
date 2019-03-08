@@ -2,7 +2,8 @@ package enums;
 
 public enum SpaceType {
 MONSTER_ENCOUNTER,
-LOOT_CRATE,
+BOSS,
+DOOR,
 EMPTY
 
 }

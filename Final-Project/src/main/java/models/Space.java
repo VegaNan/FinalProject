@@ -12,6 +12,7 @@ public class Space extends Rectangle{
 	
 	public Space(int w, int h, SpaceType sT, Image img)
 	{
+		setSt(sT);
 		setWidth(w);
 		setHeight(h);
 		setFill(new ImagePattern(img));
