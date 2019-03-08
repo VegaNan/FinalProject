@@ -7,6 +7,23 @@ import utilities.RNG;
 
 public class Vendor {
 	protected ArrayList<Item> inventory = new ArrayList<>();
+	
+
+	public ArrayList<Item> getItemBag() {
+		return inventory;
+	}
+	
+	public void setItemBag(ArrayList<Item> inventory) {
+		this.inventory = inventory;
+	}
+	
+	public void addItem(Item item) {
+		inventory.add(item);
+	}
+	
+	public void removeItem(int index) {
+		inventory.remove(index);
+	}
 
 	public Vendor() {
 

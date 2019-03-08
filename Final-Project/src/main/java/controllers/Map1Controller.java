@@ -1,16 +1,12 @@
-
 package controllers;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import enums.MonsterType;
 import enums.PotionType;
-import enums.SpaceType;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -28,45 +24,42 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import models.Item;
-import models.Map;
 import models.Monster;
 import models.Player;
 import models.Potion;
-import models.Space;
 
 public class Map1Controller implements Initializable {
 	@FXML
 	GridPane map1Grid;
 	@FXML
 	Button button;
-	HashMap<String, Space> spaces = new HashMap<>();
-	Map map1 = new Map(spaces);
+	
 	Player player1;
 	Monster monster1;
 	boolean move;
-
+	
 	HBox itemBox;
 
 	public void getItems() {
 		Stage window = new Stage();
 		Pane items = new AnchorPane();
 		itemBox = new HBox();
-
+		
 		player1.addItem(new Potion(PotionType.HEALING, 10, "Healing Potion", 15));
-
-		for (int i = 0; i < player1.getItemBag().size(); i++) {
+		
+		for(int i = 0; i < player1.getItemBag().size(); i++) {
 			Pane item = new Pane();
 			item.setMaxSize(100, 100);
 			Label label = new Label(player1.getItemBag().get(i).toString());
 			Button use = new Button("use");
-			if (player1.getItemBag().get(i).name.contains("Potion")) {
+			if(player1.getItemBag().get(i).name.contains("Potion")) {
 				Potion potion = (Potion) player1.getItemBag().get(i);
 				label = new Label(potion.toString());
 				int index = i;
 				use.setOnAction(new EventHandler<ActionEvent>() {
 					public void handle(ActionEvent arg0) {
 						potion.use(player1);
-						ArrayList<Item> itemBag = player1.getItemBag();
+						ArrayList<Item> itemBag= player1.getItemBag();
 						itemBag.remove(index);
 						player1.setItemBag(itemBag);
 					}
@@ -77,7 +70,7 @@ public class Map1Controller implements Initializable {
 			item.getChildren().add(use);
 			itemBox.getChildren().add(item);
 		}
-
+		
 		items.getChildren().add(itemBox);
 		items.autosize();
 		Scene scene = new Scene(items);
@@ -85,21 +78,22 @@ public class Map1Controller implements Initializable {
 		window.sizeToScene();
 		window.show();
 	}
-
-	// TODO open these in new window
+	
+	//TODO open these in new window
 	public void combatView(Monster monster) {
 		Stage window = new Stage();
 		Pane combat = new AnchorPane();
 		combat.setPrefSize(700, 700);
 		HBox stats = new HBox();
 		HBox battle = new HBox();
+		
+		Button specialAttack= new Button("Special Attack");
+		Button normalAttack= new Button("Normal Attack");
+		Button defend= new Button("Defend");
+		Button usePotion= new Button("Use Potion");
+		Button runAway= new Button("Run Away");
 
-		Button specialAttack = new Button("Special Attack");
-		Button normalAttack = new Button("Normal Attack");
-		Button defend = new Button("Defend");
-		Button usePotion = new Button("Use Potion");
-		Button runAway = new Button("Run Away");
-
+		
 		StringBuilder playersb = new StringBuilder();
 		playersb.append(player1.getCurrentHP()).append(" / ").append(player1.getBaseHP());
 		Label playerLabel = new Label(playersb.toString());
@@ -111,14 +105,14 @@ public class Map1Controller implements Initializable {
 
 		stats.getChildren().add(playerLabel);
 		stats.getChildren().add(monsterLabel);
-
+		
 		battle.getChildren().add(specialAttack);
 		battle.getChildren().add(normalAttack);
 		battle.getChildren().add(defend);
 		battle.getChildren().add(usePotion);
 		battle.getChildren().add(runAway);
 		battle.autosize();
-
+		
 		specialAttack.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -146,11 +140,11 @@ public class Map1Controller implements Initializable {
 		runAway.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				// TODO quit combat w rand chance
+				//TODO quit combat w rand chance
 				window.close();
 			}
 		});
-
+		
 		combat.getChildren().add(stats);
 		combat.getChildren().add(battle);
 		combat.autosize();
@@ -158,48 +152,22 @@ public class Map1Controller implements Initializable {
 		window.setScene(scene);
 		window.sizeToScene();
 		window.show();
-
+		
 	}
-
-	public void initSpaces(Map map1) {
-		// init safe spaces
-		Image monImg = new Image("/view/grass.png");
-		Image safeImg = new Image("/view/tile.png");
-		// setting safe spaces
-		for (int i = 0; i < 10; i++) {
-			Space sp = new Space(193, 111, SpaceType.EMPTY, safeImg);
-			map1.getSpaces().put(4 + " " + i, sp);
-			map1Grid.add((Node) sp, 4, i);
-		}
-		// setting monster spaces left of path
-		for (int i = 0; i < 4; i++) {
-			for (int i2 = 0; i2 < 10; i2++) {
-				Space sp = new Space(193, 111, SpaceType.MONSTER_ENCOUNTER, monImg);
-				map1.getSpaces().put(i + " " + i2, sp);
-				map1Grid.add((Node)sp, i, i2);
-			}
-		}
-		// setting monster spaces right of the path
-		for (int i = 5; i < 10; i++) {
-			for (int i2 = 0; i2 < 10; i2++) {
-				Space sp = new Space(193, 111, SpaceType.MONSTER_ENCOUNTER, monImg);
-				map1.getSpaces().put(i + " " + i2, sp);
-				map1Grid.add((Node)sp, i, i2);
-			}
-		}
+	
+	public void vendor() {
+		
+		
+		
+		
 	}
-
+	
 	public void checkSpace() {
-		// if space door
-		Space sp = map1.getSpaces().get(player1.getCoordX() + " " + player1.getCoordY());
-		if (sp.getSt() == SpaceType.MONSTER_ENCOUNTER) {
-			combatView(monster1);
-		} else if (sp.getSt() == SpaceType.BOSS) {
-		}
-		else if(sp.getSt() == SpaceType.DOOR)
-		{
-			
-		}
+		//TODO
+		//if space has monster
+			//combat
+
+		combatView(monster1);
 	}
 
 	public void importPlayer() {
@@ -221,7 +189,6 @@ public class Map1Controller implements Initializable {
 			movePlayer();
 		}
 	}
-
 	public void moveRight() {
 		if (player1.getCoordX() != 9) {
 			player1.setCoordX(player1.getCoordX() + 1);
@@ -254,7 +221,7 @@ public class Map1Controller implements Initializable {
 		move = true;
 		map1Grid.setOnKeyPressed(key -> {
 			KeyCode keycode = key.getCode();
-			if (move) {
+			if(move) {
 				switch (keycode) {
 				case W:
 					moveUp();
@@ -285,16 +252,15 @@ public class Map1Controller implements Initializable {
 					break;
 				default:
 					break;
-				}
-			} else if (keycode.equals(KeyCode.I)) {
-				// TODO remove item node
+				}	
+			}else if(keycode.equals(KeyCode.I)) {
+				//TODO remove item node 
 			}
 		});
 		Image img = new Image("/view/knight.png");
 		Image monImg = new Image("file:graphics/character/big_demon_idle_anim_f0.png");
-		monster1 = new Monster(6, 6, 193, 110, monImg, 1, 1, 1, 1, "Supreme", MonsterType.KREBS);
-		importPlayer();
-		initSpaces(map1);
+		monster1 = new Monster(6, 6, 193, 110, monImg, 1, 1, 1, 1, "Supreme", MonsterType.GENERIC_DRAGON);
+		player1 = new Player(5, 5, 193, 110, img, 1, 1, 1, 1, null);
 		map1Grid.add((Node) player1, player1.getCoordX(), player1.getCoordY());
 		map1Grid.add((Node) monster1, monster1.getCoordX(), player1.getCoordY());
 	}
