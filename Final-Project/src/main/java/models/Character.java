@@ -2,7 +2,9 @@ package models;
 
 import java.util.ArrayList;
 
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
 public abstract class Character extends Rectangle{
@@ -39,7 +41,7 @@ public abstract class Character extends Rectangle{
 		itemBag.remove(index);
 	}
 	
-	public Character(int coordX, int coordY, int w, int h, Color color, int strBase, int intBase, int luckBase, int level) {
+	public Character(int coordX, int coordY, int w, int h, Image img, int strBase, int intBase, int luckBase, int level) {
 		setStrBase(strBase);
 		setIntBase(intBase);
 		setLuckBase(luckBase);
@@ -51,7 +53,7 @@ public abstract class Character extends Rectangle{
 		setCoordY(coordY);
 		setWidth(w);
 		setHeight(h);
-		setFill(color);
+		setFill(new ImagePattern(img));
 	}
 
 	public int getStrBase() {
