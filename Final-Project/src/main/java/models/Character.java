@@ -1,9 +1,9 @@
 package models;
 
+import java.util.ArrayList;
+
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import models.Armor;
-import models.Weapon;
 
 public abstract class Character extends Rectangle{
 	protected String name;
@@ -21,8 +21,24 @@ public abstract class Character extends Rectangle{
 	protected int currentHP;
 	protected Weapon equippedWeapon;
 	protected Armor equippedArmor;
+	protected ArrayList<Item> itemBag = new ArrayList<>();
 
-
+	public ArrayList<Item> getItemBag() {
+		return itemBag;
+	}
+	
+	public void setItemBag(ArrayList<Item> itemBag) {
+		this.itemBag = itemBag;
+	}
+	
+	public void addItem(Item item) {
+		itemBag.add(item);
+	}
+	
+	public void removeItem(int index) {
+		itemBag.remove(index);
+	}
+	
 	public Character(int coordX, int coordY, int w, int h, Color color, int strBase, int intBase, int luckBase, int level) {
 		setStrBase(strBase);
 		setIntBase(intBase);

@@ -4,21 +4,24 @@ package controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.collections.ObservableList;
+
+import enums.PotionType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import models.Monster;
 import models.Player;
+import models.Potion;
 
 public class Map1Controller implements Initializable {
 	@FXML
@@ -28,7 +31,30 @@ public class Map1Controller implements Initializable {
 
 	Player player1;
 	Monster monster1;
+	
 
+	public void getItems() {
+
+		player1.addItem(new Potion(PotionType.HEALING, 10, "Healing Potion", 15));
+		
+		HBox itemBox = new HBox();
+		
+		for(int i = 0; i < player1.getItemBag().size(); i++) {
+			Pane item = new Pane();
+			item.setMaxSize(100, 100);
+			Label label = new Label(player1.getItemBag().get(i).toString());
+			if(player1.getItemBag().get(i).name.contains("Potion")) {
+				Potion potion = (Potion) player1.getItemBag().get(i);
+				label = new Label(potion.toString());
+			}
+			label.autosize();
+			item.getChildren().add(label);
+			itemBox.getChildren().add(item);
+		}
+		map1Grid.add(itemBox, 1, 1);
+		
+	}
+	
 	public void moveLeft() {
 		if (player1.getCoordX() != 0) {
 			player1.setCoordX(player1.getCoordX() - 1);
@@ -118,6 +144,9 @@ public class Map1Controller implements Initializable {
 				break;
 			case D:
 				moveRight();
+				break;
+			case I:
+				getItems();
 				break;
 			default:
 				break;
