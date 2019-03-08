@@ -9,12 +9,12 @@ import java.util.ResourceBundle;
 
 import enums.PotionType;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -23,6 +23,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import models.Item;
 import models.Monster;
 import models.Player;
@@ -41,7 +42,10 @@ public class Map1Controller implements Initializable {
 	HBox itemBox;
 
 	public void getItems() {
+		Stage window = new Stage();
+		Pane items = new AnchorPane();
 		itemBox = new HBox();
+		
 		player1.addItem(new Potion(PotionType.HEALING, 10, "Healing Potion", 15));
 		
 		for(int i = 0; i < player1.getItemBag().size(); i++) {
@@ -52,11 +56,12 @@ public class Map1Controller implements Initializable {
 			if(player1.getItemBag().get(i).name.contains("Potion")) {
 				Potion potion = (Potion) player1.getItemBag().get(i);
 				label = new Label(potion.toString());
+				int index = i;
 				use.setOnAction(new EventHandler<ActionEvent>() {
 					public void handle(ActionEvent arg0) {
 						potion.use(player1);
 						ArrayList<Item> itemBag= player1.getItemBag();
-						itemBag.remove(potion);
+						itemBag.remove(index);
 						player1.setItemBag(itemBag);
 					}
 				});
@@ -64,36 +69,48 @@ public class Map1Controller implements Initializable {
 			label.autosize();
 			item.getChildren().add(label);
 			item.getChildren().add(use);
-
 			itemBox.getChildren().add(item);
 		}
-		map1Grid.add(itemBox, 1, 1);
-		itemBox.requestFocus();
+		
+		items.getChildren().add(itemBox);
+		items.autosize();
+		Scene scene = new Scene(items);
+		window.setScene(scene);
+		window.sizeToScene();
+		window.show();
 	}
-	
+	//TODO open these in new window
 	public void combatView(Monster monster) {
-		AnchorPane combat = new AnchorPane();
+		Stage window = new Stage();
+		Pane combat = new AnchorPane();
+		combat.setPrefSize(700, 700);
+		HBox battle = new HBox();
+		HBox stats = new HBox();
 		
 		Button specialAttack= new Button("Special Attack");
 		Button normalAttack= new Button("Normal Attack");
 		Button defend= new Button("Defend");
 		Button usePotion= new Button("Use Potion");
 		Button runAway= new Button("Run Away");
+
 		
 		StringBuilder playersb = new StringBuilder();
 		playersb.append(player1.getCurrentHP()).append(" / ").append(player1.getBaseHP());
 		Label playerLabel = new Label(playersb.toString());
+		playerLabel.setMinSize(300, 100);
 		StringBuilder monstersb = new StringBuilder();
 		monstersb.append(monster.getCurrentHP()).append(" / ").append(monster.getBaseHP());
 		Label monsterLabel = new Label(monstersb.toString());
+		monsterLabel.setMinSize(300, 100);
+
+		stats.getChildren().add(playerLabel);
+		stats.getChildren().add(monsterLabel);
 		
-		combat.getChildren().add(playerLabel);
-		combat.getChildren().add(monsterLabel);
-		combat.getChildren().add(specialAttack);
-		combat.getChildren().add(normalAttack);
-		combat.getChildren().add(defend);
-		combat.getChildren().add(usePotion);
-		combat.getChildren().add(runAway);
+		battle.getChildren().add(specialAttack);
+		battle.getChildren().add(normalAttack);
+		battle.getChildren().add(defend);
+		battle.getChildren().add(usePotion);
+		battle.getChildren().add(runAway);
 		
 		specialAttack.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -122,10 +139,18 @@ public class Map1Controller implements Initializable {
 		runAway.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				
+				//TODO quit combat w rand chance
+				window.close();
 			}
 		});
-
+		
+		combat.getChildren().add(stats);
+		combat.getChildren().add(battle);
+		combat.autosize();
+		Scene scene = new Scene(combat);
+		window.setScene(scene);
+		window.sizeToScene();
+		window.show();
 		
 	}
 	
