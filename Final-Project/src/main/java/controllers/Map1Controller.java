@@ -1,4 +1,3 @@
-
 package controllers;
 
 import java.io.IOException;
@@ -227,6 +226,18 @@ public class Map1Controller implements Initializable {
 					moveLeft();
 					break;
 				case D:
+					moveRight();
+					break;
+				case UP:
+					moveUp();
+					break;
+				case DOWN:
+					moveDown();
+					break;
+				case LEFT:
+					moveLeft();
+					break;
+				case RIGHT:
 					moveRight();
 					break;
 				case I:
