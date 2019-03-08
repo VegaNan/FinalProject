@@ -55,7 +55,7 @@ public class Map1Controller implements Initializable {
 	}
 	
 	public void loadMapImages() {
-		Image image = new Image("/graphics/background/InternalWall/wall-4x4-2", 100, 100, false, false);
+		Image image = new Image("file:graphics/background/InternalWall/wall-4x4-2.png", 100, 100, false, false);
 		ImageView imageView = new ImageView();
 		for(int i = 0; i < 10; i ++) {
 			imageView = new ImageView();
