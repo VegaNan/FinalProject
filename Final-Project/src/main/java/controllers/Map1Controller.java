@@ -35,6 +35,7 @@ public class Map1Controller implements Initializable {
 
 	public void getItems() {
 
+
 		player1.addItem(new Potion(PotionType.HEALING, 10, "Healing Potion", 15));
 		
 		HBox itemBox = new HBox();
@@ -69,7 +70,7 @@ public class Map1Controller implements Initializable {
 		// Set up controller
 		CharacterCreationController controller = loader.getController();
 		player1 = controller.getPlayer();
-		map1Grid.add((Node) player1, (int) player1.getTranslateX(), (int) player1.getTranslateY());
+		map1Grid.add((Node) player1, (int) player1.getCoordX(), (int) player1.getCoordY());
 	}
 
 	public void keyPressed(KeyEvent e) {
@@ -94,6 +95,12 @@ public class Map1Controller implements Initializable {
 		}
 	}
 
+	public void moveLeft() {
+		if (player1.getCoordX() != 0) {
+			player1.setCoordX(player1.getCoordX() - 1);
+			movePlayer();
+		}
+	}
 	public void moveRight() {
 		if (player1.getCoordX() != 9) {
 			player1.setCoordX(player1.getCoordX() + 1);
