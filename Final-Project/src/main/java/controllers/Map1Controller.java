@@ -7,6 +7,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import enums.MonsterType;
 import enums.PotionType;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -28,6 +29,7 @@ import models.Item;
 import models.Monster;
 import models.Player;
 import models.Potion;
+import utilities.RNG;
 
 public class Map1Controller implements Initializable {
 	@FXML
@@ -140,7 +142,22 @@ public class Map1Controller implements Initializable {
 			@Override
 			public void handle(ActionEvent event) {
 				//TODO quit combat w rand chance
-				window.close();
+				int chance = RNG.generateInt(1, 10) * player1.getLuck();
+				if(monster.getMonsterType().equals(MonsterType.KREBS)) {
+					Stage bossWindow = new Stage();
+					AnchorPane pane = new AnchorPane();
+					pane.setPrefSize(700, 700);
+					Label label = new Label("YOU CANNOT ESCAPE THE KREBS");
+					HBox escape = new HBox();
+					escape.getChildren().add(label);
+					pane.getChildren().add(escape);
+					Scene bossScene = new Scene(pane);
+					bossWindow.setScene(bossScene);
+					bossWindow.sizeToScene();
+					bossWindow.show();
+				}else {
+					window.close();
+				}
 			}
 		});
 		
@@ -160,8 +177,6 @@ public class Map1Controller implements Initializable {
 			//combat
 		
 		Image monImg = new Image("file:graphics/character/big_demon_idle_anim_f0.png");
-		monster1 = new Monster(6, 6, 193, 110, monImg, 1, 1, 1, 1, null);
-
 		combatView(monster1);
 	}
 
@@ -232,17 +247,19 @@ public class Map1Controller implements Initializable {
 					break;
 				case I:
 					getItems();
+					move = false;
 					break;
 				default:
 					break;
 				}	
 			}else if(keycode.equals(KeyCode.I)) {
-				//TODO remove item node 
+				move = true;
 			}
 		});
 		Image img = new Image("/view/knight.png");
 		Image monImg = new Image("file:graphics/character/big_demon_idle_anim_f0.png");
-		monster1 = new Monster(6, 6, 193, 110, monImg, 1, 1, 1, 1, null);
+		monster1 = new Monster(6, 6, 193, 110, monImg, 1, 1, 1, 5, null, MonsterType.GENERIC_DRAGON);
+		System.out.println(monster1);
 		player1 = new Player(5, 5, 193, 110, img, 1, 1, 1, 1, null);
 		map1Grid.add((Node) player1, player1.getCoordX(), player1.getCoordY());
 		map1Grid.add((Node) monster1, monster1.getCoordX(), player1.getCoordY());
