@@ -129,6 +129,14 @@ public class Map1Controller implements Initializable {
 			@Override
 			public void handle(ActionEvent event) {
 				monster.takeDamage(player1.attack());
+				if(monster.getCurrentHP() == 0)
+				{
+					monster.setAlive(false);
+				}
+				else
+				{
+					player1.takeDamage(monster.attack());
+				}
 			}
 		});
 		defend.setOnAction(new EventHandler<ActionEvent>() {

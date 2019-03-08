@@ -43,27 +43,23 @@ public class Player extends Character {
 	}
 	
 	@Override
-	public int takeDamage(int damage) {
-		// TODO Auto-generated method stub
-		return 0;
+	public void takeDamage(int damage) {
+		setCurrentHP(getCurrentHP() - damage);
 	}
 
 	@Override
 	public int attack() {
-		// TODO Auto-generated method stub
-		return 0;
+		return getStrength();
 	}
 
 	@Override
 	public int specialAttack() {
-		// TODO Auto-generated method stub
-		return 0;
+		return getIntelligence();
 	}
 
 	@Override
 	public int defend() {
-		// TODO Auto-generated method stub
-		return 0;
+		return getEquippedArmor().ArmorRating;
 	}
 
 	@Override

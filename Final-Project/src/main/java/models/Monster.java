@@ -49,9 +49,8 @@ public class Monster extends Character {
 	}
 
 	@Override
-	public int takeDamage(int damage) {
+	public void takeDamage(int damage) {
 		setCurrentHP(getCurrentHP() - damage);
-		return 0;
 	}
 
 	@Override

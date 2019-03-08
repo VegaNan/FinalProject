@@ -248,7 +248,7 @@ public abstract class Character extends Rectangle{
 		return money;
 	}
 
-	public abstract int takeDamage(int damage);
+	public abstract void takeDamage(int damage);
 
 	public abstract int attack();
 	
