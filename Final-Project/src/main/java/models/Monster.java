@@ -71,4 +71,16 @@ public class Monster extends Character {
 		return builder.toString();
 	}
 
+	@Override
+	public int specialAttack() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int defend() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

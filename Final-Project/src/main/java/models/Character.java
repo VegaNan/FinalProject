@@ -3,7 +3,6 @@ package models;
 import java.util.ArrayList;
 
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
@@ -252,6 +251,10 @@ public abstract class Character extends Rectangle{
 	public abstract int takeDamage(int damage);
 
 	public abstract int attack();
+	
+	public abstract int specialAttack();
+	
+	public abstract int defend();
 
 	@Override
 	public String toString() {

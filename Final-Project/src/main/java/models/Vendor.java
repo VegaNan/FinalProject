@@ -2,6 +2,7 @@ package models;
 
 import java.util.ArrayList;
 
+import controllers.CharacterCreationController;
 import utilities.RNG;
 
 public class Vendor {
@@ -19,6 +20,7 @@ public class Vendor {
 		// Vendor will buy items for 90% of the items original price
 		if (itemValue >= 10) {
 			goldAmount = itemValue - (itemValue / 10);
+			
 		} else {
 			int randValue = RNG.generateInt(1, 7);
 			goldAmount = itemValue - randValue;
