@@ -36,7 +36,7 @@
                <children>
                   <RadioButton fx:id="leprechaunButton" mnemonicParsing="false" prefHeight="29.0" prefWidth="131.0" text="Leprechaun" toggleGroup="$characterSelection" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="-Increase Luck (increased loot drop rate, increased attack initiative)" wrappingWidth="274.6708984375" />
-               </children>
+               </children> 
             </VBox>
          </children>
       </HBox>
