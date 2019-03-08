@@ -83,4 +83,10 @@ public class Monster extends Character {
 		return 0;
 	}
 
+	@Override
+	public String getStats() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -1,5 +1,6 @@
 package models;
 
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
@@ -64,5 +65,15 @@ public class Player extends Character {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public String getStats() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Player Stats").append("\nStrength: ").append(getStrength())
+		.append("\nIntelligence: ").append(getIntelligence());
+		return sb.toString();
+	}
+
+
 
 }
