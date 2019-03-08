@@ -88,8 +88,8 @@ public class Potion extends Item implements Consumable {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Otherpotion [effect=").append(effect).append(", effectNum=").append(effectNum)
-				.append(", value=").append(value).append(", name=").append(name).append(", items=");
+		builder.append(name).append("\n").append(effect).append(" + ").append(effectNum)
+				.append("\nvalue: ").append(value);
 
 		return builder.toString();
 	}

@@ -31,14 +31,13 @@ public class Map1Controller implements Initializable {
 
 	Player player1;
 	Monster monster1;
+	boolean move;
 	
+	HBox itemBox;
 
 	public void getItems() {
-
-
+		itemBox = new HBox();
 		player1.addItem(new Potion(PotionType.HEALING, 10, "Healing Potion", 15));
-		
-		HBox itemBox = new HBox();
 		
 		for(int i = 0; i < player1.getItemBag().size(); i++) {
 			Pane item = new Pane();
@@ -53,13 +52,11 @@ public class Map1Controller implements Initializable {
 			itemBox.getChildren().add(item);
 		}
 		map1Grid.add(itemBox, 1, 1);
-		
 	}
 
 	public void importPlayer() throws IOException {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("/view/CharacterCreation.fxml"));
-
 		// Set up controller
 		CharacterCreationController controller = loader.getController();
 		player1 = controller.getPlayer();
@@ -130,28 +127,34 @@ public class Map1Controller implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		move = true;
 		map1Grid.setOnKeyPressed(key -> {
 			KeyCode keycode = key.getCode();
-			switch (keycode) {
-			case W:
-				moveUp();
-				break;
-			case S:
-				moveDown();
-				break;
-			case A:
-				moveLeft();
-				break;
-			case D:
-				moveRight();
-				break;
-			case I:
-				getItems();
-				break;
-			default:
-				break;
+			if(move) {
+				switch (keycode) {
+				case W:
+					moveUp();
+					break;
+				case S:
+					moveDown();
+					break;
+				case A:
+					moveLeft();
+					break;
+				case D:
+					moveRight();
+					break;
+				case I:
+					getItems();
+					break;
+				default:
+					break;
+				}	
+			}else if(keycode.equals(KeyCode.I)) {
+				//TODO remove item node 
 			}
 		});
+		
 		monster1 = new Monster(6, 6, 193, 110, Color.RED, 1, 1, 1, 1, null);
 		player1 = new Player(5, 5, 193, 110, Color.BLUE, 1, 1, 1, 1, null);
 		map1Grid.add((Node) player1, player1.getCoordX(), player1.getCoordY());
