@@ -4,9 +4,13 @@ package controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import enums.PotionType;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -19,6 +23,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import models.Item;
 import models.Monster;
 import models.Player;
 import models.Potion;
@@ -43,12 +48,23 @@ public class Map1Controller implements Initializable {
 			Pane item = new Pane();
 			item.setMaxSize(100, 100);
 			Label label = new Label(player1.getItemBag().get(i).toString());
+			Button use = new Button("use");
 			if(player1.getItemBag().get(i).name.contains("Potion")) {
 				Potion potion = (Potion) player1.getItemBag().get(i);
 				label = new Label(potion.toString());
+				use.setOnAction(new EventHandler<ActionEvent>() {
+					public void handle(ActionEvent arg0) {
+						potion.use(player1);
+						ArrayList<Item> itemBag= player1.getItemBag();
+						itemBag.remove(potion);
+						player1.setItemBag(itemBag);
+					}
+				});
 			}
 			label.autosize();
 			item.getChildren().add(label);
+			item.getChildren().add(use);
+
 			itemBox.getChildren().add(item);
 		}
 		map1Grid.add(itemBox, 1, 1);
@@ -78,6 +94,38 @@ public class Map1Controller implements Initializable {
 		combat.getChildren().add(defend);
 		combat.getChildren().add(usePotion);
 		combat.getChildren().add(runAway);
+		
+		specialAttack.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				monster.takeDamage(player1.specialAttack());
+			}
+		});
+		normalAttack.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				monster.takeDamage(player1.attack());
+			}
+		});
+		defend.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				player1.defend();
+			}
+		});
+		usePotion.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				getItems();
+			}
+		});
+		runAway.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				
+			}
+		});
+
 		
 	}
 	
