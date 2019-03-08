@@ -21,6 +21,9 @@ public abstract class Character extends Rectangle{
 	protected int luckMod = 0;
 	protected int baseHP;
 	protected int currentHP;
+	protected int baseEnergy;
+	protected int currentEnergy;
+	protected int money;
 	protected Weapon equippedWeapon;
 	protected Armor equippedArmor;
 	protected ArrayList<Item> itemBag = new ArrayList<>();
@@ -48,7 +51,9 @@ public abstract class Character extends Rectangle{
 		setLevel(level);
 		setName(name);
 		setBaseHP(getStrBase() * 10);
-		setCurrentHP(this.baseHP);
+		setCurrentHP(getBaseHP());
+		setBaseEnergy(getIntBase() * 7);
+		setCurrentEnergy(getBaseEnergy());
 		setCoordX(coordX);
 		setCoordY(coordY);
 		setWidth(w);
@@ -152,6 +157,21 @@ public abstract class Character extends Rectangle{
 	public void setCurrentHP(int currentHP) {
 		this.currentHP = currentHP;
 	}
+	
+	public int getBaseEnergy() {
+		return this.baseEnergy;
+	}
+	
+	public void setBaseEnergy(int baseEnergy) {
+		this.baseEnergy = baseEnergy;
+	}
+	public int getCurrentEnergy() {
+		return this.currentEnergy;
+	}
+	
+	public void setCurrentEnergy(int currentEnergy) {
+		this.currentEnergy = currentEnergy;
+	}
 
 	public Weapon getEquippedWeapon() {
 		return equippedWeapon;
@@ -220,6 +240,14 @@ public abstract class Character extends Rectangle{
 	public void setCoordY(int coordY) {
 		this.coordY = coordY;
 	}
+	
+	public void setMoney(int money) {
+		this.money = money;
+	}
+	
+	public int getMoney(int money) {
+		return money;
+	}
 
 	public abstract int takeDamage(int damage);
 
@@ -228,29 +256,15 @@ public abstract class Character extends Rectangle{
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append(name);
-		builder.append("\nlevel ");
-		builder.append(level);
-		builder.append("\nstrength ");
-		builder.append(strBase);
-		builder.append(" + ");
-		builder.append(strMod);
-		builder.append("\nintelligence");
-		builder.append(intBase);
-		builder.append(" + ");
-		builder.append(intMod);
-		builder.append("\nluck");
-		builder.append(luckBase);
-		builder.append(" + ");
-		builder.append(luckMod);
-		builder.append("\nHP ");
-		builder.append(currentHP);
-		builder.append(" / ");
-		builder.append(baseHP);
-		builder.append("\nEquipped Weapon: ");
-		builder.append(equippedWeapon);
-		builder.append("\nEquipped Armor: ");
-		builder.append(equippedArmor);
+		builder.append(getName())
+		.append("\nLevel ").append(getLevel())
+		.append("\nStrength ").append(getStrBase()).append(" + ").append(getStrMod())
+		.append("\nIntelligence ").append(getIntBase()).append(" + ").append(getIntMod())
+		.append("\nLuck ").append(getLuckBase()).append(" + ").append(getLuckMod())
+		.append("\nHP ").append(getCurrentHP()).append(" / ").append(getBaseHP())
+		.append("\nEnergy ").append(getCurrentEnergy()).append(" / ").append(getBaseEnergy())
+		.append("\nEquipped Weapon: ").append(getEquippedWeapon())
+		.append("\nEquipped Armor: ").append(getEquippedArmor());
 		return builder.toString();
 	}
 
