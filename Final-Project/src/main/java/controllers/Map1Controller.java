@@ -79,13 +79,14 @@ public class Map1Controller implements Initializable {
 		window.sizeToScene();
 		window.show();
 	}
+	
 	//TODO open these in new window
 	public void combatView(Monster monster) {
 		Stage window = new Stage();
 		Pane combat = new AnchorPane();
 		combat.setPrefSize(700, 700);
-		HBox battle = new HBox();
 		HBox stats = new HBox();
+		HBox battle = new HBox();
 		
 		Button specialAttack= new Button("Special Attack");
 		Button normalAttack= new Button("Normal Attack");
@@ -111,6 +112,7 @@ public class Map1Controller implements Initializable {
 		battle.getChildren().add(defend);
 		battle.getChildren().add(usePotion);
 		battle.getChildren().add(runAway);
+		battle.autosize();
 		
 		specialAttack.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -158,9 +160,6 @@ public class Map1Controller implements Initializable {
 		//TODO
 		//if space has monster
 			//combat
-		
-		Image monImg = new Image("file:graphics/character/big_demon_idle_anim_f0.png");
-		monster1 = new Monster(6, 6, 193, 110, monImg, 1, 1, 1, 1, null);
 
 		combatView(monster1);
 	}
