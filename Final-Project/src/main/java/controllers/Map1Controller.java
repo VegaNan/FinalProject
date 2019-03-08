@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import enums.MonsterType;
 import enums.PotionType;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -228,18 +229,6 @@ public class Map1Controller implements Initializable {
 				case D:
 					moveRight();
 					break;
-				case UP:
-					moveUp();
-					break;
-				case DOWN:
-					moveDown();
-					break;
-				case LEFT:
-					moveLeft();
-					break;
-				case RIGHT:
-					moveRight();
-					break;
 				case I:
 					getItems();
 					break;
@@ -252,7 +241,7 @@ public class Map1Controller implements Initializable {
 		});
 		Image img = new Image("/view/knight.png");
 		Image monImg = new Image("file:graphics/character/big_demon_idle_anim_f0.png");
-		monster1 = new Monster(6, 6, 193, 110, monImg, 1, 1, 1, 1, null, null);
+		monster1 = new Monster(6, 6, 193, 110, monImg, 1, 1, 1, 1, "Supreme", MonsterType.GENERIC_DRAGON);
 		player1 = new Player(5, 5, 193, 110, img, 1, 1, 1, 1, null);
 		map1Grid.add((Node) player1, player1.getCoordX(), player1.getCoordY());
 		map1Grid.add((Node) monster1, monster1.getCoordX(), player1.getCoordY());
