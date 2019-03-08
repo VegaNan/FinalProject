@@ -4,10 +4,13 @@ package controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import enums.PotionType;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,11 +19,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
+import models.Item;
 import models.Monster;
 import models.Player;
 import models.Potion;
@@ -45,15 +48,96 @@ public class Map1Controller implements Initializable {
 			Pane item = new Pane();
 			item.setMaxSize(100, 100);
 			Label label = new Label(player1.getItemBag().get(i).toString());
+			Button use = new Button("use");
 			if(player1.getItemBag().get(i).name.contains("Potion")) {
 				Potion potion = (Potion) player1.getItemBag().get(i);
 				label = new Label(potion.toString());
+				use.setOnAction(new EventHandler<ActionEvent>() {
+					public void handle(ActionEvent arg0) {
+						potion.use(player1);
+						ArrayList<Item> itemBag= player1.getItemBag();
+						itemBag.remove(potion);
+						player1.setItemBag(itemBag);
+					}
+				});
 			}
 			label.autosize();
 			item.getChildren().add(label);
+			item.getChildren().add(use);
+
 			itemBox.getChildren().add(item);
 		}
 		map1Grid.add(itemBox, 1, 1);
+		itemBox.requestFocus();
+	}
+	
+	public void combatView(Monster monster) {
+		AnchorPane combat = new AnchorPane();
+		
+		Button specialAttack= new Button("Special Attack");
+		Button normalAttack= new Button("Normal Attack");
+		Button defend= new Button("Defend");
+		Button usePotion= new Button("Use Potion");
+		Button runAway= new Button("Run Away");
+		
+		StringBuilder playersb = new StringBuilder();
+		playersb.append(player1.getCurrentHP()).append(" / ").append(player1.getBaseHP());
+		Label playerLabel = new Label(playersb.toString());
+		StringBuilder monstersb = new StringBuilder();
+		monstersb.append(monster.getCurrentHP()).append(" / ").append(monster.getBaseHP());
+		Label monsterLabel = new Label(monstersb.toString());
+		
+		combat.getChildren().add(playerLabel);
+		combat.getChildren().add(monsterLabel);
+		combat.getChildren().add(specialAttack);
+		combat.getChildren().add(normalAttack);
+		combat.getChildren().add(defend);
+		combat.getChildren().add(usePotion);
+		combat.getChildren().add(runAway);
+		
+		specialAttack.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				monster.takeDamage(player1.specialAttack());
+			}
+		});
+		normalAttack.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				monster.takeDamage(player1.attack());
+			}
+		});
+		defend.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				player1.defend();
+			}
+		});
+		usePotion.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				getItems();
+			}
+		});
+		runAway.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				
+			}
+		});
+
+		
+	}
+	
+	public void checkSpace() {
+		//TODO
+		//if space has monster
+			//combat
+		
+		Image monImg = new Image("file:graphics/character/big_demon_idle_anim_f0.png");
+		monster1 = new Monster(6, 6, 193, 110, monImg, 1, 1, 1, 1, null);
+
+		combatView(monster1);
 	}
 
 	public void importPlayer() {
@@ -99,6 +183,7 @@ public class Map1Controller implements Initializable {
 	public void movePlayer() {
 		map1Grid.getChildren().remove(player1);
 		map1Grid.add((Node) player1, player1.getCoordX(), player1.getCoordY());
+		checkSpace();
 	}
 
 	@Override
