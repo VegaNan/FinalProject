@@ -27,8 +27,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import models.Armor;
 import models.Item;
 import models.Map;
+import models.MiscItem;
 import models.Monster;
 import models.Player;
 import models.Potion;
@@ -50,19 +52,28 @@ public class Map1Controller implements Initializable {
 
 	public void getItems() {
 		Stage window = new Stage();
-		Pane items = new AnchorPane();
-		itemBox = new HBox();
 
 		player1.addItem(new Potion(PotionType.HEALING, 10, "Healing Potion", 15));
 
+		Scene scene = new Scene(updateItems());
+		window.setScene(scene);
+		window.sizeToScene();
+		window.show();
+	}
+	
+	public Pane updateItems() {
+		Pane items = new AnchorPane();
+		itemBox = new HBox();
+		
 		for (int i = 0; i < player1.getItemBag().size(); i++) {
 			Pane item = new Pane();
-			item.setMaxSize(100, 100);
-			Label label = new Label(player1.getItemBag().get(i).toString());
-			Button use = new Button("use");
 			if (player1.getItemBag().get(i).name.contains("Potion")) {
+				item.setMaxSize(100, 100);
+				Label label = new Label(player1.getItemBag().get(i).toString());
+				Button use = new Button("use");
 				Potion potion = (Potion) player1.getItemBag().get(i);
 				label = new Label(potion.toString());
+				
 				int index = i;
 				use.setOnAction(new EventHandler<ActionEvent>() {
 					public void handle(ActionEvent arg0) {
@@ -72,20 +83,15 @@ public class Map1Controller implements Initializable {
 						player1.setItemBag(itemBag);
 					}
 				});
+				label.autosize();
+				item.getChildren().add(label);
+				item.getChildren().add(use);
 			}
-			label.autosize();
-			item.getChildren().add(label);
-			item.getChildren().add(use);
 			itemBox.getChildren().add(item);
 		}
-
 		items.getChildren().add(itemBox);
-		items.autosize();
-		Scene scene = new Scene(items);
-		window.setScene(scene);
-		window.sizeToScene();
-		window.show();
-	}
+		return items;
+	}	
 	
 	public void monsterTurn(Monster monster) {
 		int randNum = RNG.generateInt(1, 2);
@@ -106,25 +112,27 @@ public class Map1Controller implements Initializable {
 		}
 	}
 
-	
+	//Updates stats to display correctly
 	public HBox updateStats(Monster monster) {
 		HBox stats = new HBox();
-
+		
 		StringBuilder playersb = new StringBuilder();
 		playersb.append(player1.getCurrentHP()).append(" / ").append(player1.getBaseHP());
 		Label playerLabel = new Label(playersb.toString());
 		playerLabel.setMinSize(300, 100);
+		
 		StringBuilder monstersb = new StringBuilder();
 		monstersb.append(monster.getCurrentHP()).append(" / ").append(monster.getBaseHP());
 		Label monsterLabel = new Label(monstersb.toString());
 		monsterLabel.setMinSize(300, 100);
-
+		
 		stats.getChildren().add(playerLabel);
 		stats.getChildren().add(monsterLabel);
-	
 		return stats;
-		
 	}
+
+	
+	//Combat View
 	public void combatView(Monster monster) {
 		Stage window = new Stage();
 		Pane combat = new AnchorPane();
@@ -161,13 +169,16 @@ public class Map1Controller implements Initializable {
 		battle.getChildren().add(runAway);
 		battle.autosize();
 
-
 		specialAttack.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				monster.takeDamage(player1.specialAttack());
 				stats.getChildren().clear();
 				stats.getChildren().add(updateStats(monster));
+				monsterTurn(monster);
+				stats.getChildren().clear();
+				stats.getChildren().add(updateStats(monster));
+				
 				if(checkDeath(monster)) {
 					window.close();
 				}
@@ -188,6 +199,10 @@ public class Map1Controller implements Initializable {
 				}
 				stats.getChildren().clear();
 				stats.getChildren().add(updateStats(monster));
+				monsterTurn(monster);
+				stats.getChildren().clear();
+				stats.getChildren().add(updateStats(monster));
+
 				if(checkDeath(monster)) {
 					window.close();
 				}
@@ -199,6 +214,10 @@ public class Map1Controller implements Initializable {
 				player1.defend();
 				stats.getChildren().clear();
 				stats.getChildren().add(updateStats(monster));
+				monsterTurn(monster);
+				stats.getChildren().clear();
+				stats.getChildren().add(updateStats(monster));
+			
 			}
 		});
 		usePotion.setOnAction(new EventHandler<ActionEvent>() {
@@ -207,6 +226,10 @@ public class Map1Controller implements Initializable {
 				getItems();
 				stats.getChildren().clear();
 				stats.getChildren().add(updateStats(monster));
+				monsterTurn(monster);
+				stats.getChildren().clear();
+				stats.getChildren().add(updateStats(monster));
+				
 				if(checkDeath(monster)) {
 					window.close();
 				}
@@ -250,6 +273,10 @@ public class Map1Controller implements Initializable {
 				}
 				stats.getChildren().clear();
 				stats.getChildren().add(updateStats(monster));
+				monsterTurn(monster);
+				stats.getChildren().clear();
+				stats.getChildren().add(updateStats(monster));
+				
 				if(checkDeath(monster)) {
 					window.close();
 				}
@@ -265,7 +292,7 @@ public class Map1Controller implements Initializable {
 		window.sizeToScene();
 		window.show();
 	}
-	
+	//If there is a death, window will close, if player won, dropLoot
 	public boolean checkDeath(Monster monster) {
 		boolean death = false;
 		if(monster.getCurrentHP() <= 0){
@@ -276,16 +303,38 @@ public class Map1Controller implements Initializable {
 		if(player1.getCurrentHP() <= 0) {
 			player1.setAlive(false);
 			death = true;
+			dropLoot(monster);
 		}
 		return death;
 	}
 	
 	public void dropLoot(Monster monster) {
+		Stage window = new Stage();
+		itemBox = new HBox();
 		
-		for(int i = 0; i < monster.getItemBag().size(); i ++) {
-			player1.addItem(monster.getItemBag().get(i));
+		for (int i = 0; i < monster.getItemBag().size(); i++) {
+			Pane item = new Pane();
+			item.setMinSize(200, 200);
+			Label label = new Label(monster.getItemBag().get(i).toString());
+			if(item.toString().contains("Potion")) {
+				Potion potion = (Potion) monster.getItemBag().get(i);
+				label = new Label(potion.toString());
+			}
+			item.getChildren().add(label);
+			itemBox.getChildren().add(item);
 		}
+		
+		if(monster.getItemBag().isEmpty()) {
+			Label label = new Label("No loot was dropped");
+			itemBox.getChildren().add(label);
+		}
+		
+	
+		Scene scene = new Scene(itemBox);
+		window.setScene(scene);
+		window.show();
 	}
+	
 
 	public void initSpaces(Map map1) {
 		// init safe spaces
@@ -319,7 +368,7 @@ public class Map1Controller implements Initializable {
 		// if space door
 		Space sp = map1.getSpaces().get(player1.getCoordX() + " " + player1.getCoordY());
 		if (sp.getSt() == SpaceType.MONSTER_ENCOUNTER) {
-			combatView(monster1);
+			combatView(createMonster());
 		} else if (sp.getSt() == SpaceType.BOSS) {
 		}
 		else if(sp.getSt() == SpaceType.DOOR)
@@ -327,8 +376,55 @@ public class Map1Controller implements Initializable {
 			
 		}
 	}
+	
+	public Monster createMonster() {
+		int randNum = RNG.generateInt(0, MonsterType.values().length);
+		Image monImg = new Image("file:graphics/character/big_demon_idle_anim_f0.png");
+		MonsterType monsterType = MonsterType.values()[randNum];
+		ArrayList<Item> itemBag = new ArrayList<>();
+		int itemNum = RNG.generateInt(0, player1.getLevel());
+		Monster monster = new Monster(player1.getCoordX(), player1.getCoordY(), 193, 110, monImg, 1, 1, 1, 1, "Supreme", monsterType);
+		
+		for(int i =0; i < itemNum; i ++) {
+			String name = "Misc Item";
+			Item item = new MiscItem(name, player1.getLevel());
+			int itemType = RNG.generateInt(1, 3);
+			int itemInt = RNG.generateInt(monster.getLevel(), player1.getLevel());
+			switch (itemType){
+			case 1:
+				name = "Armor";
+				item = new Armor(name, itemInt);
+				break;
+			case 2:
+				int potionTypeInt = RNG.generateInt(0, PotionType.values().length);
+				PotionType potionType = PotionType.values()[potionTypeInt];
+				switch(potionType) {
+				case HEALING:
+					name = "Healing Potion";
+					break;
+				case INTELLIGENCE:
+					name = "Intelligence Potion";
+					break;
+				case LUCK:					
+					name = "Luck Potion";
+					break;
+				case STRENGTH:
+					name = "Strength Potion";
+					break;
+				}
+				item = new Potion(potionType, itemInt, name, itemInt);
+				break;
+			case 3:
+				break;
+			}
+			itemBag.add(item);
+		}
+		monster.setItemBag(itemBag);
+		return monster;
+	}
+	
 
-	public void importPlayer() {
+ 	public void importPlayer() {
 		FXMLLoader loader = new FXMLLoader();
 		try {
 			loader.setLocation(getClass().getResource("/view/CharacterCreation.fxml"));
