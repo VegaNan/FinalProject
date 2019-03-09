@@ -116,13 +116,13 @@ public class Map1Controller implements Initializable {
 	public HBox updateStats(Monster monster) {
 		HBox stats = new HBox();
 		
-		StringBuilder playersb = new StringBuilder();
-		playersb.append(player1.getCurrentHP()).append(" / ").append(player1.getBaseHP());
+		StringBuilder playersb = new StringBuilder(player1.getName());
+		playersb.append("\n").append(player1.getCurrentHP()).append(" / ").append(player1.getBaseHP());
 		Label playerLabel = new Label(playersb.toString());
 		playerLabel.setMinSize(300, 100);
 		
-		StringBuilder monstersb = new StringBuilder();
-		monstersb.append(monster.getCurrentHP()).append(" / ").append(monster.getBaseHP());
+		StringBuilder monstersb = new StringBuilder(monster.getName());
+		monstersb.append("\n").append(monster.getCurrentHP()).append(" / ").append(monster.getBaseHP());
 		Label monsterLabel = new Label(monstersb.toString());
 		monsterLabel.setMinSize(300, 100);
 		
