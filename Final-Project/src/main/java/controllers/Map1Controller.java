@@ -90,9 +90,19 @@ public class Map1Controller implements Initializable {
 	public void monsterTurn(Monster monster) {
 		int randNum = RNG.generateInt(1, 2);
 		if(randNum == 1 && monster.getCurrentEnergy() >= 5) {
-			player1.takeDamage(monster.specialAttack());
+			if(player1.getDefend()) {
+				player1.takeDamage(monster.specialAttack() - player1.defend());
+				player1.setDefend(false);
+			}else {
+				player1.takeDamage(monster.specialAttack());
+			}
 		}else if(randNum == 2) {
-			player1.takeDamage(monster.attack());
+			if(player1.getDefend()) {
+				player1.takeDamage(monster.attack() - player1.defend());
+				player1.setDefend(false);
+			}else {
+				player1.takeDamage(monster.attack());
+			}
 		}
 	}
 

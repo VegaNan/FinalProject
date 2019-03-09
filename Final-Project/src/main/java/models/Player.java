@@ -7,12 +7,21 @@ import javafx.scene.paint.Color;
 public class Player extends Character {
 	protected int xp;
 	protected int nextLevelXP;
-
+	protected boolean defend = false;
+	
 	public Player(int x, int y, int w, int h, Image img, int strBase, int intBase, int luckBase, int level, String name) {
 		super(x, y, w, h, img, strBase, intBase, luckBase, level, name);
 		
 	}
 
+	public void setDefend(boolean defend) {
+		this.defend = defend;
+	}
+	
+	public boolean getDefend() {
+		return defend;
+	}
+	
 	public void checkLevelUp(int xp, int nextLevelXP) {
 		do {
 			if (xp >= nextLevelXP) {
