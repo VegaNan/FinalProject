@@ -42,11 +42,11 @@ public class Map1Controller implements Initializable {
 	GridPane map1Grid;
 	@FXML
 	Button button;
-	HashMap<String, Space> spaces = new HashMap<>();
-	Map map1 = new Map(spaces);
-	Player player1;
-	Monster monster1;
-	boolean move;
+	public HashMap<String, Space> spaces = new HashMap<>();
+	public Map map1 = new Map(spaces);
+	public static Player player1;
+	public Monster monster1;
+	public boolean move;
 
 	HBox itemBox;
 
@@ -146,12 +146,12 @@ public class Map1Controller implements Initializable {
 		Button usePotion = new Button("Use Potion");
 		Button runAway = new Button("Run Away");
 
-		StringBuilder playersb = new StringBuilder();
-		playersb.append(player1.getCurrentHP()).append(" / ").append(player1.getBaseHP());
+		StringBuilder playersb = new StringBuilder(player1.getName());
+		playersb.append("\n").append(player1.getCurrentHP()).append(" / ").append(player1.getBaseHP());
 		Label playerLabel = new Label(playersb.toString());
 		playerLabel.setMinSize(300, 100);
-		StringBuilder monstersb = new StringBuilder();
-		monstersb.append(monster.getCurrentHP()).append(" / ").append(monster.getBaseHP());
+		StringBuilder monstersb = new StringBuilder(monster.getName());
+		monstersb.append("\n").append(monster.getCurrentHP()).append(" / ").append(monster.getBaseHP());
 		Label monsterLabel = new Label(monstersb.toString());
 		monsterLabel.setMinSize(300, 100);
 
@@ -432,6 +432,7 @@ public class Map1Controller implements Initializable {
 			// Set up controller
 			CharacterCreationController controller = loader.getController();
 			player1 = controller.getPlayer();
+			map1Grid.add((Node) player1, player1.getCoordX(), player1.getCoordY());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -515,9 +516,7 @@ public class Map1Controller implements Initializable {
 		Image img = new Image("/view/knight.png");
 		Image monImg = new Image("file:graphics/character/big_demon_idle_anim_f0.png");
 		monster1 = new Monster(6, 6, 193, 110, monImg, 1, 1, 1, 1, "Supreme", MonsterType.GENERIC_OGRE);
-		importPlayer();
 		initSpaces(map1);
-		map1Grid.add((Node) player1, player1.getCoordX(), player1.getCoordY());
-		map1Grid.add((Node) monster1, monster1.getCoordX(), player1.getCoordY());
+		map1Grid.add((Node) monster1, monster1.getCoordX(), monster1.getCoordY());
 	}
 }
