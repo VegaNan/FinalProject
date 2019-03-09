@@ -86,15 +86,42 @@ public class Map1Controller implements Initializable {
 		window.sizeToScene();
 		window.show();
 	}
+	
+	public void monsterTurn(Monster monster) {
+		int randNum = RNG.generateInt(1, 2);
+		if(randNum == 1 && monster.getCurrentEnergy() >= 5) {
+			player1.takeDamage(monster.specialAttack());
+		}else if(randNum == 2) {
+			player1.takeDamage(monster.attack());
+		}
+	}
 
-	// TODO open these in new window
+	
+	public HBox updateStats(Monster monster) {
+		HBox stats = new HBox();
+
+		StringBuilder playersb = new StringBuilder();
+		playersb.append(player1.getCurrentHP()).append(" / ").append(player1.getBaseHP());
+		Label playerLabel = new Label(playersb.toString());
+		playerLabel.setMinSize(300, 100);
+		StringBuilder monstersb = new StringBuilder();
+		monstersb.append(monster.getCurrentHP()).append(" / ").append(monster.getBaseHP());
+		Label monsterLabel = new Label(monstersb.toString());
+		monsterLabel.setMinSize(300, 100);
+
+		stats.getChildren().add(playerLabel);
+		stats.getChildren().add(monsterLabel);
+	
+		return stats;
+		
+	}
 	public void combatView(Monster monster) {
 		Stage window = new Stage();
 		Pane combat = new AnchorPane();
 		combat.setPrefSize(700, 700);
 		HBox stats = new HBox();
 		HBox battle = new HBox();
-
+		
 		Button specialAttack = new Button("Special Attack");
 		Button normalAttack = new Button("Normal Attack");
 		Button defend = new Button("Defend");
@@ -113,19 +140,30 @@ public class Map1Controller implements Initializable {
 		stats.getChildren().add(playerLabel);
 		stats.getChildren().add(monsterLabel);
 
-		battle.getChildren().add(specialAttack);
+		if(player1.getCurrentEnergy() >=5) {
+			battle.getChildren().add(specialAttack);
+		}
 		battle.getChildren().add(normalAttack);
 		battle.getChildren().add(defend);
-		battle.getChildren().add(usePotion);
+		if(player1.getItemBag().toString().contains("Potion")) {
+			battle.getChildren().add(usePotion);
+		}
 		battle.getChildren().add(runAway);
 		battle.autosize();
+
 
 		specialAttack.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				monster.takeDamage(player1.specialAttack());
+				stats.getChildren().clear();
+				stats.getChildren().add(updateStats(monster));
+				if(checkDeath(monster)) {
+					window.close();
+				}
 			}
 		});
+		
 		normalAttack.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -138,18 +176,30 @@ public class Map1Controller implements Initializable {
 				{
 					player1.takeDamage(monster.attack());
 				}
+				stats.getChildren().clear();
+				stats.getChildren().add(updateStats(monster));
+				if(checkDeath(monster)) {
+					window.close();
+				}
 			}
 		});
 		defend.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				player1.defend();
+				stats.getChildren().clear();
+				stats.getChildren().add(updateStats(monster));
 			}
 		});
 		usePotion.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				getItems();
+				stats.getChildren().clear();
+				stats.getChildren().add(updateStats(monster));
+				if(checkDeath(monster)) {
+					window.close();
+				}
 			}
 		});
 		runAway.setOnAction(new EventHandler<ActionEvent>() {
@@ -188,8 +238,14 @@ public class Map1Controller implements Initializable {
 						bossWindow.show();
 					}
 				}
+				stats.getChildren().clear();
+				stats.getChildren().add(updateStats(monster));
+				if(checkDeath(monster)) {
+					window.close();
+				}
 			}
 		});
+
 
 		combat.getChildren().add(stats);
 		combat.getChildren().add(battle);
@@ -198,7 +254,27 @@ public class Map1Controller implements Initializable {
 		window.setScene(scene);
 		window.sizeToScene();
 		window.show();
-
+	}
+	
+	public boolean checkDeath(Monster monster) {
+		boolean death = false;
+		if(monster.getCurrentHP() <= 0){
+			monster.setAlive(false);
+			dropLoot(monster);
+			death = true;
+		}
+		if(player1.getCurrentHP() <= 0) {
+			player1.setAlive(false);
+			death = true;
+		}
+		return death;
+	}
+	
+	public void dropLoot(Monster monster) {
+		
+		for(int i = 0; i < monster.getItemBag().size(); i ++) {
+			player1.addItem(monster.getItemBag().get(i));
+		}
 	}
 
 	public void initSpaces(Map map1) {
