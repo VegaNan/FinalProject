@@ -117,8 +117,8 @@ public class Map1Controller implements Initializable {
 	public HBox updateStats(Monster monster) {
 		HBox stats = new HBox();
 		
-		StringBuilder playersb = new StringBuilder(player1.getName());
-		playersb.append("\n").append(player1.getCurrentHP()).append(" / ").append(player1.getBaseHP())
+		StringBuilder playersb = new StringBuilder(player1.getName()).append(" lvl ").append(player1.getLevel())
+		.append("\n HP").append(player1.getCurrentHP()).append(" / ").append(player1.getBaseHP())
 		.append("\nEnergy: ").append(player1.getCurrentEnergy()).append(" / ").append(player1.getBaseEnergy());
 		Label playerLabel = new Label(playersb.toString());
 		playerLabel.setMinSize(300, 100);
@@ -150,7 +150,7 @@ public class Map1Controller implements Initializable {
 		});
 		Pane combat = new AnchorPane();
 		combat.setPrefSize(700, 700);
-		HBox stats = new HBox();
+		HBox stats = updateStats(monster);
 		HBox battle = new HBox();
 		
 		Button specialAttack = new Button("Special Attack");
@@ -159,21 +159,6 @@ public class Map1Controller implements Initializable {
 		Button usePotion = new Button("Use Potion");
 		Button runAway = new Button("Run Away");
 
-		//Sets label to display player data
-		StringBuilder playersb = new StringBuilder(player1.getName());
-		playersb.append("\n").append(player1.getCurrentHP()).append(" / ").append(player1.getBaseHP())
-		.append("\nEnergy: ").append(player1.getCurrentEnergy()).append(" / ").append(player1.getBaseEnergy());
-		Label playerLabel = new Label(playersb.toString());
-		playerLabel.setMinSize(300, 100);
-		
-		//Sets label to display monster data
-		StringBuilder monstersb = new StringBuilder(monster.getName());
-		monstersb.append("\n").append(monster.getCurrentHP()).append(" / ").append(monster.getBaseHP());
-		Label monsterLabel = new Label(monstersb.toString());
-		monsterLabel.setMinSize(300, 100);
-
-		stats.getChildren().add(playerLabel);
-		stats.getChildren().add(monsterLabel);
 
 		if(player1.getCurrentEnergy() >=5) {
 			battle.getChildren().add(specialAttack);
@@ -387,7 +372,8 @@ public class Map1Controller implements Initializable {
 			itemBox.getChildren().add(label);
 		}
 		
-	
+		player1.setXp(player1.getXp() + monster.getXPYield());
+		
 		Scene scene = new Scene(itemBox);
 		window.setScene(scene);
 		window.show();
