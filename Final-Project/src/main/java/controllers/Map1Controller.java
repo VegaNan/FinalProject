@@ -523,7 +523,6 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 				// TODO remove item node
 			}
 		});
-		Image img = new Image("/view/knight.png");
 		Image monImg = new Image("file:graphics/character/big_demon_idle_anim_f0.png");
 		monster1 = new Monster(6, 6, 193, 110, monImg, 1, 1, 1, 1, "Supreme", MonsterType.GENERIC_OGRE);
 		initSpaces(map1);
