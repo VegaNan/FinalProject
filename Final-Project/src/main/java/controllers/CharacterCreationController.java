@@ -18,12 +18,15 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import models.MapType;
 import models.Player;
 import utilities.RNG;
 
 public class CharacterCreationController implements Initializable {
 	@FXML 
 	private TextField characterNameField;
+	@FXML 
+	private TextField saveNameField;
 	@FXML
 	private RadioButton knightButton;
 	@FXML
@@ -32,6 +35,8 @@ public class CharacterCreationController implements Initializable {
 	private RadioButton wizardButton;
 	@FXML
 	private ToggleGroup characterSelection;
+	
+	private String saveName;
 
 	private static Player activePlayer;
 	
@@ -50,7 +55,8 @@ public class CharacterCreationController implements Initializable {
 		System.out.println(activePlayer);
 		System.out.println("This is the return of getPlayer");
 		System.out.println(getPlayer());
-		changeScene("/view/Map1.fxml", event);
+		MapType game = new MapType(saveName, "/view/Map1.fxml");
+		changeScene(game.getMapLocation(), event);
 		System.out.println("This is return of getPlayer after change scene");
 		System.out.println(getPlayer());
 		importPlayerData("/view/Map1.fxml");
@@ -80,7 +86,8 @@ public class CharacterCreationController implements Initializable {
 		try {			
 			loader.load();
 			// makes new scene based on parent
-			Map1Controller controller = loader.getController();
+			Map1Controller controller = new Map1Controller(filename);
+			loader.setController(controller);
 			controller.importPlayer();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -93,6 +100,13 @@ public class CharacterCreationController implements Initializable {
 		if(characterNameField.getText().trim().isEmpty()) {
 			playerName = "Buffalo";
 		}
+		
+		if(saveNameField.getText().trim().isEmpty()) {
+			saveName = "Buffalo";
+		}else {
+			saveName = saveNameField.getText();
+		}
+		
 		String playerClass;
 		//Switch does not accept selected toggle for argument :(
 		if(characterSelection.getSelectedToggle().equals(knightButton)) {

@@ -38,16 +38,12 @@ import models.Space;
 import utilities.RNG;
 
 public class Map1Controller extends MapType implements Initializable, Serializable{
-	
-	public Map1Controller(String saveName) {
-		super(saveName, "/view/Map1.fxml");
-	}
-	
 
 	@FXML
 	GridPane map1Grid;
 	@FXML
 	Button button;
+	
 	public HashMap<String, Space> spaces = new HashMap<>();
 	public Map map1 = new Map(spaces);
 	public static Player player1;
@@ -56,6 +52,11 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 
 	HBox itemBox;
 
+	public Map1Controller(String saveName) {
+		super(saveName, "/view/Map1.fxml");
+		
+	}
+	
 	public void getItems() {
 		Stage window = new Stage();
 		Scene scene = new Scene(updateItems());
@@ -346,6 +347,8 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 		for (int i = 0; i < 10; i++) {
 			Space sp = new Space(193, 111, SpaceType.EMPTY, safeImg);
 			map1.getSpaces().put(4 + " " + i, sp);
+			
+			
 			map1Grid.add((Node) sp, 4, i);
 		}
 		// setting monster spaces left of path
@@ -434,7 +437,12 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 			// Set up controller
 			CharacterCreationController controller = loader.getController();
 			player1 = controller.getPlayer();
+			
+			//TODO bug here?
+			
+			initSpaces(map1);
 			map1Grid.add((Node) player1, player1.getCoordX(), player1.getCoordY());
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

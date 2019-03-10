@@ -3,7 +3,7 @@ package models;
 public class MapType {
 
 	private String saveName;
-	private String mapLocation;
+	public String mapLocation;
 
 	public MapType(String saveName, String mapLocation) {
 		setSaveName(saveName);

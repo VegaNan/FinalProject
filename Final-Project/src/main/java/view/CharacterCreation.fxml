@@ -47,6 +47,7 @@
                   <Font name="Arial Black" size="20.0" />
                </font></Label>
             <TextField fx:id="characterNameField" prefHeight="44.0" prefWidth="219.0" promptText="Buffalo" />
+            <TextField fx:id="saveNameField" prefHeight="44.0" prefWidth="219.0" promptText="Save Name" />
          </children>
       </HBox>
       <Button layoutX="1589.0" layoutY="876.0" mnemonicParsing="false" onAction="#startGame" prefHeight="42.0" prefWidth="242.0" style="-fx-background-color: ed4063;" text="Start Game">
