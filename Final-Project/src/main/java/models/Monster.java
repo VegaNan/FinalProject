@@ -18,26 +18,31 @@ public class Monster extends Character {
 		int str = 1;
 		int intelligence = 1;
 		int luck = 1;
+		int xp = 1;
 		switch(monster) {
 		case GENERIC_OGRE:
 			str = RNG.generateInt(1, 8) * level;
 			intelligence = RNG.generateInt(1, 2) * level;
 			luck = RNG.generateInt(1, 8) * level;
+			xp = RNG.generateInt(25,  75) * level;
 			break;
 		case GENERIC_WITCH:
 			str = RNG.generateInt(1, 3) * level;
 			intelligence = RNG.generateInt(1, 8) * level;
 			luck = RNG.generateInt(1, 8) * level;
+			xp = RNG.generateInt(25, 75) * level;
 			break;
 		case GENERIC_DRAGON:
 			str = RNG.generateInt(10, 15) * level;
 			intelligence = RNG.generateInt(10, 15) * level;
 			luck = RNG.generateInt(10, 15) * level;
+			xp = RNG.generateInt(50, 100) * level;
 			break;
 		case SUPREME_EMPEROR_OVERLORD_ALPACA:
 			str = RNG.generateInt(3, 40) * level;
 			intelligence = RNG.generateInt(3, 40) * level;
 			luck = RNG.generateInt(3, 40) * level;
+			xp = RNG.generateInt(25, 200) * level;
 			break;
 		}
 		setStrBase(str);
@@ -56,6 +61,13 @@ public class Monster extends Character {
 	public void setMonsterType(MonsterType monster) {
 		this.monster = monster;
 	}
+	
+	public int getXPYield() {
+		return xpYield;
+	}
+	public void setXPYield(int xpYield) {
+		this.xpYield = xpYield;
+	}
 
 	@Override
 	public void takeDamage(int damage) {
@@ -64,7 +76,8 @@ public class Monster extends Character {
 
 	@Override
 	public int attack() {
-		return getStrength();
+		int damage = 10 + getStrMod();
+		return damage;
 	}
 
 	public ArrayList<Item> getLootItems() {
@@ -80,8 +93,8 @@ public class Monster extends Character {
 
 	@Override
 	public int specialAttack() {
-		// TODO Auto-generated method stub
-		return 0;
+		int damage = 15 + getIntMod();
+		return damage;
 	}
 
 	@Override

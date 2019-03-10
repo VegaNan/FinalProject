@@ -12,6 +12,7 @@ import enums.MonsterType;
 import enums.PotionType;
 import enums.SpaceType;
 import enums.WeaponType;
+import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -28,6 +29,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import models.Armor;
 import models.Item;
 import models.Map;
@@ -130,6 +132,15 @@ public class Map1Controller implements Initializable {
 		return stats;
 	}
 	
+	public void popupCloseWindow(Stage window) {
+        PauseTransition wait = new PauseTransition(Duration.seconds(3));
+        wait.setOnFinished((e) -> {
+            window.close();
+            wait.playFromStart();
+        });
+        wait.play();
+	}
+	
 	//Combat View
 	public void combatView(Monster monster) {
 		Stage window = new Stage();
@@ -147,11 +158,14 @@ public class Map1Controller implements Initializable {
 		Button usePotion = new Button("Use Potion");
 		Button runAway = new Button("Run Away");
 
+		//Sets label to display player data
 		StringBuilder playersb = new StringBuilder(player1.getName());
 		playersb.append("\n").append(player1.getCurrentHP()).append(" / ").append(player1.getBaseHP())
 		.append("\nEnergy: ").append(player1.getCurrentEnergy()).append(" / ").append(player1.getBaseEnergy());
 		Label playerLabel = new Label(playersb.toString());
 		playerLabel.setMinSize(300, 100);
+		
+		//Sets label to display monster data
 		StringBuilder monstersb = new StringBuilder(monster.getName());
 		monstersb.append("\n").append(monster.getCurrentHP()).append(" / ").append(monster.getBaseHP());
 		Label monsterLabel = new Label(monstersb.toString());
@@ -174,7 +188,25 @@ public class Map1Controller implements Initializable {
 		specialAttack.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				monster.takeDamage(player1.specialAttack());
+				if(player1.getCurrentEnergy() > 4) {
+					monster.takeDamage(player1.specialAttack());
+				}
+				else {
+					Stage window = new Stage();
+					AnchorPane pane = new AnchorPane();
+					pane.setPrefSize(70, 70);
+					
+					Label error = new Label("You do not have enough energy to use a special attack!");
+					HBox container = new HBox();
+					container.getChildren().add(error);
+					pane.getChildren().add(container);
+					Scene scene = new Scene(pane);
+					window.setScene(scene);
+					window.sizeToScene();
+					window.show();
+					
+					popupCloseWindow(window);
+				}
 				stats.getChildren().clear();
 				stats.getChildren().add(updateStats(monster));
 				monsterTurn(monster);
@@ -255,6 +287,9 @@ public class Map1Controller implements Initializable {
 					bossWindow.setScene(bossScene);
 					bossWindow.sizeToScene();
 					bossWindow.show();
+					
+					popupCloseWindow(bossWindow);
+					
 				}else {
 					if(RNG.generateInt(1,  10) + player1.getLuckMod() > chance) {
 						window.close();
@@ -271,6 +306,8 @@ public class Map1Controller implements Initializable {
 						bossWindow.setScene(bossScene);
 						bossWindow.sizeToScene();
 						bossWindow.show();
+						
+						popupCloseWindow(bossWindow);
 					}
 				}
 				stats.getChildren().clear();
@@ -301,10 +338,23 @@ public class Map1Controller implements Initializable {
 			monster.setAlive(false);
 			dropLoot(monster);
 			death = true;
+			move = true;
 		}
 		if(player1.getCurrentHP() <= 0) {
 			player1.setAlive(false);
 			death = true;
+
+			Stage bossWindow = new Stage();
+			AnchorPane pane = new AnchorPane();
+			pane.setPrefSize(70, 70);
+			Label label = new Label("You have died. You have failed OOP.");
+			HBox escape = new HBox();
+			escape.getChildren().add(label);
+			pane.getChildren().add(escape);
+			Scene bossScene = new Scene(pane);
+			bossWindow.setScene(bossScene);
+			bossWindow.sizeToScene();
+			bossWindow.show();
 		}
 		return death;
 	}
@@ -369,6 +419,7 @@ public class Map1Controller implements Initializable {
 		// if space door
 		Space sp = map1.getSpaces().get(player1.getCoordX() + " " + player1.getCoordY());
 		if (sp.getSt() == SpaceType.MONSTER_ENCOUNTER) {
+			move = false;
 			combatView(createMonster());
 		} else if (sp.getSt() == SpaceType.BOSS) {
 		}
@@ -433,8 +484,8 @@ public class Map1Controller implements Initializable {
 				item = new Armor(armorType);
 				break;
 			case 2:
-				int potionTypeInt = RNG.generateInt(0, PotionType.class.getEnumConstants().length);
-				PotionType potionType = PotionType.values()[potionTypeInt];
+				int potionTypeInt = RNG.generateInt(0, PotionType.class.getEnumConstants().length - 1);
+				PotionType potionType = PotionType.class.getEnumConstants()[potionTypeInt];
 				switch(potionType) {
 				case HEALING:
 					name = "Healing Potion";
