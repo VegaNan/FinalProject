@@ -29,6 +29,7 @@ import javafx.stage.Stage;
 import models.Armor;
 import models.Item;
 import models.Map;
+import models.MapType;
 import models.MiscItem;
 import models.Monster;
 import models.Player;
@@ -36,7 +37,13 @@ import models.Potion;
 import models.Space;
 import utilities.RNG;
 
-public class Map1Controller implements Initializable, Serializable{
+public class Map1Controller extends MapType implements Initializable, Serializable{
+	
+	public Map1Controller(String saveName) {
+		super(saveName, "/view/Map1.fxml");
+	}
+	
+
 	@FXML
 	GridPane map1Grid;
 	@FXML
