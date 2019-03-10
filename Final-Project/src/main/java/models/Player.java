@@ -49,7 +49,6 @@ public class Player extends Character {
 			return (level * 1000) + setNextLevelXP(level - 1);
 		}
 	}
-	
 	@Override
 	public void takeDamage(int damage) {
 		setCurrentHP(getCurrentHP() - damage);

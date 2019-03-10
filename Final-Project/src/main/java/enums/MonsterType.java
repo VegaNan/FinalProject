@@ -2,9 +2,9 @@ package enums;
 
 public enum MonsterType {
 
-	GENERIC_OGRE,
+	OGRE,
 	SUPREME_EMPEROR_OVERLORD_ALPACA,
-	GENERIC_WITCH,
-	GENERIC_DRAGON,
+	WITCH,
+	DRAGON,
 	KREBS
 }

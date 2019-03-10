@@ -275,7 +275,7 @@ public class Map1Controller implements Initializable {
 			public void handle(ActionEvent event) {
 
 				//TODO quit combat w rand chance
-				int chance = RNG.generateInt(1, 10) + 10;
+				int chance = RNG.generateInt(1, 10);
 				if(monster.getMonsterType().equals(MonsterType.KREBS)) {
 					Stage bossWindow = new Stage();
 					AnchorPane pane = new AnchorPane();
@@ -292,8 +292,21 @@ public class Map1Controller implements Initializable {
 					popupCloseWindow(bossWindow);
 					
 				}else {
-					if(RNG.generateInt(1,  10) + player1.getLuckMod() > chance) {
+					if(RNG.generateInt(1,  10) + player1.getLuck() > chance) {
+						Stage bossWindow = new Stage();
+						AnchorPane pane = new AnchorPane();
+						pane.setPrefSize(70, 70);
+						Label label = new Label("You escaped!");
+						HBox escape = new HBox();
+						escape.getChildren().add(label);
+						pane.getChildren().add(escape);
+						Scene bossScene = new Scene(pane);
+						bossWindow.setScene(bossScene);
+						bossWindow.sizeToScene();
+						bossWindow.show();
+						popupCloseWindow(bossWindow);
 						window.close();
+						move = true;
 					}
 					else {
 						Stage bossWindow = new Stage();
@@ -413,8 +426,12 @@ public class Map1Controller implements Initializable {
 		// if space door
 		Space sp = map1.getSpaces().get(player1.getCoordX() + " " + player1.getCoordY());
 		if (sp.getSt() == SpaceType.MONSTER_ENCOUNTER) {
-			move = false;
-			combatView(createMonster());
+			int randEn = RNG.generateInt(0, 10);
+			if(randEn == 10)
+			{
+				move = false;
+				combatView(createMonster());				
+			}
 		} else if (sp.getSt() == SpaceType.BOSS) {
 		}
 		else if(sp.getSt() == SpaceType.DOOR)
@@ -426,20 +443,20 @@ public class Map1Controller implements Initializable {
 	public Monster createMonster() {
 		
 		//Selects random monster type based on chance
-		MonsterType monsterType = MonsterType.GENERIC_OGRE;
+		MonsterType monsterType = MonsterType.OGRE;
 		int chance = RNG.generateInt(0, 100);
 
 		//50% chance of OGRE
 		if(chance < 50) {
-			monsterType = MonsterType.GENERIC_OGRE;
+			monsterType = MonsterType.OGRE;
 		}
 		//30% chance of WITCH
 		else if(chance < 70) {
-			monsterType = MonsterType.GENERIC_WITCH;
+			monsterType = MonsterType.WITCH;
 		}
 		//20% chance of DRAGON
 		else if(chance < 90) {
-			monsterType = MonsterType.GENERIC_DRAGON;
+			monsterType = MonsterType.DRAGON;
 		}
 		//10% chance of ALPACA
 		else if(chance < 100) {
@@ -648,7 +665,7 @@ public class Map1Controller implements Initializable {
 		});
 		Image img = new Image("/view/knight.png");
 		Image monImg = new Image("file:graphics/character/big_demon_idle_anim_f0.png");
-		monster1 = new Monster(6, 6, 193, 110, monImg, 1, 1, 1, 1, "Supreme", MonsterType.GENERIC_OGRE);
+		monster1 = new Monster(6, 6, 193, 110, monImg, 1, 1, 1, 1, "Supreme", MonsterType.OGRE);
 		initSpaces(map1);
 		map1Grid.add((Node) monster1, monster1.getCoordX(), monster1.getCoordY());
 	}
