@@ -19,6 +19,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -317,7 +318,7 @@ public class Map1Controller implements Initializable {
 				stats.getChildren().add(updateStats(monster));
 				
 				if(checkDeath(monster)) {
-					window.close();
+					//window.close();
 				}
 			}
 		});
@@ -343,20 +344,13 @@ public class Map1Controller implements Initializable {
 		if(player1.getCurrentHP() <= 0) {
 			player1.setAlive(false);
 			death = true;
-
-			Stage bossWindow = new Stage();
-			AnchorPane pane = new AnchorPane();
-			pane.setPrefSize(70, 70);
-			Label label = new Label("You have died. You have failed OOP.");
-			HBox escape = new HBox();
-			escape.getChildren().add(label);
-			pane.getChildren().add(escape);
-			Scene bossScene = new Scene(pane);
-			bossWindow.setScene(bossScene);
-			bossWindow.sizeToScene();
-			bossWindow.show();
+			button.fire();
 		}
 		return death;
+	}
+	public void gameOver(ActionEvent event)
+	{
+	changeScene("/view/GameOver.fxml", event);
 	}
 	
 	public void dropLoot(Monster monster) {
@@ -592,6 +586,23 @@ public class Map1Controller implements Initializable {
 		map1Grid.getChildren().remove(player1);
 		map1Grid.add((Node) player1, player1.getCoordX(), player1.getCoordY());
 		checkSpace();
+	}
+	private void changeScene(String filename, ActionEvent event) {
+		// parent takes in the file
+		Parent parent;
+		try {
+			parent = FXMLLoader.load(getClass().getResource(filename));
+			// makes new scene based on parent
+			Scene scene = new Scene(parent);
+			// takes in the stage of this class
+			Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+			// sets the scene
+			window.setScene(scene);
+			// displays the scene
+			window.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
