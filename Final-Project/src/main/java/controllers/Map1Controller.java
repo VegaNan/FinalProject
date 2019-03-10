@@ -352,7 +352,9 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 		VBox playerItems = new VBox();
 		VBox vendorItems = new VBox();
 		
-	
+		Vendor()
+		
+	Label vendorLabel = new Label()
 	
 	Label playerLabel = new Label(player1.printItemBag(player1.getItemBag()));
 		
