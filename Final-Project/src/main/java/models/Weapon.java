@@ -1,91 +1,83 @@
 package models;
 
+import enums.WeaponType;
 import utilities.RNG;
 
 public class Weapon extends Item {
-	protected int Damage;
+	protected int damage;
+	protected WeaponType weaponType;
 
-	public Weapon(int Damage, String name, int value) {
-		super(name, value);
-
-		setName(Damage);
-		setValue(this.name);
+	public Weapon(WeaponType weaponType) {
+		super(weaponType.toString(), 1);
+		determineWeapon(weaponType);
 	}
 
-	public void setName(int damage) {
-		if (damage < 11) {
-			this.name = "Lene";
-		} else if (damage < 21 && damage > 10) {
-			this.name = "Pocket Knife";
-		} else if (damage < 41 && damage > 20) {
-			this.name = "Small Dagger";
-		} else if (damage < 61 && damage > 40) {
-			this.name = "Soldier's Sword";
-		} else if (damage < 81 && damage > 60) {
-			this.name = "Heavy Clamore";
-		} else if (damage > 80 && damage < 100) {
-			this.name = "Flaming Sword";
-		} else {
-			this.name = "Wrath of the Gods";
+	public void determineWeapon(WeaponType weaponType) {
+		int tmpDam;
+		int tmpVal;
+		switch(weaponType) {
+		case LENE:
+			tmpDam = RNG.generateInt(1, 3);
+			tmpVal = RNG.generateInt(1, 15);
+			break;
+		case FLAMING_SWORD:
+			tmpDam = RNG.generateInt(17, 20);
+			tmpVal = RNG.generateInt(400, 490);
+			break;
+		case HEAVY_CLAYMORE:
+			tmpDam = RNG.generateInt(13, 16);
+			tmpVal = RNG.generateInt(300, 400);
+			break;
+		case POCKET_KNIFE:
+			tmpDam = RNG.generateInt(4, 7);
+			tmpVal = RNG.generateInt(30, 100);
+			break;
+		case SMALL_DAGGER:
+			tmpDam = RNG.generateInt(8, 10);
+			tmpVal = RNG.generateInt(100, 200);
+			break;
+		case SOLDIERS_SWORD:
+			tmpDam = RNG.generateInt(11, 13);
+			tmpVal = RNG.generateInt(200, 300);
+			break;
+		case WRATH_OF_THE_GODS:
+			tmpDam = RNG.generateInt(21, 50);
+			tmpVal = RNG.generateInt(490, 500);
+			break;
+		default:
+			tmpDam = 1;
+			tmpVal = 1;
+			break;
 		}
+		setDamage(tmpDam);
+		setValue(tmpVal);
 	}
 
 	public String getName() {
 		return this.name;
 	}
 
-	public void setValue(String name) {
-		switch (name) {
-		case "Butterknife":
-			this.value = RNG.generateInt(1, 30);
-			break;
-		case "Pocket Knife":
-			this.value = RNG.generateInt(30, 100);
-			break;
-		case "Small Dagger":
-			this.value = RNG.generateInt(100, 200);
-			break;
-		case "Soldier's Sword":
-			this.value = RNG.generateInt(200, 300);
-			break;
-		case "Heavy Clamore":
-			this.value = RNG.generateInt(300, 400);
-			break;
-		case "Flaming Sword":
-
-			this.value = RNG.generateInt(490, 400);
-			break;
-		case "Wrath of the Gods":
-			this.value = 500;
-			break;
-		}
-	}
-
 	public int getValue() {
-		return this.value;
+		return value;
 	}
 
 	public int getDamage() {
-		return Damage;
+		return damage;
 	}
 
 	public void setDamage(int damage) {
-		Damage = damage;
+		this.damage = damage;
 	}
 
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Weapon [Damage=");
-		builder.append(Damage);
-		builder.append(", value=");
-		builder.append(value);
-		builder.append(", name=");
-		builder.append(name);
-
-		builder.append(", items=");
-
-		builder.append("]");
+		builder.append("Weapon Damage=")
+		.append(damage)
+		.append(", value=")
+		.append(value)
+		.append(", name=")
+		.append(name);
 		return builder.toString();
 	}
 
