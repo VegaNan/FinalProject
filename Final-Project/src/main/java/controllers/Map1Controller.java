@@ -2,6 +2,7 @@
 package controllers;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,7 +43,8 @@ import models.Space;
 import models.Weapon;
 import utilities.RNG;
 
-public class Map1Controller implements Initializable {
+public class Map1Controller extends MapType implements Initializable, Serializable{
+
 	@FXML
 	GridPane map1Grid;
 	@FXML
@@ -62,9 +64,6 @@ public class Map1Controller implements Initializable {
 	
 	public void getItems() {
 		Stage window = new Stage();
-
-		player1.addItem(new Potion(PotionType.HEALING, 10, "Healing Potion", 15));
-
 		Scene scene = new Scene(updateItems());
 		window.setScene(scene);
 		window.sizeToScene();
@@ -74,7 +73,6 @@ public class Map1Controller implements Initializable {
 	public Pane updateItems() {
 		Pane items = new AnchorPane();
 		itemBox = new HBox();
-		
 		for (int i = 0; i < player1.getItemBag().size(); i++) {
 			Pane item = new Pane();
 			if (player1.getItemBag().get(i).name.contains("Potion")) {
@@ -139,9 +137,9 @@ public class Map1Controller implements Initializable {
 		
 		stats.getChildren().add(playerLabel);
 		stats.getChildren().add(monsterLabel);
+		stats.setMinSize(400, 400);
 		return stats;
 	}
-
 	
 	public void popupCloseWindow(Stage window) {
         PauseTransition wait = new PauseTransition(Duration.seconds(3));
@@ -406,8 +404,6 @@ public class Map1Controller implements Initializable {
 		for (int i = 0; i < 10; i++) {
 			Space sp = new Space(193, 111, SpaceType.EMPTY, safeImg);
 			map1.getSpaces().put(4 + " " + i, sp);
-			
-			
 			map1Grid.add((Node) sp, 4, i);
 		}
 		// setting monster spaces left of path
@@ -438,6 +434,9 @@ public class Map1Controller implements Initializable {
 		}
 		else if(sp.getSt() == SpaceType.DOOR)
 		{
+			
+		}
+		else if(sp.getSt() == SpaceType.VENDOR) {
 			
 		}
 	}
@@ -569,7 +568,6 @@ public class Map1Controller implements Initializable {
 			player1 = controller.getPlayer();
 			
 			//TODO bug here?
-			
 			initSpaces(map1);
 			map1Grid.add((Node) player1, player1.getCoordX(), player1.getCoordY());
 			

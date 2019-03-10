@@ -16,7 +16,6 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import models.MapType;
 import models.Player;
@@ -69,6 +68,7 @@ public class CharacterCreationController implements Initializable {
 			parent = FXMLLoader.load(getClass().getResource(filename));
 			// makes new scene based on parent
 			Scene scene = new Scene(parent);
+			scene.getStylesheets().add("/view/application.css");
 			// takes in the stage of this class
 			Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 			// sets the scene
