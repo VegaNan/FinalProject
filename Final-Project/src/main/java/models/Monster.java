@@ -1,13 +1,12 @@
 package models;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import enums.MonsterType;
 import javafx.scene.image.Image;
 import utilities.RNG;
 
-public class Monster extends Character implements Serializable{
+public class Monster extends Character {
 	protected int xpYield;
 	protected MonsterType monster;
 	protected ArrayList<Item> lootItems = new ArrayList<>();

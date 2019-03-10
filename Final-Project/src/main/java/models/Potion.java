@@ -1,11 +1,10 @@
 package models;
 
-import java.io.Serializable;
-
+import models.Character;
 import enums.PotionType;
 import interfaces.Consumable;
 
-public class Potion extends Item implements Consumable, Serializable{
+public class Potion extends Item implements Consumable {
 	protected PotionType effect;
 	protected int effectNum;
 
