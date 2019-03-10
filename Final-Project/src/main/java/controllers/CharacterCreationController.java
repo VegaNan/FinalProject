@@ -112,7 +112,7 @@ public class CharacterCreationController implements Initializable {
 			break;
 		}
 		Image img = new Image("/view/knight.png");
-		Player player = new Player(4, 9, 193, 110, img, str, intelligence, luck, 1, playerName);
+		Player player = new Player(4, 8, 193, 110, img, str, intelligence, luck, 1, playerName);
 		System.out.println(player.toString());
 		return player;
 	}
