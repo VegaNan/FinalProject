@@ -2,6 +2,7 @@
 package controllers;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,7 +36,7 @@ import models.Potion;
 import models.Space;
 import utilities.RNG;
 
-public class Map1Controller implements Initializable {
+public class Map1Controller implements Initializable, Serializable{
 	@FXML
 	GridPane map1Grid;
 	@FXML
@@ -122,6 +123,7 @@ public class Map1Controller implements Initializable {
 		
 		stats.getChildren().add(playerLabel);
 		stats.getChildren().add(monsterLabel);
+		stats.setMinSize(400, 400);
 		return stats;
 	}
 	

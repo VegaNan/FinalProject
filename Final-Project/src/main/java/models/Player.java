@@ -1,10 +1,12 @@
 package models;
 
+import java.io.Serializable;
+
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
-public class Player extends Character {
+public class Player extends Character implements Serializable{
 	protected int xp;
 	protected int nextLevelXP;
 	protected boolean defend = false;

@@ -1,12 +1,13 @@
 package models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
-public abstract class Character extends Rectangle{
+public abstract class Character extends Rectangle implements Serializable{
 	protected String name;
 	protected boolean isAlive;
 	protected int coordX;
@@ -49,6 +50,7 @@ public abstract class Character extends Rectangle{
 		setLuckBase(luckBase);
 		setLevel(level);
 		setName(name);
+		//TODO health should be based on level
 		setBaseHP(getStrBase() * 10);
 		setCurrentHP(getBaseHP());
 		setBaseEnergy(getIntBase() * 7);

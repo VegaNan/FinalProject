@@ -1,8 +1,10 @@
 package models;
 
+import java.io.Serializable;
+
 import interfaces.Equippable;
 
-public class Armor extends Item implements Equippable{
+public class Armor extends Item implements Equippable, Serializable{
 	protected int ArmorRating;
 	protected int DamageReduction;
 
