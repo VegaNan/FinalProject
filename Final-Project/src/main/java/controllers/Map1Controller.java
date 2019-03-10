@@ -29,6 +29,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import models.Armor;
@@ -340,6 +341,28 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 		window.sizeToScene();
 		window.show();
 	}
+	
+	public void vendorView () {
+		Stage window = new Stage();
+		window.setOnCloseRequest(event -> {
+			event.consume();
+		});
+		Pane vendor = new AnchorPane();
+		vendor.setPrefSize(700, 700);
+		VBox playerItems = new VBox();
+		VBox vendorItems = new VBox();
+		
+	
+	
+	Label playerLabel = new Label(player1.printItemBag(player1.getItemBag()));
+		
+		
+		Button Buy=new Button("Buy");
+		Button Sell= new Button("Sell");
+	}
+		
+	
+	
 	//If there is a death, window will close, if player won, dropLoot
 	public boolean checkDeath(Monster monster) {
 		boolean death = false;

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import enums.ArmorType;
 import enums.WeaponType;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
@@ -31,6 +32,17 @@ public abstract class Character extends Rectangle{
 
 	public ArrayList<Item> getItemBag() {
 		return itemBag;
+	}
+	
+	public String printItemBag (ArrayList<Item> itemBag) {
+		String itemList = "";
+		for(int i = 0; i < itemBag.size(); i++) {
+			StringBuilder sb = new StringBuilder();
+			
+			
+			 itemList +=  itemBag.get(i).toString();
+		}
+		return itemList;
 	}
 	
 	public void setItemBag(ArrayList<Item> itemBag) {
