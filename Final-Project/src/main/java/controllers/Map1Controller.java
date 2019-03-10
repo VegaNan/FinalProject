@@ -347,8 +347,6 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 		for (int i = 0; i < 10; i++) {
 			Space sp = new Space(193, 111, SpaceType.EMPTY, safeImg);
 			map1.getSpaces().put(4 + " " + i, sp);
-			
-			
 			map1Grid.add((Node) sp, 4, i);
 		}
 		// setting monster spaces left of path
@@ -439,7 +437,6 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 			player1 = controller.getPlayer();
 			
 			//TODO bug here?
-			
 			initSpaces(map1);
 			map1Grid.add((Node) player1, player1.getCoordX(), player1.getCoordY());
 			

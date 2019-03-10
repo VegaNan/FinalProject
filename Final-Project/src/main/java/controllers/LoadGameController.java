@@ -25,6 +25,7 @@ public class LoadGameController implements Initializable {
 		Parent parent = FXMLLoader.load(getClass().getResource(filename));
 		// makes new scene based on parent
 		Scene scene = new Scene(parent);
+		scene.getStylesheets().add("/view/application.css");
 		// takes in the stage of this class
 		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		// sets the scene
