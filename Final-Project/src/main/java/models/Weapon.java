@@ -1,8 +1,10 @@
 package models;
 
+import java.io.Serializable;
+
 import utilities.RNG;
 
-public class Weapon extends Item {
+public class Weapon extends Item implements Serializable{
 	protected int Damage;
 
 	public Weapon(int Damage, String name, int value) {

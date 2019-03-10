@@ -33,51 +33,58 @@ public class CharacterCreationController implements Initializable {
 	@FXML
 	private ToggleGroup characterSelection;
 
-	private Player activePlayer;
+	private static Player activePlayer;
 	
 	public Player getPlayer() {
-		activePlayer = createPlayer();
-		return activePlayer;
+		Player player = activePlayer;
+		return player;
 	}
 	
 	public void goBackMM(ActionEvent event) throws IOException {
 		changeScene("/view/MainMenu.fxml", event);
 	}
 
-	public void startGame(ActionEvent event) throws IOException {
-		
-		loadMapScene("/view/Map1.fxml", event, getPlayer());
+	public void startGame(ActionEvent event) {
+		activePlayer = createPlayer();
+		System.out.println("This is characterCreation player");
+		System.out.println(activePlayer);
+		System.out.println("This is the return of getPlayer");
+		System.out.println(getPlayer());
+		changeScene("/view/Map1.fxml", event);
+		System.out.println("This is return of getPlayer after change scene");
+		System.out.println(getPlayer());
+		importPlayerData("/view/Map1.fxml");
 	}
 
-	private void changeScene(String filename, ActionEvent event) throws IOException {
+	private void changeScene(String filename, ActionEvent event) {
 		// parent takes in the file
-		Parent parent = FXMLLoader.load(getClass().getResource(filename));
-		// makes new scene based on parent
-		Scene scene = new Scene(parent);
-		// takes in the stage of this class
-		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		// sets the scene
-		window.setScene(scene);
-		// displays the scene
-		window.show();
+		Parent parent;
+		try {
+			parent = FXMLLoader.load(getClass().getResource(filename));
+			// makes new scene based on parent
+			Scene scene = new Scene(parent);
+			// takes in the stage of this class
+			Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+			// sets the scene
+			window.setScene(scene);
+			// displays the scene
+			window.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
-	private void loadMapScene(String filename, ActionEvent event, Player player) throws IOException {
+	private void importPlayerData(String filename) {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource(filename));
-		
-		// parent takes in the file
-		Parent parent = loader.load();
-		// makes new scene based on parent
-		Scene scene = new Scene(parent);
-		Map1Controller controller = loader.getController();
-		
-		// takes in the stage of this class
-		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		// sets the scene
-		window.setScene(scene);
-		// displays the scene
-		window.show();
+		try {			
+			loader.load();
+			// makes new scene based on parent
+			Map1Controller controller = loader.getController();
+			controller.importPlayer();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	
@@ -112,8 +119,7 @@ public class CharacterCreationController implements Initializable {
 			break;
 		}
 		Image img = new Image("/view/knight.png");
-		Player player = new Player(4, 8, 193, 110, img, str, intelligence, luck, 1, playerName);
-		System.out.println(player.toString());
+		Player player = new Player(4, 9, 193, 110, img, str, intelligence, luck, 1, playerName);
 		return player;
 	}
 	private int generateStat() {

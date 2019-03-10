@@ -1,11 +1,12 @@
 package models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import controllers.CharacterCreationController;
 import utilities.RNG;
 
-public class Vendor {
+public class Vendor implements Serializable{
 	protected ArrayList<Item> inventory = new ArrayList<>();
 	
 
