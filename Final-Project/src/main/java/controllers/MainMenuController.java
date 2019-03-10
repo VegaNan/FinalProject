@@ -69,7 +69,7 @@ public class MainMenuController implements Initializable {
 	}
 	
 	private static void saveGame() {
-		File path= new File(loadedGame.getSaveName());
+		File path= new File("Default file.krebs");
 		FileOutputStream fileOut = null;
 		ObjectOutputStream objectOut = null;
 		try {

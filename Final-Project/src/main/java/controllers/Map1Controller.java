@@ -57,7 +57,6 @@ public class Map1Controller implements Initializable {
 	HBox itemBox;
 
 	public Map1Controller(String saveName) {
-		super(saveName, "/view/Map1.fxml");
 		
 	}
 	
