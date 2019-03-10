@@ -1,12 +1,9 @@
 package models;
 
-import java.io.Serializable;
-
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
+import utilities.RNG;
 
-public class Player extends Character implements Serializable{
+public class Player extends Character {
 	protected int xp;
 	protected int nextLevelXP;
 	protected boolean defend = false;
@@ -60,17 +57,34 @@ public class Player extends Character implements Serializable{
 
 	@Override
 	public int attack() {
-		return getStrength();
+		int chance = RNG.generateInt(1, 20);
+		int playerCrit = RNG.generateInt(1, 20) + getLuckMod();
+		int damage;
+		damage = 5 + getStrMod() + equippedWeapon.getDamage();
+		if(playerCrit > chance) {
+			damage = damage * 2;
+		}
+		return damage;
 	}
 
 	@Override
 	public int specialAttack() {
-		return getIntelligence();
+		int chance = RNG.generateInt(1, 20);
+		int playerCrit = RNG.generateInt(1, 20) + getLuckMod();
+		int specialDamage = 10 + getIntMod();
+		if(playerCrit > chance) {
+			specialDamage *= 2;
+		}
+		setCurrentEnergy(getCurrentEnergy() - 5);
+		if(specialDamage < 0) {
+			specialDamage = 0;
+		}
+		return specialDamage;
 	}
 
 	@Override
 	public int defend() {
-		return getEquippedArmor().ArmorRating;
+		return getEquippedArmor().armorRating;
 	}
 
 	@Override

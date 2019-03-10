@@ -1,10 +1,9 @@
 package models;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Map implements Serializable{
+public class Map {
 	protected HashMap< String, Space> spaces;
 
 	public Map(HashMap<String, Space> spaces)

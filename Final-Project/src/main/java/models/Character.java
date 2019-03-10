@@ -1,13 +1,14 @@
 package models;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
+import enums.ArmorType;
+import enums.WeaponType;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
-public abstract class Character extends Rectangle implements Serializable{
+public abstract class Character extends Rectangle{
 	protected String name;
 	protected boolean isAlive;
 	protected int coordX;
@@ -50,7 +51,6 @@ public abstract class Character extends Rectangle implements Serializable{
 		setLuckBase(luckBase);
 		setLevel(level);
 		setName(name);
-		//TODO health should be based on level
 		setBaseHP(getStrBase() * 10);
 		setCurrentHP(getBaseHP());
 		setBaseEnergy(getIntBase() * 7);
@@ -60,6 +60,8 @@ public abstract class Character extends Rectangle implements Serializable{
 		setWidth(w);
 		setHeight(h);
 		setFill(new ImagePattern(img));
+		setEquippedArmor(new Armor(ArmorType.DEFAULT_ARMOR));
+		setEquippedWeapon(new Weapon(WeaponType.LENE));
 	}
 
 	public int getStrBase() {

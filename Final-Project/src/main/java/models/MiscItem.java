@@ -1,8 +1,6 @@
 package models;
 
-import java.io.Serializable;
-
-public class MiscItem extends Item implements Serializable{
+public class MiscItem extends Item{
 
 	public MiscItem(String name, int value) {
 		super(name, value);
