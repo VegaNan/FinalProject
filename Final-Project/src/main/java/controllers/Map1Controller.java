@@ -7,9 +7,13 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
+
+import enums.ArmorType;
 import enums.MonsterType;
 import enums.PotionType;
 import enums.SpaceType;
+import enums.WeaponType;
+import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -26,6 +30,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import models.Armor;
 import models.Item;
 import models.Map;
@@ -35,6 +40,7 @@ import models.Monster;
 import models.Player;
 import models.Potion;
 import models.Space;
+import models.Weapon;
 import utilities.RNG;
 
 public class Map1Controller extends MapType implements Initializable, Serializable{
@@ -100,14 +106,14 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 		int randNum = RNG.generateInt(1, 2);
 		if(randNum == 1 && monster.getCurrentEnergy() >= 5) {
 			if(player1.getDefend()) {
-				player1.takeDamage(monster.specialAttack() - player1.defend());
+				player1.takeDamage((monster.specialAttack() - player1.defend() > 0 ? monster.specialAttack() - player1.defend() : 0));
 				player1.setDefend(false);
 			}else {
 				player1.takeDamage(monster.specialAttack());
 			}
 		}else if(randNum == 2) {
 			if(player1.getDefend()) {
-				player1.takeDamage(monster.attack() - player1.defend());
+				player1.takeDamage((monster.attack() - player1.defend() > 0 ? monster.attack() - player1.defend() : 0));
 				player1.setDefend(false);
 			}else {
 				player1.takeDamage(monster.attack());
@@ -120,7 +126,8 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 		HBox stats = new HBox();
 		
 		StringBuilder playersb = new StringBuilder(player1.getName());
-		playersb.append("\n").append(player1.getCurrentHP()).append(" / ").append(player1.getBaseHP());
+		playersb.append("\n").append(player1.getCurrentHP()).append(" / ").append(player1.getBaseHP())
+		.append("\nEnergy: ").append(player1.getCurrentEnergy()).append(" / ").append(player1.getBaseEnergy());
 		Label playerLabel = new Label(playersb.toString());
 		playerLabel.setMinSize(300, 100);
 		
@@ -135,9 +142,21 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 		return stats;
 	}
 	
+	public void popupCloseWindow(Stage window) {
+        PauseTransition wait = new PauseTransition(Duration.seconds(3));
+        wait.setOnFinished((e) -> {
+            window.close();
+            wait.playFromStart();
+        });
+        wait.play();
+	}
+	
 	//Combat View
 	public void combatView(Monster monster) {
 		Stage window = new Stage();
+		window.setOnCloseRequest(event -> {
+			event.consume();
+		});
 		Pane combat = new AnchorPane();
 		combat.setPrefSize(700, 700);
 		HBox stats = new HBox();
@@ -149,10 +168,14 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 		Button usePotion = new Button("Use Potion");
 		Button runAway = new Button("Run Away");
 
+		//Sets label to display player data
 		StringBuilder playersb = new StringBuilder(player1.getName());
-		playersb.append("\n").append(player1.getCurrentHP()).append(" / ").append(player1.getBaseHP());
+		playersb.append("\n").append(player1.getCurrentHP()).append(" / ").append(player1.getBaseHP())
+		.append("\nEnergy: ").append(player1.getCurrentEnergy()).append(" / ").append(player1.getBaseEnergy());
 		Label playerLabel = new Label(playersb.toString());
 		playerLabel.setMinSize(300, 100);
+		
+		//Sets label to display monster data
 		StringBuilder monstersb = new StringBuilder(monster.getName());
 		monstersb.append("\n").append(monster.getCurrentHP()).append(" / ").append(monster.getBaseHP());
 		Label monsterLabel = new Label(monstersb.toString());
@@ -175,7 +198,25 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 		specialAttack.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				monster.takeDamage(player1.specialAttack());
+				if(player1.getCurrentEnergy() > 4) {
+					monster.takeDamage(player1.specialAttack());
+				}
+				else {
+					Stage window = new Stage();
+					AnchorPane pane = new AnchorPane();
+					pane.setPrefSize(70, 70);
+					
+					Label error = new Label("You do not have enough energy to use a special attack!");
+					HBox container = new HBox();
+					container.getChildren().add(error);
+					pane.getChildren().add(container);
+					Scene scene = new Scene(pane);
+					window.setScene(scene);
+					window.sizeToScene();
+					window.show();
+					
+					popupCloseWindow(window);
+				}
 				stats.getChildren().clear();
 				stats.getChildren().add(updateStats(monster));
 				monsterTurn(monster);
@@ -256,6 +297,9 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 					bossWindow.setScene(bossScene);
 					bossWindow.sizeToScene();
 					bossWindow.show();
+					
+					popupCloseWindow(bossWindow);
+					
 				}else {
 					if(RNG.generateInt(1,  10) + player1.getLuckMod() > chance) {
 						window.close();
@@ -272,6 +316,8 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 						bossWindow.setScene(bossScene);
 						bossWindow.sizeToScene();
 						bossWindow.show();
+						
+						popupCloseWindow(bossWindow);
 					}
 				}
 				stats.getChildren().clear();
@@ -302,11 +348,23 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 			monster.setAlive(false);
 			dropLoot(monster);
 			death = true;
+			move = true;
 		}
 		if(player1.getCurrentHP() <= 0) {
 			player1.setAlive(false);
 			death = true;
-			dropLoot(monster);
+
+			Stage bossWindow = new Stage();
+			AnchorPane pane = new AnchorPane();
+			pane.setPrefSize(70, 70);
+			Label label = new Label("You have died. You have failed OOP.");
+			HBox escape = new HBox();
+			escape.getChildren().add(label);
+			pane.getChildren().add(escape);
+			Scene bossScene = new Scene(pane);
+			bossWindow.setScene(bossScene);
+			bossWindow.sizeToScene();
+			bossWindow.show();
 		}
 		return death;
 	}
@@ -373,6 +431,7 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 		// if space door
 		Space sp = map1.getSpaces().get(player1.getCoordX() + " " + player1.getCoordY());
 		if (sp.getSt() == SpaceType.MONSTER_ENCOUNTER) {
+			move = false;
 			combatView(createMonster());
 		} else if (sp.getSt() == SpaceType.BOSS) {
 		}
@@ -386,9 +445,28 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 	}
 	
 	public Monster createMonster() {
-		int randNum = RNG.generateInt(0, MonsterType.values().length);
+		
+		//Selects random monster type based on chance
+		MonsterType monsterType = MonsterType.GENERIC_OGRE;
+		int chance = RNG.generateInt(0, 100);
+
+		//50% chance of OGRE
+		if(chance < 50) {
+			monsterType = MonsterType.GENERIC_OGRE;
+		}
+		//30% chance of WITCH
+		else if(chance < 70) {
+			monsterType = MonsterType.GENERIC_WITCH;
+		}
+		//20% chance of DRAGON
+		else if(chance < 90) {
+			monsterType = MonsterType.GENERIC_DRAGON;
+		}
+		//10% chance of ALPACA
+		else if(chance < 100) {
+			monsterType = MonsterType.SUPREME_EMPEROR_OVERLORD_ALPACA;
+		}
 		Image monImg = new Image("file:graphics/character/big_demon_idle_anim_f0.png");
-		MonsterType monsterType = MonsterType.values()[randNum];
 		ArrayList<Item> itemBag = new ArrayList<>();
 		int itemNum = RNG.generateInt(0, player1.getLevel());
 		Monster monster = new Monster(player1.getCoordX(), player1.getCoordY(), 193, 110, monImg, 1, 1, 1, 1, "Supreme", monsterType);
@@ -400,12 +478,29 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 			int itemInt = RNG.generateInt(monster.getLevel(), player1.getLevel());
 			switch (itemType){
 			case 1:
-				name = "Armor";
-				item = new Armor(name, itemInt);
+				//Selects random armor type (Has 1% chance of legendary armor
+				ArmorType armorType = ArmorType.DEFAULT_ARMOR;
+				chance = RNG.generateInt(0, 100);
+				if(chance < 2) {
+					armorType = ArmorType.FABLED_ARMOR_OF_OOP;
+				}
+				//48% chance of weakest armor
+				else if(chance < 50) {
+					armorType = ArmorType.ROGUES_CLOAK;
+				}
+				//30% chance of moderate armor
+				else if(chance < 80) {
+					armorType = ArmorType.SOLDIERS_ARMOR;
+				}
+				//20% chance of good armor
+				else if(chance < 100) {
+					armorType = ArmorType.HEAVY_ARMOR;
+				}
+				item = new Armor(armorType);
 				break;
 			case 2:
-				int potionTypeInt = RNG.generateInt(0, PotionType.values().length);
-				PotionType potionType = PotionType.values()[potionTypeInt];
+				int potionTypeInt = RNG.generateInt(0, PotionType.class.getEnumConstants().length - 1);
+				PotionType potionType = PotionType.class.getEnumConstants()[potionTypeInt];
 				switch(potionType) {
 				case HEALING:
 					name = "Healing Potion";
@@ -423,6 +518,40 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 				item = new Potion(potionType, itemInt, name, itemInt);
 				break;
 			case 3:
+				
+				//Selects random weapon type 
+				//Has 1% chance of legendary weapon
+				WeaponType weaponType = WeaponType.LENE;
+				chance = RNG.generateInt(0, 100);
+				if(chance < 2) {
+					weaponType = WeaponType.WRATH_OF_THE_GODS;
+				}
+				
+				//49% chance of weakest weapon
+				else if(chance < 50) {
+					weaponType = WeaponType.POCKET_KNIFE;
+				}
+				
+				//20% chance of next highest weapon
+				else if(chance < 70) {
+					weaponType = WeaponType.SMALL_DAGGER;
+				}
+				
+				//10% chance of moderate weapon
+				else if(chance < 80) {
+					weaponType = WeaponType.SOLDIERS_SWORD;
+				}
+				
+				//15% chance of good weapon
+				else if(chance < 95) {
+					weaponType = WeaponType.HEAVY_CLAYMORE;
+				}
+				
+				//5% chance of good armor
+				else if(chance < 100) {
+					weaponType = WeaponType.FLAMING_SWORD;
+				}
+				item = new Weapon(weaponType);
 				break;
 			}
 			itemBag.add(item);

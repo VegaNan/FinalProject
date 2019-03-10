@@ -2,6 +2,8 @@ package models;
 
 import java.util.ArrayList;
 
+import enums.ArmorType;
+import enums.WeaponType;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
@@ -58,6 +60,8 @@ public abstract class Character extends Rectangle{
 		setWidth(w);
 		setHeight(h);
 		setFill(new ImagePattern(img));
+		setEquippedArmor(new Armor(ArmorType.DEFAULT_ARMOR));
+		setEquippedWeapon(new Weapon(WeaponType.LENE));
 	}
 
 	public int getStrBase() {
