@@ -57,7 +57,7 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 	public boolean move;
 
 	HBox itemBox;
-
+	
 	public Map1Controller(String saveName) {
 		super(saveName, "/view/Map1.fxml");
 		
