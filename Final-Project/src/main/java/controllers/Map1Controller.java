@@ -6,9 +6,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
+
+import enums.ArmorType;
 import enums.MonsterType;
 import enums.PotionType;
 import enums.SpaceType;
+import enums.WeaponType;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -33,6 +36,7 @@ import models.Monster;
 import models.Player;
 import models.Potion;
 import models.Space;
+import models.Weapon;
 import utilities.RNG;
 
 public class Map1Controller implements Initializable {
@@ -91,14 +95,14 @@ public class Map1Controller implements Initializable {
 		int randNum = RNG.generateInt(1, 2);
 		if(randNum == 1 && monster.getCurrentEnergy() >= 5) {
 			if(player1.getDefend()) {
-				player1.takeDamage(monster.specialAttack() - player1.defend());
+				player1.takeDamage((monster.specialAttack() - player1.defend() > 0 ? monster.specialAttack() - player1.defend() : 0));
 				player1.setDefend(false);
 			}else {
 				player1.takeDamage(monster.specialAttack());
 			}
 		}else if(randNum == 2) {
 			if(player1.getDefend()) {
-				player1.takeDamage(monster.attack() - player1.defend());
+				player1.takeDamage((monster.attack() - player1.defend() > 0 ? monster.attack() - player1.defend() : 0));
 				player1.setDefend(false);
 			}else {
 				player1.takeDamage(monster.attack());
@@ -111,7 +115,8 @@ public class Map1Controller implements Initializable {
 		HBox stats = new HBox();
 		
 		StringBuilder playersb = new StringBuilder(player1.getName());
-		playersb.append("\n").append(player1.getCurrentHP()).append(" / ").append(player1.getBaseHP());
+		playersb.append("\n").append(player1.getCurrentHP()).append(" / ").append(player1.getBaseHP())
+		.append("\nEnergy: ").append(player1.getCurrentEnergy()).append(" / ").append(player1.getBaseEnergy());
 		Label playerLabel = new Label(playersb.toString());
 		playerLabel.setMinSize(300, 100);
 		
@@ -128,6 +133,9 @@ public class Map1Controller implements Initializable {
 	//Combat View
 	public void combatView(Monster monster) {
 		Stage window = new Stage();
+		window.setOnCloseRequest(event -> {
+			event.consume();
+		});
 		Pane combat = new AnchorPane();
 		combat.setPrefSize(700, 700);
 		HBox stats = new HBox();
@@ -140,7 +148,8 @@ public class Map1Controller implements Initializable {
 		Button runAway = new Button("Run Away");
 
 		StringBuilder playersb = new StringBuilder(player1.getName());
-		playersb.append("\n").append(player1.getCurrentHP()).append(" / ").append(player1.getBaseHP());
+		playersb.append("\n").append(player1.getCurrentHP()).append(" / ").append(player1.getBaseHP())
+		.append("\nEnergy: ").append(player1.getCurrentEnergy()).append(" / ").append(player1.getBaseEnergy());
 		Label playerLabel = new Label(playersb.toString());
 		playerLabel.setMinSize(300, 100);
 		StringBuilder monstersb = new StringBuilder(monster.getName());
@@ -296,7 +305,6 @@ public class Map1Controller implements Initializable {
 		if(player1.getCurrentHP() <= 0) {
 			player1.setAlive(false);
 			death = true;
-			dropLoot(monster);
 		}
 		return death;
 	}
@@ -371,9 +379,28 @@ public class Map1Controller implements Initializable {
 	}
 	
 	public Monster createMonster() {
-		int randNum = RNG.generateInt(0, MonsterType.values().length);
+		
+		//Selects random monster type based on chance
+		MonsterType monsterType = MonsterType.GENERIC_OGRE;
+		int chance = RNG.generateInt(0, 100);
+
+		//50% chance of OGRE
+		if(chance < 50) {
+			monsterType = MonsterType.GENERIC_OGRE;
+		}
+		//30% chance of WITCH
+		else if(chance < 70) {
+			monsterType = MonsterType.GENERIC_WITCH;
+		}
+		//20% chance of DRAGON
+		else if(chance < 90) {
+			monsterType = MonsterType.GENERIC_DRAGON;
+		}
+		//10% chance of ALPACA
+		else if(chance < 100) {
+			monsterType = MonsterType.SUPREME_EMPEROR_OVERLORD_ALPACA;
+		}
 		Image monImg = new Image("file:graphics/character/big_demon_idle_anim_f0.png");
-		MonsterType monsterType = MonsterType.values()[randNum];
 		ArrayList<Item> itemBag = new ArrayList<>();
 		int itemNum = RNG.generateInt(0, player1.getLevel());
 		Monster monster = new Monster(player1.getCoordX(), player1.getCoordY(), 193, 110, monImg, 1, 1, 1, 1, "Supreme", monsterType);
@@ -385,11 +412,28 @@ public class Map1Controller implements Initializable {
 			int itemInt = RNG.generateInt(monster.getLevel(), player1.getLevel());
 			switch (itemType){
 			case 1:
-				name = "Armor";
-				item = new Armor(name, itemInt);
+				//Selects random armor type (Has 1% chance of legendary armor
+				ArmorType armorType = ArmorType.DEFAULT_ARMOR;
+				chance = RNG.generateInt(0, 100);
+				if(chance < 2) {
+					armorType = ArmorType.FABLED_ARMOR_OF_OOP;
+				}
+				//48% chance of weakest armor
+				else if(chance < 50) {
+					armorType = ArmorType.ROGUES_CLOAK;
+				}
+				//30% chance of moderate armor
+				else if(chance < 80) {
+					armorType = ArmorType.SOLDIERS_ARMOR;
+				}
+				//20% chance of good armor
+				else if(chance < 100) {
+					armorType = ArmorType.HEAVY_ARMOR;
+				}
+				item = new Armor(armorType);
 				break;
 			case 2:
-				int potionTypeInt = RNG.generateInt(0, PotionType.values().length);
+				int potionTypeInt = RNG.generateInt(0, PotionType.class.getEnumConstants().length);
 				PotionType potionType = PotionType.values()[potionTypeInt];
 				switch(potionType) {
 				case HEALING:
@@ -408,6 +452,40 @@ public class Map1Controller implements Initializable {
 				item = new Potion(potionType, itemInt, name, itemInt);
 				break;
 			case 3:
+				
+				//Selects random weapon type 
+				//Has 1% chance of legendary weapon
+				WeaponType weaponType = WeaponType.LENE;
+				chance = RNG.generateInt(0, 100);
+				if(chance < 2) {
+					weaponType = WeaponType.WRATH_OF_THE_GODS;
+				}
+				
+				//49% chance of weakest weapon
+				else if(chance < 50) {
+					weaponType = WeaponType.POCKET_KNIFE;
+				}
+				
+				//20% chance of next highest weapon
+				else if(chance < 70) {
+					weaponType = WeaponType.SMALL_DAGGER;
+				}
+				
+				//10% chance of moderate weapon
+				else if(chance < 80) {
+					weaponType = WeaponType.SOLDIERS_SWORD;
+				}
+				
+				//15% chance of good weapon
+				else if(chance < 95) {
+					weaponType = WeaponType.HEAVY_CLAYMORE;
+				}
+				
+				//5% chance of good armor
+				else if(chance < 100) {
+					weaponType = WeaponType.FLAMING_SWORD;
+				}
+				item = new Weapon(weaponType);
 				break;
 			}
 			itemBag.add(item);

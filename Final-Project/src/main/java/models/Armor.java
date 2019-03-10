@@ -1,78 +1,102 @@
 package models;
 
+import enums.ArmorType;
 import interfaces.Equippable;
+import utilities.RNG;
 
 public class Armor extends Item implements Equippable{
-	protected int ArmorRating;
-	protected int DamageReduction;
+	protected int armorRating;
+	protected int damageReduction;
+	protected ArmorType armorType;
 
-	public Armor(String name, int value) {
-		super(name, value);
-		setArmorRating(17);
-		setDamageReduction(10);
-		setName(this.ArmorRating, this.DamageReduction);
-		setValue(this.name);
+	public Armor(ArmorType armorType) {
+		super(armorType.toString(), 1);
+		setArmorType(armorType);
+		setArmorRating(armorType);
+		setDamageReduction(getArmorRating());
+		determineValue(armorType);
+	}
+	
+	public ArmorType getArmorType() {
+		return armorType;
+	}
+	
+	public void setArmorType(ArmorType armorType) {
+		this.armorType = armorType;
 	}
 
 	public String getName() {
-		return this.name;
+		return name;
 	}
 
-	public void setName(int armorRating, int damageReduction) {
-		if (armorRating < 12) {
-			this.name = "Rogue's Cloak";
-		} else if (armorRating > 11 && armorRating < 15) {
-			this.name = "Soldier's Armor";
-		} else if (armorRating >= 15 && armorRating < 17) {
-			this.name = "Heavy Armor";
-		} else {
-			this.name = "Fabled Armor of Horan";
+	public void setArmorRating(ArmorType armorType) {
+		switch(armorType) {
+		case DEFAULT_ARMOR:
+			setName("A basic tunic");
+			armorRating = 1;
+			break;
+		case ROGUES_CLOAK:
+			setName("Rogue's Cloak");
+			armorRating = RNG.generateInt(1, 12);
+			break;
+		case SOLDIERS_ARMOR:
+			setName("Soldier's Armor");
+			armorRating = RNG.generateInt(11, 15);
+			break;
+		case HEAVY_ARMOR:
+			setName("Heavy Armor");
+			armorRating = RNG.generateInt(15, 17);
+			break;
+		case FABLED_ARMOR_OF_OOP:
+			setName("Fabled Armor of OOP");
+			armorRating = RNG.generateInt(17, 25);
+			break;
 		}
 	}
 
 	public int getValue() {
-		return this.value;
+		return value;
 	}
 
-	public void setValue(String name) {
-		switch (name) {
-		case "Cloth Cloak":
-			this.value = 400;
+	public void determineValue(ArmorType armorType) {
+		switch(armorType) {
+		case DEFAULT_ARMOR:
+			setValue(0);
 			break;
-		case "Soldier's Armor":
-			this.value = 1000;
+		case ROGUES_CLOAK:
+			setValue(400);
 			break;
-		case "Heavy Armor":
-			this.value = 1400;
+		case SOLDIERS_ARMOR:
+			setValue(1000);
 			break;
-		case "Fabled Armor of Horan":
-			this.value = 1500;
+		case HEAVY_ARMOR:
+			setValue(1400);
+			break;
+		case FABLED_ARMOR_OF_OOP:
+			setValue(2000);
 			break;
 		}
 	}
 
 	public int getArmorRating() {
-		return ArmorRating;
-	}
-
-	public void setArmorRating(int armorRating) {
-		ArmorRating = armorRating;
+		return armorRating;
 	}
 
 	public int getDamageReduction() {
-		return DamageReduction;
+		return damageReduction;
 	}
 
 	public void setDamageReduction(int damageReducation) {
-		DamageReduction = damageReducation;
+		damageReduction = damageReducation;
 	}
 
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Armor \t").append(name).append("\n\t\tArmorRating: ").append(ArmorRating)
-				.append("\tDamageReduction:").append(DamageReduction).append("\tAgilityModifier: ")
-				.append("\tvalue:").append(value);
+		builder.append("Armor \t").append(name)
+		.append("\n\t\tArmorRating: ").append(armorRating)
+		.append("\tDamageReduction:").append(damageReduction)
+		.append("\tvalue:").append(value);
 		return builder.toString();
 	}
 

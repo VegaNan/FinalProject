@@ -1,8 +1,6 @@
 package models;
 
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 
 public class Player extends Character {
 	protected int xp;
@@ -58,17 +56,23 @@ public class Player extends Character {
 
 	@Override
 	public int attack() {
-		return getStrength();
+		int damage = 5 + getStrMod() + equippedWeapon.getDamage();
+		return damage;
 	}
 
 	@Override
 	public int specialAttack() {
-		return getIntelligence();
+		setCurrentEnergy(getCurrentEnergy() - 5);
+		int specialDamage = 10 + getIntMod();
+		if(specialDamage < 0) {
+			specialDamage = 0;
+		}
+		return specialDamage;
 	}
 
 	@Override
 	public int defend() {
-		return getEquippedArmor().ArmorRating;
+		return getEquippedArmor().armorRating;
 	}
 
 	@Override

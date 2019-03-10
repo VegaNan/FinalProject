@@ -20,19 +20,19 @@ public class Monster extends Character {
 		int luck = 1;
 		switch(monster) {
 		case GENERIC_OGRE:
-			str = RNG.generateInt(1, 8) * level/2;
-			intelligence = RNG.generateInt(1, 2) * level/2;
-			luck = RNG.generateInt(1, 8) * level/2;
+			str = RNG.generateInt(1, 8) * level;
+			intelligence = RNG.generateInt(1, 2) * level;
+			luck = RNG.generateInt(1, 8) * level;
 			break;
 		case GENERIC_WITCH:
-			str = RNG.generateInt(1, 3) * level/2;
-			intelligence = RNG.generateInt(1, 8) * level/2;
-			luck = RNG.generateInt(1, 8) * level/2;
+			str = RNG.generateInt(1, 3) * level;
+			intelligence = RNG.generateInt(1, 8) * level;
+			luck = RNG.generateInt(1, 8) * level;
 			break;
 		case GENERIC_DRAGON:
-			str = RNG.generateInt(10, 15) * level/2;
-			intelligence = RNG.generateInt(10, 15) * level/2;
-			luck = RNG.generateInt(10, 15) * level/2;
+			str = RNG.generateInt(10, 15) * level;
+			intelligence = RNG.generateInt(10, 15) * level;
+			luck = RNG.generateInt(10, 15) * level;
 			break;
 		case SUPREME_EMPEROR_OVERLORD_ALPACA:
 			str = RNG.generateInt(3, 40) * level;
@@ -64,7 +64,6 @@ public class Monster extends Character {
 
 	@Override
 	public int attack() {
-		// TODO Auto-generated method stub
 		return getStrength();
 	}
 
