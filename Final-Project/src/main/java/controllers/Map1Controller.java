@@ -2,15 +2,14 @@
 package controllers;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
-
 import enums.MonsterType;
 import enums.PotionType;
 import enums.SpaceType;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -38,7 +37,8 @@ import models.Potion;
 import models.Space;
 import utilities.RNG;
 
-public class Map1Controller implements Initializable {
+public class Map1Controller extends MapType implements Initializable, Serializable{
+
 	@FXML
 	GridPane map1Grid;
 	@FXML
@@ -59,9 +59,6 @@ public class Map1Controller implements Initializable {
 	
 	public void getItems() {
 		Stage window = new Stage();
-
-		player1.addItem(new Potion(PotionType.HEALING, 10, "Healing Potion", 15));
-
 		Scene scene = new Scene(updateItems());
 		window.setScene(scene);
 		window.sizeToScene();
@@ -71,7 +68,6 @@ public class Map1Controller implements Initializable {
 	public Pane updateItems() {
 		Pane items = new AnchorPane();
 		itemBox = new HBox();
-		
 		for (int i = 0; i < player1.getItemBag().size(); i++) {
 			Pane item = new Pane();
 			if (player1.getItemBag().get(i).name.contains("Potion")) {
@@ -135,9 +131,9 @@ public class Map1Controller implements Initializable {
 		
 		stats.getChildren().add(playerLabel);
 		stats.getChildren().add(monsterLabel);
+		stats.setMinSize(400, 400);
 		return stats;
 	}
-
 	
 	//Combat View
 	public void combatView(Monster monster) {
@@ -382,6 +378,9 @@ public class Map1Controller implements Initializable {
 		}
 		else if(sp.getSt() == SpaceType.DOOR)
 		{
+			
+		}
+		else if(sp.getSt() == SpaceType.VENDOR) {
 			
 		}
 	}
