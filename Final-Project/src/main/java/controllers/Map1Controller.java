@@ -55,13 +55,13 @@ public class Map1Controller implements Initializable, Serializable{
 		
 		//Creates a pop up that allows user to view items
 		Stage window = new Stage();
-		Scene scene = new Scene(updateItems());
+		Scene scene = new Scene(updateItems(window));
 		window.setScene(scene);
 		window.sizeToScene();
 		window.show();
 	}
 	
-	public Pane updateItems() {
+	public Pane updateItems(Stage scene) {
 		Pane items = new AnchorPane();
 		itemBox = new HBox();
 		for (int i = 0; i < player1.getItemBag().size(); i++) {
