@@ -553,7 +553,7 @@ public class Map1Controller implements Initializable, Serializable{
 		for(int i =0; i < itemNum; i ++) {
 			String name = "Misc Item";
 			Item item = new MiscItem(name, player1.getLevel());
-			int itemType = RNG.generateInt(1, 3);
+			int itemType = RNG.generateInt(1, 4);
 			int itemInt = RNG.generateInt(monster.getLevel(), player1.getLevel());
 			switch (itemType){
 			case 1:
@@ -582,6 +582,7 @@ public class Map1Controller implements Initializable, Serializable{
 				item = new Armor(armorType);
 				break;
 			case 2:
+			case 3:
 				
 				//Selects random potion
 				int potionTypeInt = RNG.generateInt(0, PotionType.class.getEnumConstants().length - 1);
@@ -602,7 +603,7 @@ public class Map1Controller implements Initializable, Serializable{
 				}
 				item = new Potion(potionType, itemInt, name, itemInt);
 				break;
-			case 3:
+			case 4:
 				
 				//Selects random weapon type 
 				//Has 1% chance of legendary weapon
