@@ -171,7 +171,6 @@ public class Map1Controller implements Initializable, Serializable{
 		combat.setPrefSize(700, 700);
 		HBox stats = updateStats(monster);
 		HBox battle = new HBox();
-		
 		//Create buttons for options
 		Button specialAttack = new Button("Special Attack");
 		Button normalAttack = new Button("Normal Attack");
@@ -206,7 +205,6 @@ public class Map1Controller implements Initializable, Serializable{
 					monster.takeDamage(player1.specialAttack());
 				}
 				else {
-
 					//Gives user helpful message informing them they cannot use a special attack
 					Stage window = new Stage();
 					AnchorPane pane = new AnchorPane();
@@ -235,6 +233,7 @@ public class Map1Controller implements Initializable, Serializable{
 				//Check if combat is over
 				if(checkDeath(monster)) {
 					window.close();
+					MainMenuController.saveGame(player1.getName(), player1);
 				}
 			}
 		});
@@ -261,6 +260,7 @@ public class Map1Controller implements Initializable, Serializable{
 				//Check if combat is over
 				if(checkDeath(monster)) {
 					window.close();
+					MainMenuController.saveGame(player1.getName(), player1);
 				}
 			}
 		});
@@ -292,6 +292,7 @@ public class Map1Controller implements Initializable, Serializable{
 				
 				if(checkDeath(monster)) {
 					window.close();
+					MainMenuController.saveGame(player1.getName(), player1);
 				}
 			}
 		});
@@ -359,7 +360,8 @@ public class Map1Controller implements Initializable, Serializable{
 				stats.getChildren().add(updateStats(monster));
 				
 				if(checkDeath(monster)) {
-					//window.close();
+					window.close();
+					MainMenuController.saveGame(player1.getName(), player1);
 				}
 			}
 		});
@@ -373,6 +375,7 @@ public class Map1Controller implements Initializable, Serializable{
 		window.sizeToScene();
 		window.show();
 	}
+	
 	
 	public void vendorView () {
 		Stage window = new Stage();
@@ -392,8 +395,7 @@ public class Map1Controller implements Initializable, Serializable{
 		Button Buy=new Button("Buy");
 		Button Sell= new Button("Sell");
 	}
-		
-	
+
 	
 	//If there is a death, window will close, if player won, dropLoot
 	public boolean checkDeath(Monster monster) {

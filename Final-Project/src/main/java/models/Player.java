@@ -1,13 +1,21 @@
 package models;
 
+import java.io.Serializable;
+
 import javafx.scene.image.Image;
 import utilities.RNG;
 
-public class Player extends Character {
+public class Player extends Character implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 	protected int xp;
 	protected int nextLevelXP;
 	protected boolean defend = false;
 	private String mapLocation;
+	
+	public Player() {
+		super();
+	}
 	
 	public Player(int x, int y, int w, int h, Image img, int strBase, int intBase, int luckBase, int level, String name) {
 		super(x, y, w, h, img, strBase, intBase, luckBase, level, name);

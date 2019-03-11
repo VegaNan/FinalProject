@@ -76,6 +76,10 @@ public abstract class Character extends Rectangle{
 		setEquippedWeapon(new Weapon(WeaponType.LENE));
 	}
 
+	public Character() {
+		
+	}
+
 	public int getStrBase() {
 		return strBase;
 	}
@@ -190,7 +194,7 @@ public abstract class Character extends Rectangle{
 	
 	public void setCurrentEnergy(int currentEnergy) {
 		if(getCurrentEnergy() < currentEnergy) {
-			setCurrentEnergy(getBaseEnergy());
+			this.currentEnergy = getBaseEnergy();
 		}else {
 			this.currentEnergy = currentEnergy;
 		}
