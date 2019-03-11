@@ -10,7 +10,7 @@ public class Player extends Character {
 	
 	public Player(int x, int y, int w, int h, Image img, int strBase, int intBase, int luckBase, int level, String name) {
 		super(x, y, w, h, img, strBase, intBase, luckBase, level, name);
-		
+		this.nextLevelXP = setNextLevelXP(level);
 	}
 
 	public void setDefend(boolean defend) {
@@ -25,9 +25,9 @@ public class Player extends Character {
 		do {
 			if (xp >= nextLevelXP) {
 				this.level++;
-				setNextLevelXP(this.level);
+				this.nextLevelXP = setNextLevelXP(this.level); 
 			}
-		} while (xp >= nextLevelXP);
+		} while (xp >= this.nextLevelXP);
 	}
 
 	public int getXp() {
@@ -43,13 +43,14 @@ public class Player extends Character {
 	}
 
 	public int setNextLevelXP(int level) {
+		System.out.println(level);
 		if (level == 1) {
 			return 1000;
 		} else {
-			return (level * 1000) + setNextLevelXP(level - 1);
+			level -= 1;
+			return (level * 1000) + setNextLevelXP(level);
 		}
 	}
-	
 	@Override
 	public void takeDamage(int damage) {
 		int dmg = damage - getEquippedArmor().getDamageReduction();

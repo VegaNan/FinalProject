@@ -20,19 +20,19 @@ public class Monster extends Character {
 		int luck = 1;
 		int xp = 1;
 		switch(monster) {
-		case GENERIC_OGRE:
+		case OGRE:
 			str = RNG.generateInt(1, 8) * level;
 			intelligence = RNG.generateInt(1, 2) * level;
 			luck = RNG.generateInt(1, 8) * level;
 			xp = RNG.generateInt(25,  75) * level;
 			break;
-		case GENERIC_WITCH:
+		case WITCH:
 			str = RNG.generateInt(1, 3) * level;
 			intelligence = RNG.generateInt(1, 8) * level;
 			luck = RNG.generateInt(1, 8) * level;
 			xp = RNG.generateInt(25, 75) * level;
 			break;
-		case GENERIC_DRAGON:
+		case DRAGON:
 			str = RNG.generateInt(10, 15) * level;
 			intelligence = RNG.generateInt(10, 15) * level;
 			luck = RNG.generateInt(10, 15) * level;

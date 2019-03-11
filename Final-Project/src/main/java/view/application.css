@@ -11,8 +11,12 @@
 {
 	-fx-background-color: rgb(255,0,0);
 }
-#safespace
+#gameOverScreen
 {
-	-fx-background-color: rgb(0,0,0);
+	-fx-background-color: rgb(0,0,0);	
+}
+#gameOverText
+{
+	-fx-text-fill: rgb(255,0,0);
 }
 

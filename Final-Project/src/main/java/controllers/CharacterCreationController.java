@@ -17,15 +17,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import models.MapType;
 import models.Player;
 import utilities.RNG;
 
 public class CharacterCreationController implements Initializable {
 	@FXML 
 	private TextField characterNameField;
-	@FXML 
-	private TextField saveNameField;
 	@FXML
 	private RadioButton knightButton;
 	@FXML
@@ -34,8 +31,6 @@ public class CharacterCreationController implements Initializable {
 	private RadioButton wizardButton;
 	@FXML
 	private ToggleGroup characterSelection;
-	
-	private static String saveName;
 
 	private static Player activePlayer;
 	
@@ -50,9 +45,14 @@ public class CharacterCreationController implements Initializable {
 
 	public void startGame(ActionEvent event) {
 		activePlayer = createPlayer();
+		System.out.println("This is characterCreation player");
+		System.out.println(activePlayer);
+		System.out.println("This is the return of getPlayer");
+		System.out.println(getPlayer());
+		changeScene("/view/Map1.fxml", event);
+		System.out.println("This is return of getPlayer after change scene");
+		System.out.println(getPlayer());
 		importPlayerData("/view/Map1.fxml");
-		MapType game = new MapType(saveName, "/view/Map1.fxml");
-		changeScene(game.getMapLocation(), event);
 	}
 
 	private void changeScene(String filename, ActionEvent event) {
@@ -62,7 +62,6 @@ public class CharacterCreationController implements Initializable {
 			parent = FXMLLoader.load(getClass().getResource(filename));
 			// makes new scene based on parent
 			Scene scene = new Scene(parent);
-			scene.getStylesheets().add("/view/application.css");
 			// takes in the stage of this class
 			Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 			// sets the scene
@@ -93,13 +92,6 @@ public class CharacterCreationController implements Initializable {
 		if(characterNameField.getText().trim().isEmpty()) {
 			playerName = "Buffalo";
 		}
-		
-		if(saveNameField.getText().trim().isEmpty()) {
-			saveName = "Buffalo";
-		}else {
-			saveName = saveNameField.getText();
-		}
-		
 		String playerClass;
 		//Switch does not accept selected toggle for argument :(
 		if(characterSelection.getSelectedToggle().equals(knightButton)) {
@@ -145,4 +137,3 @@ public class CharacterCreationController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		leprechaunButton.setSelected(true);
 	}
-}
