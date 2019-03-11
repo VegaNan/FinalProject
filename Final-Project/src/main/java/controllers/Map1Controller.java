@@ -42,7 +42,9 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 	@FXML
 	GridPane map1Grid;
 	@FXML
-	Button button;
+	Button gameOverButton;
+	@FXML
+	Button doorButton;
 	
 	public HashMap<String, Space> spaces = new HashMap<>();
 	public Map map1 = new Map(spaces);
@@ -415,7 +417,7 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 		if(player1.getCurrentHP() <= 0) {
 			player1.setAlive(false);
 			death = true;
-			button.fire();
+			gameOverButton.fire();
 		}
 		return death;
 	}
@@ -468,33 +470,36 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 	
 
 	public void initSpaces(Map map1) {
-		
-		// init safe spaces
+		//images
 		Image monImg = new Image("/view/grass.png");
 		Image safeImg = new Image("/view/tile.png");
-		
+		Image doorImg = new Image("/view/door.png");
+		//setting door space
+		Space sp = new Space(193, 111, SpaceType.DOOR, doorImg);
+		map1.getSpaces().put(4 + " " + 0, sp);
+		map1Grid.add((Node)sp, 4, 8);
 		// setting safe spaces
-		for (int i = 0; i < 10; i++) {
-			Space sp = new Space(193, 111, SpaceType.EMPTY, safeImg);
-			map1.getSpaces().put(4 + " " + i, sp);
-			map1Grid.add((Node) sp, 4, i);
+		for (int i = 1; i < 10; i++) {
+			Space sp2 = new Space(193, 111, SpaceType.EMPTY, safeImg);
+			map1.getSpaces().put(4 + " " + i, sp2);
+			map1Grid.add((Node) sp2, 4, i);
 		}
 		
 		// setting monster spaces left of path
 		for (int i = 0; i < 4; i++) {
 			for (int i2 = 0; i2 < 10; i2++) {
-				Space sp = new Space(193, 111, SpaceType.MONSTER_ENCOUNTER, monImg);
-				map1.getSpaces().put(i + " " + i2, sp);
-				map1Grid.add((Node)sp, i, i2);
+				Space sp2 = new Space(193, 111, SpaceType.MONSTER_ENCOUNTER, monImg);
+				map1.getSpaces().put(i + " " + i2, sp2);
+				map1Grid.add((Node)sp2, i, i2);
 			}
 		}
 		
 		// setting monster spaces right of the path
 		for (int i = 5; i < 10; i++) {
 			for (int i2 = 0; i2 < 10; i2++) {
-				Space sp = new Space(193, 111, SpaceType.MONSTER_ENCOUNTER, monImg);
-				map1.getSpaces().put(i + " " + i2, sp);
-				map1Grid.add((Node)sp, i, i2);
+				Space sp2 = new Space(193, 111, SpaceType.MONSTER_ENCOUNTER, monImg);
+				map1.getSpaces().put(i + " " + i2, sp2);
+				map1Grid.add((Node)sp2, i, i2);
 			}
 		}
 	}
@@ -517,7 +522,7 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 		//Goes to next map if space is a door
 		else if(sp.getSt() == SpaceType.DOOR)
 		{
-			//TODO implement move to next map
+			doorButton.fire();
 		}
 		
 		//Allows user to interact with the vendor
@@ -526,6 +531,10 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 		}
 	}
 	
+	public void nextMap(ActionEvent event)
+	{
+		changeScene("/view/Map2.fxml", event);
+	}
 	public Monster createMonster() {
 		
 		//Selects random monster type based on chance
@@ -553,7 +562,7 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 		}
 		
 		
-		Image monImg = new Image("file:graphics/character/big_demon_idle_anim_f0.png");
+		Image monImg = new Image("/view/enemy.png");
 		ArrayList<Item> itemBag = new ArrayList<>();
 		int itemNum = RNG.generateInt(0, player1.getLevel());
 		Monster monster = new Monster(player1.getCoordX(), player1.getCoordY(), 193, 110, monImg, 1, 1, 1, 1, null, monsterType);
@@ -770,12 +779,8 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 				// TODO remove item node
 			}
 		});
-		Image monImg = new Image("file:graphics/character/big_demon_idle_anim_f0.png");
-		monster1 = new Monster(6, 6, 193, 110, monImg, 1, 1, 1, 1, "Supreme", MonsterType.OGRE);
+		Image monImg = new Image("/view/enemy.png");
 		//Set up the map
 		initSpaces(map1);
-		
-		//Spawn the monster
-		map1Grid.add((Node) monster1, monster1.getCoordX(), monster1.getCoordY());
 	}
 }
