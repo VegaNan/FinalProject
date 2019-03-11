@@ -37,7 +37,7 @@ import models.*;
 import models.Weapon;
 import utilities.RNG;
 
-public class Map1Controller extends MapType implements Initializable, Serializable{
+public class Map1Controller implements Initializable, Serializable{
 
 	@FXML
 	GridPane map1Grid;
@@ -51,14 +51,6 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 	public boolean move;
 
 	HBox itemBox;
-	
-	public Map1Controller() {
-		super("Krebs", "/view/Map1.fxml");
-	}
-	
-	public Map1Controller(String saveName, String mapLocation) {
-		super(saveName, mapLocation);
-	}
 	
 	public void getItems() {
 		
