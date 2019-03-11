@@ -41,7 +41,6 @@ public class Main extends Application {
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
 			primaryStage.setMaximized(true);
-			scene.getStylesheets().add("/view/application.css");
 			primaryStage.show();
 			
 		} catch (Exception e) {

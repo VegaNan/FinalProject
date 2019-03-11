@@ -354,26 +354,38 @@ public class Map1Controller implements Initializable {
 	public void dropLoot(Monster monster) {
 		Stage window = new Stage();
 		itemBox = new HBox();
-		
+		//loops throw monster's item bag and prints it to the window
 		for (int i = 0; i < monster.getItemBag().size(); i++) {
-			Pane item = new Pane();
-			item.setMinSize(200, 200);
+			Pane itemDisplay = new Pane();
+			itemDisplay.setMinSize(200, 200);
 			Label label = new Label(monster.getItemBag().get(i).toString());
-			if(item.toString().contains("Potion")) {
+			//if the item is a potion print it to the window
+			if(itemDisplay.toString().contains("Potion")) {
 				Potion potion = (Potion) monster.getItemBag().get(i);
 				label = new Label(potion.toString());
 			}
-			item.getChildren().add(label);
-			itemBox.getChildren().add(item);
+			//adding the items to the player's inventory
+			for(Item loot : monster.getItemBag())
+			{
+				player1.getItemBag().add(loot);
+			}
+			//displaying the items
+			itemDisplay.getChildren().add(label);
+			itemBox.getChildren().add(itemDisplay);
 		}
-		
+		//if there is no loot
 		if(monster.getItemBag().isEmpty()) {
 			Label label = new Label("No loot was dropped");
 			itemBox.getChildren().add(label);
 		}
-		
+		//giving xp to player
 		player1.setXp(player1.getXp() + monster.getXPYield());
-		
+		//checking if player levels up
+		int prevLevel = player1.getLevel();
+		player1.checkLevelUp(player1.getXp(), player1.getNextLevelXP());
+		if(prevLevel < player1.getLevel())
+		{
+		}
 		Scene scene = new Scene(itemBox);
 		window.setScene(scene);
 		window.show();
