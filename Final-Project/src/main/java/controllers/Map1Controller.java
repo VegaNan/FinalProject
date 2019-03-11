@@ -64,13 +64,13 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 		
 		//Creates a pop up that allows user to view items
 		Stage window = new Stage();
-		Scene scene = new Scene(updateItems());
+		Scene scene = new Scene(updateItems(window));
 		window.setScene(scene);
 		window.sizeToScene();
 		window.show();
 	}
 	
-	public Pane updateItems() {
+	public Pane updateItems(Stage scene) {
 		Pane items = new AnchorPane();
 		itemBox = new HBox();
 		for (int i = 0; i < player1.getItemBag().size(); i++) {
@@ -88,9 +88,8 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 				use.setOnAction(new EventHandler<ActionEvent>() {
 					public void handle(ActionEvent arg0) {
 						potion.use(player1);
-						ArrayList<Item> itemBag = player1.getItemBag();
-						itemBag.remove(index);
-						player1.setItemBag(itemBag);
+						player1.getItemBag().remove(index);
+						scene.close();
 					}
 				});
 				label.autosize();
@@ -106,24 +105,36 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 	public void monsterTurn(Monster monster) {
 		
 		int randNum = RNG.generateInt(1, 2);
+		System.out.println("Monster turn");
 		
 		//Monster uses random attack
 		//If monster has enough energy and randNum is special attack, use special attack
-		if(randNum == 1 && monster.getCurrentEnergy() >= 5) {
-			
+		if(randNum == 1 && monster.getCurrentEnergy() > 4) {
+			System.out.println("Special attack");
 			//If player chose to defend, reduce damage
 			if(player1.getDefend()) {
 				
 				//Prevent player from gaining life if damage is negative
-				player1.takeDamage((monster.specialAttack() - player1.defend() > 0 ? monster.specialAttack() - player1.defend() : 0));
+				if(monster.specialAttack() - player1.defend() > 0) {
+					player1.takeDamage(monster.specialAttack());
+				}
+				else {
+					System.out.println("Monster special attack is less than 0");
+				}
 				player1.setDefend(false);
 			}else {
-				player1.takeDamage(monster.specialAttack());
+				System.out.println(monster.specialAttack());
+				if(monster.specialAttack() > 0) {
+					player1.takeDamage(monster.specialAttack());
+				}
+				else {
+					System.out.println("Monster special attack is less than 0");
+				}
 			}
 		
 		//If monster doesn't have enough energy or special attack is not selected, use normal attack
 		}else {
-			
+			System.out.println("Normal attack");
 			//If player chose to defend, reduce damage
 			if(player1.getDefend()) {
 				
@@ -131,7 +142,7 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 				player1.takeDamage((monster.attack() - player1.defend() > 0 ? monster.attack() - player1.defend() : 0));
 				player1.setDefend(false);
 			}else {
-				player1.takeDamage(monster.attack());
+				player1.takeDamage((monster.attack() > 0 ? monster.attack() : 0));
 			}
 		}
 	}
@@ -234,7 +245,10 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 				//Updates view
 				stats.getChildren().clear();
 				stats.getChildren().add(updateStats(monster));
+				System.out.println("Monster alive?");
+				System.out.println(monster.isAlive());
 				if(monster.isAlive()) {
+					System.out.println("Monster haz turn?");
 					monsterTurn(monster);
 				}
 				stats.getChildren().clear();
@@ -367,11 +381,10 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 				stats.getChildren().add(updateStats(monster));
 				
 				if(checkDeath(monster)) {
-					//window.close();
+					window.close();
 				}
 			}
 		});
-
 
 		combat.getChildren().add(stats);
 		combat.getChildren().add(battle);
@@ -400,9 +413,7 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 		Button Buy=new Button("Buy");
 		Button Sell= new Button("Sell");
 	}
-		
-	
-	
+
 	//If there is a death, window will close, if player won, dropLoot
 	public boolean checkDeath(Monster monster) {
 		boolean death = false;
@@ -555,7 +566,7 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 		
 		Image monImg = new Image("file:graphics/character/big_demon_idle_anim_f0.png");
 		ArrayList<Item> itemBag = new ArrayList<>();
-		int itemNum = RNG.generateInt(0, player1.getLevel());
+		int itemNum = RNG.generateInt(0, player1.getLevel() + 5);
 		Monster monster = new Monster(player1.getCoordX(), player1.getCoordY(), 193, 110, monImg, 1, 1, 1, 1, null, monsterType);
 		
 		for(int i =0; i < itemNum; i ++) {
