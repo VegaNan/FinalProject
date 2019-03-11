@@ -25,8 +25,11 @@ public class Vendor {
 		inventory.remove(index);
 	}
 
-	public Vendor() {
-
+	Vendor(Item item, Item item1, Item item2) {
+		addItem(item);
+		addItem(item1);
+		addItem(item2);
+		
 	}
 
 	// Selling items to the vendor

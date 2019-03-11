@@ -137,4 +137,3 @@ public class CharacterCreationController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		leprechaunButton.setSelected(true);
 	}
-}

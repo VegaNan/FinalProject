@@ -2,6 +2,7 @@
 package controllers;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,24 +30,20 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import models.Armor;
-import models.Item;
-import models.Map;
-import models.MiscItem;
-import models.Monster;
-import models.Player;
-import models.Potion;
-import models.Space;
+import models.*;
 import models.Weapon;
 import utilities.RNG;
 
-public class Map1Controller implements Initializable {
+public class Map1Controller extends MapType implements Initializable, Serializable{
+
 	@FXML
 	GridPane map1Grid;
 	@FXML
 	Button button;
+	
 	public HashMap<String, Space> spaces = new HashMap<>();
 	public Map map1 = new Map(spaces);
 	public static Player player1;
@@ -54,8 +51,18 @@ public class Map1Controller implements Initializable {
 	public boolean move;
 
 	HBox itemBox;
-
+	
+	public Map1Controller() {
+		super("Krebs", "/view/Map1.fxml");
+	}
+	
+	public Map1Controller(String saveName, String mapLocation) {
+		super(saveName, mapLocation);
+	}
+	
 	public void getItems() {
+		
+		//Creates a pop up that allows user to view items
 		Stage window = new Stage();
 		Scene scene = new Scene(updateItems());
 		window.setScene(scene);
@@ -68,10 +75,12 @@ public class Map1Controller implements Initializable {
 		itemBox = new HBox();
 		for (int i = 0; i < player1.getItemBag().size(); i++) {
 			Pane item = new Pane();
+			
+			//Adds potion to the view if user has a potion
 			if (player1.getItemBag().get(i).name.contains("Potion")) {
 				item.setMaxSize(100, 100);
 				Label label = new Label(player1.getItemBag().get(i).toString());
-				Button use = new Button("use");
+				Button use = new Button("Use");
 				Potion potion = (Potion) player1.getItemBag().get(i);
 				label = new Label(potion.toString());
 				
@@ -95,16 +104,30 @@ public class Map1Controller implements Initializable {
 	}	
 	
 	public void monsterTurn(Monster monster) {
+		
 		int randNum = RNG.generateInt(1, 2);
+		
+		//Monster uses random attack
+		//If monster has enough energy and randNum is special attack, use special attack
 		if(randNum == 1 && monster.getCurrentEnergy() >= 5) {
+			
+			//If player chose to defend, reduce damage
 			if(player1.getDefend()) {
+				
+				//Prevent player from gaining life if damage is negative
 				player1.takeDamage((monster.specialAttack() - player1.defend() > 0 ? monster.specialAttack() - player1.defend() : 0));
 				player1.setDefend(false);
 			}else {
 				player1.takeDamage(monster.specialAttack());
 			}
-		}else if(randNum == 2) {
+		
+		//If monster doesn't have enough energy or special attack is not selected, use normal attack
+		}else {
+			
+			//If player chose to defend, reduce damage
 			if(player1.getDefend()) {
+				
+				//Prevent player from gaining life if damage is negative
 				player1.takeDamage((monster.attack() - player1.defend() > 0 ? monster.attack() - player1.defend() : 0));
 				player1.setDefend(false);
 			}else {
@@ -116,13 +139,15 @@ public class Map1Controller implements Initializable {
 	//Updates stats to display correctly
 	public HBox updateStats(Monster monster) {
 		HBox stats = new HBox();
-		
+  //Display player stats
 		StringBuilder playersb = new StringBuilder(player1.getName()).append(" lvl ").append(player1.getLevel())
 		.append("\n HP").append(player1.getCurrentHP()).append(" / ").append(player1.getBaseHP())
+		
 		.append("\nEnergy: ").append(player1.getCurrentEnergy()).append(" / ").append(player1.getBaseEnergy());
 		Label playerLabel = new Label(playersb.toString());
 		playerLabel.setMinSize(300, 100);
 		
+		//Display monster stats
 		StringBuilder monstersb = new StringBuilder(monster.getName());
 		monstersb.append("\n").append(monster.getCurrentHP()).append(" / ").append(monster.getBaseHP());
 		Label monsterLabel = new Label(monstersb.toString());
@@ -130,9 +155,11 @@ public class Map1Controller implements Initializable {
 		
 		stats.getChildren().add(playerLabel);
 		stats.getChildren().add(monsterLabel);
+		stats.setMinSize(400, 400);
 		return stats;
 	}
 	
+	//Closes pop up windows after 3 seconds to prevent users from needing to manually close windows
 	public void popupCloseWindow(Stage window) {
         PauseTransition wait = new PauseTransition(Duration.seconds(3));
         wait.setOnFinished((e) -> {
@@ -153,6 +180,7 @@ public class Map1Controller implements Initializable {
 		HBox stats = updateStats(monster);
 		HBox battle = new HBox();
 		
+		//Create buttons for options
 		Button specialAttack = new Button("Special Attack");
 		Button normalAttack = new Button("Normal Attack");
 		Button defend = new Button("Defend");
@@ -160,28 +188,37 @@ public class Map1Controller implements Initializable {
 		Button runAway = new Button("Run Away");
 
 
+		//If player has enough energy, display special attack
 		if(player1.getCurrentEnergy() >=5) {
 			battle.getChildren().add(specialAttack);
 		}
+		
+		//Add default options
 		battle.getChildren().add(normalAttack);
 		battle.getChildren().add(defend);
+		
+		//If player has a potion, add option to use it
 		if(player1.getItemBag().toString().contains("Potion")) {
 			battle.getChildren().add(usePotion);
 		}
 		battle.getChildren().add(runAway);
 		battle.autosize();
 
+		//Use a special attack
 		specialAttack.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
+				
+				//Prevents user from using special attack if they don't have enough energy
 				if(player1.getCurrentEnergy() > 4) {
 					monster.takeDamage(player1.specialAttack());
 				}
 				else {
+
+					//Gives user helpful message informing them they cannot use a special attack
 					Stage window = new Stage();
 					AnchorPane pane = new AnchorPane();
 					pane.setPrefSize(70, 70);
-					
 					Label error = new Label("You do not have enough energy to use a special attack!");
 					HBox container = new HBox();
 					container.getChildren().add(error);
@@ -193,44 +230,55 @@ public class Map1Controller implements Initializable {
 					
 					popupCloseWindow(window);
 				}
+				
+				//Updates view
 				stats.getChildren().clear();
 				stats.getChildren().add(updateStats(monster));
-				monsterTurn(monster);
+				if(monster.isAlive()) {
+					monsterTurn(monster);
+				}
 				stats.getChildren().clear();
 				stats.getChildren().add(updateStats(monster));
 				
+				//Check if combat is over
 				if(checkDeath(monster)) {
 					window.close();
 				}
 			}
 		});
 		
+		//Uses normal attack
 		normalAttack.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
+				
+				//Player attacks monster
 				monster.takeDamage(player1.attack());
-				if(monster.getCurrentHP() == 0)
-				{
-					monster.setAlive(false);
-				}
-				else
-				{
-					player1.takeDamage(monster.attack());
-				}
+				
+				//Update stats
 				stats.getChildren().clear();
 				stats.getChildren().add(updateStats(monster));
-				monsterTurn(monster);
-				stats.getChildren().clear();
-				stats.getChildren().add(updateStats(monster));
-
+				
+				//If monster is alive, they get a turn
+				if(monster.isAlive()) {
+					monsterTurn(monster);
+					stats.getChildren().clear();
+					stats.getChildren().add(updateStats(monster));
+				}
+				
+				//Check if combat is over
 				if(checkDeath(monster)) {
 					window.close();
 				}
 			}
 		});
+		
+		//Handles defend option
 		defend.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
+				
+				//Sets player's defense variable
 				player1.defend();
 				stats.getChildren().clear();
 				stats.getChildren().add(updateStats(monster));
@@ -258,9 +306,10 @@ public class Map1Controller implements Initializable {
 		runAway.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-
+        
 				//TODO quit combat w rand chance
-				int chance = RNG.generateInt(1, 10);
+				int chance = RNG.generateInt(1, 10) + 10;
+				//Informs user you cannot escape from battles with Krebs
 				if(monster.getMonsterType().equals(MonsterType.KREBS)) {
 					Stage bossWindow = new Stage();
 					AnchorPane pane = new AnchorPane();
@@ -294,7 +343,9 @@ public class Map1Controller implements Initializable {
 						move = true;
 					}
 					else {
-						Stage bossWindow = new Stage();
+						
+						//Gives user a message if they failed to escape
+						Stage window = new Stage();
 						AnchorPane pane = new AnchorPane();
 						pane.setPrefSize(70, 70);
 						Label label = new Label("You failed to escape the battle!");
@@ -302,11 +353,11 @@ public class Map1Controller implements Initializable {
 						escape.getChildren().add(label);
 						pane.getChildren().add(escape);
 						Scene bossScene = new Scene(pane);
-						bossWindow.setScene(bossScene);
-						bossWindow.sizeToScene();
-						bossWindow.show();
+						window.setScene(bossScene);
+						window.sizeToScene();
+						window.show();
 						
-						popupCloseWindow(bossWindow);
+						popupCloseWindow(window);
 					}
 				}
 				stats.getChildren().clear();
@@ -330,6 +381,28 @@ public class Map1Controller implements Initializable {
 		window.sizeToScene();
 		window.show();
 	}
+	
+	public void vendorView () {
+		Stage window = new Stage();
+		window.setOnCloseRequest(event -> {
+			event.consume();
+		});
+		Pane vendor = new AnchorPane();
+		vendor.setPrefSize(700, 700);
+		VBox playerItems = new VBox();
+		VBox vendorItems = new VBox();
+		
+		Label vendorLabel = new Label();
+	
+		Label playerLabel = new Label(player1.printItemBag(player1.getItemBag()));
+		
+		
+		Button Buy=new Button("Buy");
+		Button Sell= new Button("Sell");
+	}
+		
+	
+	
 	//If there is a death, window will close, if player won, dropLoot
 	public boolean checkDeath(Monster monster) {
 		boolean death = false;
@@ -355,6 +428,7 @@ public class Map1Controller implements Initializable {
 		Stage window = new Stage();
 		itemBox = new HBox();
 		//loops throw monster's item bag and prints it to the window
+		//Goes through monsterLoot and creates a box to tell user what they dropped
 		for (int i = 0; i < monster.getItemBag().size(); i++) {
 			Pane itemDisplay = new Pane();
 			itemDisplay.setMinSize(200, 200);
@@ -374,6 +448,7 @@ public class Map1Controller implements Initializable {
 			itemBox.getChildren().add(itemDisplay);
 		}
 		//if there is no loot
+		//Informs user that monster dropped no loot
 		if(monster.getItemBag().isEmpty()) {
 			Label label = new Label("No loot was dropped");
 			itemBox.getChildren().add(label);
@@ -393,15 +468,18 @@ public class Map1Controller implements Initializable {
 	
 
 	public void initSpaces(Map map1) {
+		
 		// init safe spaces
 		Image monImg = new Image("/view/grass.png");
 		Image safeImg = new Image("/view/tile.png");
+		
 		// setting safe spaces
 		for (int i = 0; i < 10; i++) {
 			Space sp = new Space(193, 111, SpaceType.EMPTY, safeImg);
 			map1.getSpaces().put(4 + " " + i, sp);
 			map1Grid.add((Node) sp, 4, i);
 		}
+		
 		// setting monster spaces left of path
 		for (int i = 0; i < 4; i++) {
 			for (int i2 = 0; i2 < 10; i2++) {
@@ -410,6 +488,7 @@ public class Map1Controller implements Initializable {
 				map1Grid.add((Node)sp, i, i2);
 			}
 		}
+		
 		// setting monster spaces right of the path
 		for (int i = 5; i < 10; i++) {
 			for (int i2 = 0; i2 < 10; i2++) {
@@ -421,7 +500,8 @@ public class Map1Controller implements Initializable {
 	}
 
 	public void checkSpace() {
-		// if space door
+		
+		//Creates combat if space is a monster_encounter space
 		Space sp = map1.getSpaces().get(player1.getCoordX() + " " + player1.getCoordY());
 		if (sp.getSt() == SpaceType.MONSTER_ENCOUNTER) {
 			int randEn = RNG.generateInt(0, 10);
@@ -431,10 +511,18 @@ public class Map1Controller implements Initializable {
 				combatView(createMonster());				
 			}
 		} else if (sp.getSt() == SpaceType.BOSS) {
+			//TODO implement boss combat
 		}
+		
+		//Goes to next map if space is a door
 		else if(sp.getSt() == SpaceType.DOOR)
 		{
-			
+			//TODO implement move to next map
+		}
+		
+		//Allows user to interact with the vendor
+		else if(sp.getSt() == SpaceType.VENDOR) {
+			//TODO implement Vendor view
 		}
 	}
 	
@@ -448,22 +536,27 @@ public class Map1Controller implements Initializable {
 		if(chance < 50) {
 			monsterType = MonsterType.OGRE;
 		}
+		
 		//30% chance of WITCH
 		else if(chance < 70) {
 			monsterType = MonsterType.WITCH;
 		}
+		
 		//20% chance of DRAGON
 		else if(chance < 90) {
 			monsterType = MonsterType.DRAGON;
 		}
+		
 		//10% chance of ALPACA
 		else if(chance < 100) {
 			monsterType = MonsterType.SUPREME_EMPEROR_OVERLORD_ALPACA;
 		}
+		
+		
 		Image monImg = new Image("file:graphics/character/big_demon_idle_anim_f0.png");
 		ArrayList<Item> itemBag = new ArrayList<>();
 		int itemNum = RNG.generateInt(0, player1.getLevel());
-		Monster monster = new Monster(player1.getCoordX(), player1.getCoordY(), 193, 110, monImg, 1, 1, 1, 1, "Supreme", monsterType);
+		Monster monster = new Monster(player1.getCoordX(), player1.getCoordY(), 193, 110, monImg, 1, 1, 1, 1, null, monsterType);
 		
 		for(int i =0; i < itemNum; i ++) {
 			String name = "Misc Item";
@@ -472,20 +565,24 @@ public class Map1Controller implements Initializable {
 			int itemInt = RNG.generateInt(monster.getLevel(), player1.getLevel());
 			switch (itemType){
 			case 1:
+				
 				//Selects random armor type (Has 1% chance of legendary armor
 				ArmorType armorType = ArmorType.DEFAULT_ARMOR;
 				chance = RNG.generateInt(0, 100);
 				if(chance < 2) {
 					armorType = ArmorType.FABLED_ARMOR_OF_OOP;
 				}
+				
 				//48% chance of weakest armor
 				else if(chance < 50) {
 					armorType = ArmorType.ROGUES_CLOAK;
 				}
+				
 				//30% chance of moderate armor
 				else if(chance < 80) {
 					armorType = ArmorType.SOLDIERS_ARMOR;
 				}
+				
 				//20% chance of good armor
 				else if(chance < 100) {
 					armorType = ArmorType.HEAVY_ARMOR;
@@ -493,6 +590,8 @@ public class Map1Controller implements Initializable {
 				item = new Armor(armorType);
 				break;
 			case 2:
+				
+				//Selects random potion
 				int potionTypeInt = RNG.generateInt(0, PotionType.class.getEnumConstants().length - 1);
 				PotionType potionType = PotionType.class.getEnumConstants()[potionTypeInt];
 				switch(potionType) {
@@ -554,21 +653,27 @@ public class Map1Controller implements Initializable {
 		return monster;
 	}
 	
-
+	//Updates player1 variable with user input from CharacterCreationController
  	public void importPlayer() {
 		FXMLLoader loader = new FXMLLoader();
 		try {
 			loader.setLocation(getClass().getResource("/view/CharacterCreation.fxml"));
 			loader.load();
+			
 			// Set up controller
 			CharacterCreationController controller = loader.getController();
 			player1 = controller.getPlayer();
+			
+			//TODO bug here?
+			initSpaces(map1);
 			map1Grid.add((Node) player1, player1.getCoordX(), player1.getCoordY());
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
+ 	//Movement methods
 	public void moveLeft() {
 		if (player1.getCoordX() != 0) {
 			player1.setCoordX(player1.getCoordX() - 1);
@@ -623,6 +728,8 @@ public class Map1Controller implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		move = true;
+		
+		//Sets up movement based on user keyPress
 		map1Grid.setOnKeyPressed(key -> {
 			KeyCode keycode = key.getCode();
 			if (move) {
@@ -651,6 +758,8 @@ public class Map1Controller implements Initializable {
 				case RIGHT:
 					moveRight();
 					break;
+					
+				//Allows user to open inventory
 				case I:
 					getItems();
 					break;
@@ -661,10 +770,12 @@ public class Map1Controller implements Initializable {
 				// TODO remove item node
 			}
 		});
-		Image img = new Image("/view/knight.png");
 		Image monImg = new Image("file:graphics/character/big_demon_idle_anim_f0.png");
 		monster1 = new Monster(6, 6, 193, 110, monImg, 1, 1, 1, 1, "Supreme", MonsterType.OGRE);
+		//Set up the map
 		initSpaces(map1);
+		
+		//Spawn the monster
 		map1Grid.add((Node) monster1, monster1.getCoordX(), monster1.getCoordY());
 	}
 }

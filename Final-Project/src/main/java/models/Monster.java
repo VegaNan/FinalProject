@@ -71,7 +71,8 @@ public class Monster extends Character {
 
 	@Override
 	public void takeDamage(int damage) {
-		setCurrentHP(getCurrentHP() - damage);
+		int dmg = damage - getEquippedArmor().getDamageReduction();
+		setCurrentHP(getCurrentHP() - dmg);
 	}
 
 	@Override
