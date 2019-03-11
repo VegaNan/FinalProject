@@ -1,8 +1,7 @@
 package models;
 
-import javafx.animation.PauseTransition;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
+import java.io.Serializable;
+
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -10,14 +9,22 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import utilities.RNG;
 
-public class Player extends Character {
+public class Player extends Character implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 	protected int xp;
 	protected int nextLevelXP;
 	protected boolean defend = false;
+	private String mapLocation;
+	
+	public Player() {
+		super();
+	}
 	
 	public Player(int x, int y, int w, int h, Image img, int strBase, int intBase, int luckBase, int level, String name) {
 		super(x, y, w, h, img, strBase, intBase, luckBase, level, name);
 		this.nextLevelXP = setNextLevelXP(level);
+		mapLocation = "Map1.fxml";
 	}
 
 	public void setDefend(boolean defend) {
@@ -60,8 +67,10 @@ public class Player extends Character {
 	}
 	@Override
 	public void takeDamage(int damage) {
-		int dmg = damage - getEquippedArmor().getDamageReduction();
-		setCurrentHP(getCurrentHP() - dmg);
+		if(damage > 0) {
+			int dmg = damage - getEquippedArmor().getDamageReduction();
+			setCurrentHP(getCurrentHP() - dmg);
+		}
 	}
 
 	@Override

@@ -1,4 +1,3 @@
-
 package controllers;
 
 import java.io.IOException;
@@ -37,7 +36,7 @@ import models.*;
 import models.Weapon;
 import utilities.RNG;
 
-public class Map1Controller extends MapType implements Initializable, Serializable{
+public class Map1Controller implements Initializable, Serializable{
 
 	@FXML
 	GridPane map1Grid;
@@ -52,25 +51,17 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 
 	HBox itemBox;
 	
-	public Map1Controller() {
-		super("Krebs", "/view/Map1.fxml");
-	}
-	
-	public Map1Controller(String saveName, String mapLocation) {
-		super(saveName, mapLocation);
-	}
-	
 	public void getItems() {
 		
 		//Creates a pop up that allows user to view items
 		Stage window = new Stage();
-		Scene scene = new Scene(updateItems(window));
+		Scene scene = new Scene(updateItems());
 		window.setScene(scene);
 		window.sizeToScene();
 		window.show();
 	}
 	
-	public Pane updateItems(Stage scene) {
+	public Pane updateItems() {
 		Pane items = new AnchorPane();
 		itemBox = new HBox();
 		for (int i = 0; i < player1.getItemBag().size(); i++) {
@@ -105,12 +96,11 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 	public void monsterTurn(Monster monster) {
 		
 		int randNum = RNG.generateInt(1, 2);
-		System.out.println("Monster turn");
 		
 		//Monster uses random attack
 		//If monster has enough energy and randNum is special attack, use special attack
-		if(randNum == 1 && monster.getCurrentEnergy() > 4) {
-			System.out.println("Special attack");
+		if(randNum == 1 && monster.getCurrentEnergy() >= 5) {
+			
 			//If player chose to defend, reduce damage
 			if(player1.getDefend()) {
 				
@@ -134,7 +124,7 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 		
 		//If monster doesn't have enough energy or special attack is not selected, use normal attack
 		}else {
-			System.out.println("Normal attack");
+			
 			//If player chose to defend, reduce damage
 			if(player1.getDefend()) {
 				
@@ -142,7 +132,7 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 				player1.takeDamage((monster.attack() - player1.defend() > 0 ? monster.attack() - player1.defend() : 0));
 				player1.setDefend(false);
 			}else {
-				player1.takeDamage((monster.attack() > 0 ? monster.attack() : 0));
+				player1.takeDamage(monster.attack());
 			}
 		}
 	}
@@ -190,7 +180,6 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 		combat.setPrefSize(700, 700);
 		HBox stats = updateStats(monster);
 		HBox battle = new HBox();
-		
 		//Create buttons for options
 		Button specialAttack = new Button("Special Attack");
 		Button normalAttack = new Button("Normal Attack");
@@ -225,7 +214,6 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 					monster.takeDamage(player1.specialAttack());
 				}
 				else {
-
 					//Gives user helpful message informing them they cannot use a special attack
 					Stage window = new Stage();
 					AnchorPane pane = new AnchorPane();
@@ -245,10 +233,7 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 				//Updates view
 				stats.getChildren().clear();
 				stats.getChildren().add(updateStats(monster));
-				System.out.println("Monster alive?");
-				System.out.println(monster.isAlive());
 				if(monster.isAlive()) {
-					System.out.println("Monster haz turn?");
 					monsterTurn(monster);
 				}
 				stats.getChildren().clear();
@@ -257,6 +242,7 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 				//Check if combat is over
 				if(checkDeath(monster)) {
 					window.close();
+					MainMenuController.saveGame(player1.getName(), player1);
 				}
 			}
 		});
@@ -283,6 +269,7 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 				//Check if combat is over
 				if(checkDeath(monster)) {
 					window.close();
+					MainMenuController.saveGame(player1.getName(), player1);
 				}
 			}
 		});
@@ -314,6 +301,7 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 				
 				if(checkDeath(monster)) {
 					window.close();
+					MainMenuController.saveGame(player1.getName(), player1);
 				}
 			}
 		});
@@ -382,6 +370,7 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 				
 				if(checkDeath(monster)) {
 					window.close();
+					MainMenuController.saveGame(player1.getName(), player1);
 				}
 			}
 		});
@@ -394,6 +383,7 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 		window.sizeToScene();
 		window.show();
 	}
+	
 	
 	public void vendorView () {
 		Stage window = new Stage();
@@ -414,6 +404,7 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 		Button Sell= new Button("Sell");
 	}
 
+	
 	//If there is a death, window will close, if player won, dropLoot
 	public boolean checkDeath(Monster monster) {
 		boolean death = false;
@@ -572,7 +563,7 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 		for(int i =0; i < itemNum; i ++) {
 			String name = "Misc Item";
 			Item item = new MiscItem(name, player1.getLevel());
-			int itemType = RNG.generateInt(1, 3);
+			int itemType = RNG.generateInt(1, 4);
 			int itemInt = RNG.generateInt(monster.getLevel(), player1.getLevel());
 			switch (itemType){
 			case 1:
@@ -601,6 +592,7 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 				item = new Armor(armorType);
 				break;
 			case 2:
+			case 3:
 				
 				//Selects random potion
 				int potionTypeInt = RNG.generateInt(0, PotionType.class.getEnumConstants().length - 1);
@@ -621,7 +613,7 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 				}
 				item = new Potion(potionType, itemInt, name, itemInt);
 				break;
-			case 3:
+			case 4:
 				
 				//Selects random weapon type 
 				//Has 1% chance of legendary weapon

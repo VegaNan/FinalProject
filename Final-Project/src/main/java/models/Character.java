@@ -77,6 +77,10 @@ public abstract class Character extends Rectangle{
 		setEquippedWeapon(new Weapon(WeaponType.LENE));
 	}
 
+	public Character() {
+		
+	}
+
 	public int getStrBase() {
 		return strBase;
 	}
@@ -171,7 +175,11 @@ public abstract class Character extends Rectangle{
 	}
 
 	public void setCurrentHP(int currentHP) {
-		this.currentHP = currentHP;
+		if(getBaseHP() < currentHP) {
+			setCurrentHP(getBaseHP());
+		}else {
+			this.currentHP = currentHP;
+		}
 	}
 	
 	public int getBaseEnergy() {
@@ -186,7 +194,11 @@ public abstract class Character extends Rectangle{
 	}
 	
 	public void setCurrentEnergy(int currentEnergy) {
-		this.currentEnergy = currentEnergy;
+		if(getCurrentEnergy() < currentEnergy) {
+			this.currentEnergy = getBaseEnergy();
+		}else {
+			this.currentEnergy = currentEnergy;
+		}
 	}
 
 	public Weapon getEquippedWeapon() {

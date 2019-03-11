@@ -9,6 +9,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -18,17 +19,16 @@ import javafx.scene.Scene;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
-import models.MapType;
+import models.Player;
 
 public class MainMenuController implements Initializable {
-	
-	static MapType loadedGame;
 	
 	public void startNewGame(ActionEvent event) throws IOException {
 		changeScene("/view/CharacterCreation.fxml", event);
 	}
 
 	public void loadGame(ActionEvent event) throws IOException {
+		Player loadedPlayer;
 		changeScene("/view/LoadGame.fxml", event);
 		String path = "saves";
 		File initialFile = new File(path);
@@ -41,13 +41,14 @@ public class MainMenuController implements Initializable {
 		fileChooser.initialDirectoryProperty().set(initialFile);
 		Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
 		File loadFile = fileChooser.showOpenDialog(window);
+		
 		if(loadFile.exists()) {
 			FileInputStream fileIn = null;
 			ObjectInputStream objectIn = null;
 			try {
-				fileIn = new FileInputStream(path);
+				fileIn = new FileInputStream(loadFile);
 				objectIn = new ObjectInputStream(fileIn);
-				loadedGame = (MapType) objectIn.readObject();
+				loadedPlayer = (Player) objectIn.readObject();
 			}catch(FileNotFoundException fnf) {
 				System.out.println("Path does not exist.");
 			}catch(ClassNotFoundException cnfe) {
@@ -68,14 +69,14 @@ public class MainMenuController implements Initializable {
 		}
 	}
 	
-	private static void saveGame() {
-		File path= new File("Default file.krebs");
+	protected static void saveGame(String name, Player player) {
+		File path= new File(name + ".krebs");
 		FileOutputStream fileOut = null;
 		ObjectOutputStream objectOut = null;
 		try {
-			fileOut = new FileOutputStream(path);
+			fileOut = new FileOutputStream("saves/" + path);
 			objectOut = new ObjectOutputStream(fileOut);
-			objectOut.writeObject(loadedGame);
+			objectOut.writeObject(player);
 		} catch(IOException ioe) {
 			System.out.println("Serialization failed...");
 			ioe.printStackTrace();
