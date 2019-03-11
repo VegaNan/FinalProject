@@ -55,8 +55,10 @@ public class Player extends Character {
 	}
 	@Override
 	public void takeDamage(int damage) {
-		int dmg = damage - getEquippedArmor().getDamageReduction();
-		setCurrentHP(getCurrentHP() - dmg);
+		if(damage > 0) {
+			int dmg = damage - getEquippedArmor().getDamageReduction();
+			setCurrentHP(getCurrentHP() - dmg);
+		}
 	}
 
 	@Override
