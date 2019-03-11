@@ -35,7 +35,7 @@ public class CharacterCreationController implements Initializable {
 	@FXML
 	private ToggleGroup characterSelection;
 	
-	private String saveName;
+	private static String saveName;
 
 	private static Player activePlayer;
 	
@@ -50,15 +50,9 @@ public class CharacterCreationController implements Initializable {
 
 	public void startGame(ActionEvent event) {
 		activePlayer = createPlayer();
-		System.out.println("This is characterCreation player");
-		System.out.println(activePlayer);
-		System.out.println("This is the return of getPlayer");
-		System.out.println(getPlayer());
+		importPlayerData("/view/Map1.fxml");
 		MapType game = new MapType(saveName, "/view/Map1.fxml");
 		changeScene(game.getMapLocation(), event);
-		System.out.println("This is return of getPlayer after change scene");
-		System.out.println(getPlayer());
-		importPlayerData("/view/Map1.fxml");
 	}
 
 	private void changeScene(String filename, ActionEvent event) {
@@ -86,8 +80,7 @@ public class CharacterCreationController implements Initializable {
 		try {			
 			loader.load();
 			// makes new scene based on parent
-			Map1Controller controller = new Map1Controller(filename);
-			loader.setController(controller);
+			Map1Controller controller = loader.getController();
 			controller.importPlayer();
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -19,10 +19,11 @@ import javafx.scene.Scene;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
+import models.MapType;
 
 public class MainMenuController implements Initializable {
 	
-	static Map1Controller loadedGame;
+	static MapType loadedGame;
 	
 	public void startNewGame(ActionEvent event) throws IOException {
 		changeScene("/view/CharacterCreation.fxml", event);
@@ -47,7 +48,7 @@ public class MainMenuController implements Initializable {
 			try {
 				fileIn = new FileInputStream(path);
 				objectIn = new ObjectInputStream(fileIn);
-				loadedGame = (Map1Controller) objectIn.readObject();
+				loadedGame = (MapType) objectIn.readObject();
 			}catch(FileNotFoundException fnf) {
 				System.out.println("Path does not exist.");
 			}catch(ClassNotFoundException cnfe) {
