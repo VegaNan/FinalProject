@@ -66,12 +66,12 @@ public class Potion extends Item implements Consumable {
 		case LUCK:
 			System.out.println(
 					target.getName() + " used a " + this.name + " and gained " + this.effectNum + " points of Luck");
-			target.setLuckBase(this.effectNum);
+			target.setLuckBase(target.getLuckBase() + getEffectNum());
 			break;
 		case STRENGTH:
 			System.out.println(target.getName() + " used a " + this.name + " and gained " + this.effectNum
 					+ " points of Strength");
-			target.setStrBase(this.effectNum);
+			target.setStrBase(target.getStrBase() + getEffectNum());
 			break;
 		case INTELLIGENCE:
 			System.out.println(target.getName() + " used a " + this.name + " and gained " + this.effectNum
