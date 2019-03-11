@@ -7,10 +7,12 @@ public class Player extends Character {
 	protected int xp;
 	protected int nextLevelXP;
 	protected boolean defend = false;
+	private String mapLocation;
 	
 	public Player(int x, int y, int w, int h, Image img, int strBase, int intBase, int luckBase, int level, String name) {
 		super(x, y, w, h, img, strBase, intBase, luckBase, level, name);
 		this.nextLevelXP = setNextLevelXP(level);
+		mapLocation = "Map1.fxml";
 	}
 
 	public void setDefend(boolean defend) {
@@ -53,8 +55,10 @@ public class Player extends Character {
 	}
 	@Override
 	public void takeDamage(int damage) {
-		int dmg = damage - getEquippedArmor().getDamageReduction();
-		setCurrentHP(getCurrentHP() - dmg);
+		if(damage > 0) {
+			int dmg = damage - getEquippedArmor().getDamageReduction();
+			setCurrentHP(getCurrentHP() - dmg);
+		}
 	}
 
 	@Override
