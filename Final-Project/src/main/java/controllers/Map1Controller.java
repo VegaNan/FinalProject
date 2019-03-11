@@ -55,13 +55,13 @@ public class Map1Controller implements Initializable, Serializable{
 		
 		//Creates a pop up that allows user to view items
 		Stage window = new Stage();
-		Scene scene = new Scene(updateItems());
+		Scene scene = new Scene(updateItems(window));
 		window.setScene(scene);
 		window.sizeToScene();
 		window.show();
 	}
 	
-	public Pane updateItems() {
+	public Pane updateItems(Stage scene) {
 		Pane items = new AnchorPane();
 		itemBox = new HBox();
 		for (int i = 0; i < player1.getItemBag().size(); i++) {
@@ -79,9 +79,8 @@ public class Map1Controller implements Initializable, Serializable{
 				use.setOnAction(new EventHandler<ActionEvent>() {
 					public void handle(ActionEvent arg0) {
 						potion.use(player1);
-						ArrayList<Item> itemBag = player1.getItemBag();
-						itemBag.remove(index);
-						player1.setItemBag(itemBag);
+						player1.getItemBag().remove(index);
+						scene.close();
 					}
 				});
 				label.autosize();
@@ -106,10 +105,21 @@ public class Map1Controller implements Initializable, Serializable{
 			if(player1.getDefend()) {
 				
 				//Prevent player from gaining life if damage is negative
-				player1.takeDamage((monster.specialAttack() - player1.defend() > 0 ? monster.specialAttack() - player1.defend() : 0));
+				if(monster.specialAttack() - player1.defend() > 0) {
+					player1.takeDamage(monster.specialAttack());
+				}
+				else {
+					System.out.println("Monster special attack is less than 0");
+				}
 				player1.setDefend(false);
 			}else {
-				player1.takeDamage(monster.specialAttack());
+				System.out.println(monster.specialAttack());
+				if(monster.specialAttack() > 0) {
+					player1.takeDamage(monster.specialAttack());
+				}
+				else {
+					System.out.println("Monster special attack is less than 0");
+				}
 			}
 		
 		//If monster doesn't have enough energy or special attack is not selected, use normal attack
@@ -365,7 +375,6 @@ public class Map1Controller implements Initializable, Serializable{
 			}
 		});
 
-
 		combat.getChildren().add(stats);
 		combat.getChildren().add(battle);
 		combat.autosize();
@@ -548,7 +557,7 @@ public class Map1Controller implements Initializable, Serializable{
 		
 		Image monImg = new Image("file:graphics/character/big_demon_idle_anim_f0.png");
 		ArrayList<Item> itemBag = new ArrayList<>();
-		int itemNum = RNG.generateInt(0, player1.getLevel());
+		int itemNum = RNG.generateInt(0, player1.getLevel() + 5);
 		Monster monster = new Monster(player1.getCoordX(), player1.getCoordY(), 193, 110, monImg, 1, 1, 1, 1, null, monsterType);
 		
 		for(int i =0; i < itemNum; i ++) {

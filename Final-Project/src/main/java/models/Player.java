@@ -3,6 +3,10 @@ package models;
 import java.io.Serializable;
 
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
+import javafx.util.Duration;
 import utilities.RNG;
 
 public class Player extends Character implements Serializable{
@@ -74,7 +78,7 @@ public class Player extends Character implements Serializable{
 		int chance = RNG.generateInt(1, 20);
 		int playerCrit = RNG.generateInt(1, 20) + getLuckMod();
 		int damage;
-		damage = 5 + getStrMod() + equippedWeapon.getDamage();
+		damage = 5 + getStrength() + equippedWeapon.getDamage();
 		if(playerCrit > chance) {
 			damage = damage * 2;
 		}
