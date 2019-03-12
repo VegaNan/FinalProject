@@ -35,7 +35,8 @@
 
       <Button fx:id="myButton" mnemonicParsing="false" prefHeight="31.0" prefWidth="7.0" />
 
-      <Button fx:id="button" mnemonicParsing="false" onAction="#gameOver" text="Button" visible="false" />
+      <Button fx:id="gameOverButton" mnemonicParsing="false" onAction="#gameOver" text="Button" visible="false" />
+      <Button fx:id="doorButton" mnemonicParsing="false" onAction="#nextMap" text="Button" visible="false" />
 
    </children>
 

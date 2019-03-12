@@ -136,4 +136,5 @@ public class CharacterCreationController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		leprechaunButton.setSelected(true);
-	}}
+	}
+}

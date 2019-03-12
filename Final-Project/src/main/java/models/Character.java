@@ -63,6 +63,7 @@ public abstract class Character extends Rectangle{
 		setLuckBase(luckBase);
 		setLevel(level);
 		setName(name);
+		setAlive(true);
 		setBaseHP(getStrBase() * 10);
 		setCurrentHP(getBaseHP());
 		setBaseEnergy(getIntBase() * 7);
@@ -74,6 +75,10 @@ public abstract class Character extends Rectangle{
 		setFill(new ImagePattern(img));
 		setEquippedArmor(new Armor(ArmorType.DEFAULT_ARMOR));
 		setEquippedWeapon(new Weapon(WeaponType.LENE));
+	}
+
+	public Character() {
+		
 	}
 
 	public int getStrBase() {
@@ -170,7 +175,11 @@ public abstract class Character extends Rectangle{
 	}
 
 	public void setCurrentHP(int currentHP) {
-		this.currentHP = currentHP;
+		if(getBaseHP() < currentHP) {
+			setCurrentHP(getBaseHP());
+		}else {
+			this.currentHP = currentHP;
+		}
 	}
 	
 	public int getBaseEnergy() {
@@ -185,7 +194,11 @@ public abstract class Character extends Rectangle{
 	}
 	
 	public void setCurrentEnergy(int currentEnergy) {
-		this.currentEnergy = currentEnergy;
+		if(getCurrentEnergy() < currentEnergy) {
+			this.currentEnergy = getBaseEnergy();
+		}else {
+			this.currentEnergy = currentEnergy;
+		}
 	}
 
 	public Weapon getEquippedWeapon() {
@@ -205,15 +218,15 @@ public abstract class Character extends Rectangle{
 	}
 
 	public int getStrength() {
-		return this.strBase + this.strMod;
+		return getStrBase() + getStrMod();
 	}
 
 	public int getIntelligence() {
-		return this.intBase + this.intMod;
+		return getIntBase() + getIntMod();
 	}
 
 	public int getLuck() {
-		return this.luckBase + this.luckMod;
+		return getLuckBase() + getLuckMod();
 	}
 
 	public String getName() {
