@@ -123,6 +123,8 @@ public class Map1Controller implements Initializable {
 						weapon.equip(player1);
 					}
 				});
+				item.getChildren().add(label);
+				item.getChildren().add(equip);
 			}
 			if (player1.getItemBag().get(i) instanceof Armor) {
 				Label label = new Label(player1.getItemBag().get(i).toString());
@@ -134,6 +136,8 @@ public class Map1Controller implements Initializable {
 						armor.equip(player1);
 					}
 				});
+				item.getChildren().add(label);
+				item.getChildren().add(equip);
 			}
 			itemBox.getChildren().add(item);
 		}
