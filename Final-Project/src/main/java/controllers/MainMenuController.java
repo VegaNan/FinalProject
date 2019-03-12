@@ -7,7 +7,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -27,7 +29,8 @@ public class MainMenuController implements Initializable {
 		changeScene("/view/CharacterCreation.fxml", event);
 	}
 
-	public void loadGame(ActionEvent event) throws IOException {
+	public void loadGame(ActionEvent event) throws IOException{
+		ActionEvent ourEvent = event;
 		Player loadedPlayer = new Player();
 		changeScene("/view/LoadGame.fxml", event);
 		String path = "saves";
@@ -48,7 +51,7 @@ public class MainMenuController implements Initializable {
 			try {
 				fileIn = new FileInputStream(loadFile);
 				objectIn = new ObjectInputStream(fileIn);
-				loadedPlayer = (Player) objectIn.readObject();
+				loadedPlayer = (Player)objectIn.readObject();
 			}catch(FileNotFoundException fnf) {
 				System.out.println("Path does not exist.");
 			}catch(ClassNotFoundException cnfe) {
@@ -68,7 +71,7 @@ public class MainMenuController implements Initializable {
 			}
 		}
 		//TODO need to start game with this player
-		
+		changeScene(loadedPlayer.getMapLocation(), ourEvent);
 	}
 	
 	protected static void saveGame(String name, Player player) {
@@ -116,6 +119,5 @@ public class MainMenuController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
-
 	}
 }
