@@ -68,8 +68,14 @@ public class Map1Controller implements Initializable{
 	public boolean move;
 
 	HBox itemBox;
-
-	public Map1Controller() {
+	
+	public Map1Controller(){
+		
+	}
+	
+	public Map1Controller(Player player) {
+		
+	}
 
 	public void getItems() {
 		Stage window = new Stage();
