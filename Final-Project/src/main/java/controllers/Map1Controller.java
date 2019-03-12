@@ -3,7 +3,9 @@ package controllers;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
@@ -14,6 +16,7 @@ import enums.PotionType;
 import enums.SpaceType;
 import enums.WeaponType;
 import javafx.animation.PauseTransition;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -31,6 +34,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import models.*;
@@ -387,6 +393,17 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 		window.setScene(scene);
 		window.sizeToScene();
 		window.show();
+		
+		String music = "/audio/BattleMusic.mp3";
+		URL resource = getClass().getResource(music);
+		Media media;
+		try {
+			media = new Media((resource).toURI().toString());
+			MediaPlayer player = new MediaPlayer(media);
+			player.play();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void vendorView () {
