@@ -412,15 +412,15 @@ public class Map1Controller implements Initializable {
 						window.setScene(bossScene);
 						window.sizeToScene();
 						window.show();
+						stats.getChildren().clear();
+						stats.getChildren().add(updateStats(monster));
+						monsterTurn(monster);
+						stats.getChildren().clear();
+						stats.getChildren().add(updateStats(monster));
 
 						popupCloseWindow(window);
 					}
 				}
-				stats.getChildren().clear();
-				stats.getChildren().add(updateStats(monster));
-				monsterTurn(monster);
-				stats.getChildren().clear();
-				stats.getChildren().add(updateStats(monster));
 
 				if (checkDeath(monster)) {
 					// window.close();
