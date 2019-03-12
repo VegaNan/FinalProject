@@ -25,6 +25,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
@@ -400,6 +401,10 @@ public class Map1Controller extends MapType implements Initializable{
 	private ToggleGroup buySelection;
 	@FXML
 	private Button exit;
+	@FXML 
+	private TextField sellItemField;
+	@FXML 
+	private Label healthPotion;
 	public void vendorView () {
 		
 		Stage window = new Stage();
@@ -411,11 +416,16 @@ public class Map1Controller extends MapType implements Initializable{
 		VBox playerItems = new VBox();
 		VBox vendorItems = new VBox();
 		
+		// change to buyVendor.fxml
 	
 		Label playerLabel = new Label(player1.printItemBag(player1.getItemBag()));
 		Vendor ven = new Vendor();
 		
 		Label vendorLabel = new Label(ven.printItemBag(ven.getItemBag()));
+		Potion hp = new Potion(PotionType.HEALING, 20, "HealthPotion", 100);
+		String s = "";
+		
+		healthPotion.setText(hp.toString());
 		
 		Button Buy=new Button("Buy");
 		Button Sell= new Button("Sell");
@@ -425,65 +435,55 @@ public class Map1Controller extends MapType implements Initializable{
 			public void handle(ActionEvent event) {
 				boolean allItemsSold = false;
 				
-				// change to buyVendor.fxml
 				
 				Weapon weapon = new Weapon(WeaponType.SMALL_DAGGER);
 				Weapon weapon1 = new Weapon(WeaponType.POCKET_KNIFE);
 				Weapon weapon2 = new Weapon(WeaponType.SOLDIERS_SWORD);
 				
-//				if(buySelection.getSelectedToggle().equals(dagger) && player1.getMoney() > weapon.getValue()) {
-//					player1.addItem(weapon);
-//					player1.setMoney(player1.getMoney() - weapon.getValue());
-//				}
-//				else if (buySelection.getSelectedToggle().equals(knife) && player1.getMoney() > weapon1.getValue()) {
-//					player1.addItem(weapon1);
-//					player1.setMoney(player1.getMoney() - weapon1.getValue());
-//				}
-//				else if(buySelection.getSelectedToggle().equals(sword) && player1.getMoney() > weapon2.getValue()) {
-//					player1.addItem(weapon2);
-//					player1.setMoney(player1.getMoney() - weapon2.getValue());
-//				}
-//				else if(exit.getOnMousePressed() != null) {
-//					window.close();
-//				}
-				
-				
-				
-				if(allItemsSold) {
+				if(buySelection.getSelectedToggle().equals(dagger) && player1.getMoney() > weapon.getValue()) {
+					player1.addItem(weapon);
+					player1.setMoney(player1.getMoney() - weapon.getValue());
+				}
+				else if (buySelection.getSelectedToggle().equals(knife) && player1.getMoney() > weapon1.getValue()) {
+					player1.addItem(weapon1);
+					player1.setMoney(player1.getMoney() - weapon1.getValue());
+				}
+				else if(buySelection.getSelectedToggle().equals(sword) && player1.getMoney() > weapon2.getValue()) {
+					player1.addItem(weapon2);
+					player1.setMoney(player1.getMoney() - weapon2.getValue());
+				}
+				else if(exit.getOnMousePressed() != null) {
 					window.close();
 				}
+				
+				
+				
+				
 			}
 		});
 		
 		Sell.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				boolean allItemsSold = false;
+				
 				
 				// change to sellVendor.fxml
 				
 				player1.printItemBag(player1.getItemBag());
+				for(int i = 0; i <= player1.getItemBag().size(); i++ ) {
+					if(sellItemField.equals(player1.getItemBag().get(i).name)) {
+						
+					}
+					
+				}
 				
-//				if(buySelection.getSelectedToggle().equals(dagger)) {
-//					player1.setMoney(player1.getMoney() - weapon.getValue());
-//				}
-//				else if (buySelection.getSelectedToggle().equals(knife) && player1.getMoney() > weapon1.getValue()) {
-//					player1.addItem(weapon1);
-//					player1.setMoney(player1.getMoney() - weapon1.getValue());
-//				}
-//				else if(buySelection.getSelectedToggle().equals(sword) && player1.getMoney() > weapon2.getValue()) {
-//					player1.addItem(weapon2);
-//					player1.setMoney(player1.getMoney() - weapon2.getValue());
-//				}
-//				else if(exit.getOnMousePressed() != null) {
-//					window.close();
-//				}
-				
-				
-				
-				if(allItemsSold) {
+				 if(exit.getOnMousePressed() != null) {
 					window.close();
 				}
+				
+				
+				
+				
 			}
 		});
 		
