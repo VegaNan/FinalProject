@@ -128,7 +128,6 @@ public class Map3Controller implements Initializable{
 			// If monster doesn't have enough energy or special attack is not selected, use
 			// normal attack
 		} else {
-
 			// If player chose to defend, reduce damage
 			if (player1.getDefend()) {
 
@@ -150,13 +149,13 @@ public class Map3Controller implements Initializable{
 
 				.append("\nEnergy: ").append(player1.getCurrentEnergy()).append(" / ").append(player1.getBaseEnergy());
 		Label playerLabel = new Label(playersb.toString());
-		playerLabel.setMinSize(300, 100);
+		playerLabel.setMinSize(500, 200);
 
 		// Display monster stats
-		StringBuilder monstersb = new StringBuilder(monster.getName());
+		StringBuilder monstersb = new StringBuilder(monster.getName()).append(" lvl ").append(monster.getLevel());
 		monstersb.append("\n").append(monster.getCurrentHP()).append(" / ").append(monster.getBaseHP());
 		Label monsterLabel = new Label(monstersb.toString());
-		monsterLabel.setMinSize(300, 100);
+		monsterLabel.setMinSize(500, 200);
 
 		stats.getChildren().add(playerLabel);
 		stats.getChildren().add(monsterLabel);
@@ -272,7 +271,7 @@ public class Map3Controller implements Initializable{
 					stats.getChildren().add(updateStats(monster));
 				}
 
-				// Check if combat is over
+				// Check if combat is over. zzzzzzz
 				if (checkDeath(monster)) {
 					window.close();
 					MainMenuController.saveGame(player1.getName(), player1);
