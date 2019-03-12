@@ -98,7 +98,7 @@ public class Map1Controller implements Initializable {
 				Label label = new Label(player1.getItemBag().get(i).toString());
 				Button use = new Button("Use");
 				Potion potion = (Potion) player1.getItemBag().get(i);
-				label = new Label(potion.toString());
+				label = new Label("\n\n" + potion.toString());
 
 				int index = i;
 				use.setOnAction(new EventHandler<ActionEvent>() {
@@ -117,7 +117,7 @@ public class Map1Controller implements Initializable {
 				Label label = new Label(player1.getItemBag().get(i).toString());
 				Button equip = new Button("Equip");
 				Weapon weapon = (Weapon) player1.getItemBag().get(i);
-				label = new Label(weapon.toString());
+				label = new Label("\n\n" + weapon.toString());
 				equip.setOnAction(new EventHandler<ActionEvent>() {
 					public void handle(ActionEvent arg0) {
 						weapon.equip(player1);
@@ -130,7 +130,7 @@ public class Map1Controller implements Initializable {
 				Label label = new Label(player1.getItemBag().get(i).toString());
 				Button equip = new Button("Equip");
 				Armor armor = (Armor) player1.getItemBag().get(i);
-				label = new Label(armor.toString());
+				label = new Label("\n\n" + armor.toString());
 				equip.setOnAction(new EventHandler<ActionEvent>() {
 					public void handle(ActionEvent arg0) {
 						armor.equip(player1);
@@ -186,9 +186,11 @@ public class Map1Controller implements Initializable {
 	public HBox updateStats(Monster monster) {
 		HBox stats = new HBox();
 		// Display player stats
-		StringBuilder playersb = new StringBuilder(player1.getName()).append(" lvl ").append(player1.getLevel())
-				.append("\n HP").append(player1.getCurrentHP()).append(" / ").append(player1.getBaseHP())
-				.append("\nEnergy: ").append(player1.getCurrentEnergy()).append(" / ").append(player1.getBaseEnergy());
+		StringBuilder playersb = new StringBuilder("\n\n" + player1.getName()).append(" lvl ")
+				.append(player1.getLevel()).append("\n HP").append(player1.getCurrentHP()).append(" / ")
+				.append(player1.getBaseHP()).append("\nEnergy: ").append(player1.getCurrentEnergy()).append(" / ")
+				.append(player1.getBaseEnergy()).append("\n").append("Equipped Armor:" + player1.getEquippedArmor())
+				.append("\n").append("Equipped Weapon:" + player1.getEquippedWeapon());
 		Label playerLabel = new Label(playersb.toString());
 		playerLabel.setMinSize(500, 200);
 
@@ -454,9 +456,9 @@ public class Map1Controller implements Initializable {
 
 	public void vendorView() {
 		Stage window = new Stage();
-		//window.setOnCloseRequest(event -> {
-		//	event.consume();
-		//});
+		// window.setOnCloseRequest(event -> {
+		// event.consume();
+		// });
 		Pane vendor = new AnchorPane();
 		Scene scene = new Scene(vendor);
 		vendor.setPrefSize(700, 700);
@@ -483,7 +485,7 @@ public class Map1Controller implements Initializable {
 
 		Button Buy = new Button("Buy");
 
-		for(int i = 0; i < player1.getItemBag().size(); i++) {
+		for (int i = 0; i < player1.getItemBag().size(); i++) {
 			VBox itemBox = new VBox();
 			Label item = new Label(player1.getItemBag().get(i).toString());
 			item.setPrefSize(200, 200);
@@ -493,7 +495,7 @@ public class Map1Controller implements Initializable {
 				@Override
 				public void handle(ActionEvent event) {
 					player1.setMoney(player1.getMoney() + player1.getItemBag().get(ii).value);
-					player1.removeItem(ii);					
+					player1.removeItem(ii);
 					if (exit.getOnMousePressed() != null) {
 						window.close();
 					}
@@ -503,7 +505,7 @@ public class Map1Controller implements Initializable {
 			itemBox.getChildren().add(Sell);
 			playerItems.getChildren().add(itemBox);
 		}
-		
+
 		Buy.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -529,7 +531,6 @@ public class Map1Controller implements Initializable {
 			}
 		});
 
-		
 		playerItems.getChildren().add(playerLabel);
 		vendorItems.getChildren().add(vendorLabel);
 		vendor.getChildren().add(vendorItems);
@@ -580,7 +581,7 @@ public class Map1Controller implements Initializable {
 			itemDisplay.getChildren().add(label);
 			itemBox.getChildren().add(itemDisplay);
 		}
-		
+
 		for (Item loot : monster.getItemBag()) {
 			player1.getItemBag().add(loot);
 		}
