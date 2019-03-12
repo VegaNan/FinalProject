@@ -611,6 +611,8 @@ public class Map1Controller implements Initializable {
 			vendorItems.getChildren().add(itemBox);
 		}
 		
+		VBox money = new VBox();
+		money.getChildren().add(new Label("Money: " + player1.getMoney()));
 		playerItems.getChildren().add(playerLabel);
 		playerItems.setMinSize(500, 200);
 		vendorItems.getChildren().add(vendorLabel);
