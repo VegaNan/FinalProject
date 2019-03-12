@@ -528,13 +528,113 @@ public class Map1Controller implements Initializable {
 					window.close();
 				}
 
-			}
-		});
+				// 48% chance of weakest armor
+				else if (chance < 50) {
+					armorType = ArmorType.ROGUES_CLOAK;
+				}
 
+				// 30% chance of moderate armor
+				else if (chance < 80) {
+					armorType = ArmorType.SOLDIERS_ARMOR;
+				}
+
+				// 20% chance of good armor
+				else if (chance < 100) {
+					armorType = ArmorType.HEAVY_ARMOR;
+				}
+				item = new Armor(armorType);
+				break;
+			case 2:
+			case 3:
+			case 4:
+
+				// Selects random potion
+				int potionTypeInt = RNG.generateInt(0, PotionType.class.getEnumConstants().length - 1);
+				PotionType potionType = PotionType.class.getEnumConstants()[potionTypeInt];
+				if (!potionType.equals(PotionType.HEALING)) {
+					potionTypeInt = RNG.generateInt(1, 5);
+				} else {
+					potionTypeInt = (player1.getLevel() * 10) + RNG.generateInt(1, 10);
+				}
+				switch (potionType) {
+				case HEALING:
+					name = "Healing Potion";
+					break;
+				case INTELLIGENCE:
+					name = "Intelligence Potion";
+					break;
+				case LUCK:
+					name = "Luck Potion";
+					break;
+				case STRENGTH:
+					name = "Strength Potion";
+					break;
+				}
+				item = new Potion(potionType, potionTypeInt, name, potionTypeInt);
+				break;
+			case 5:
+
+				// Selects random weapon type
+				// Has 1% chance of legendary weapon
+				WeaponType weaponType = WeaponType.LENE;
+				chance = RNG.generateInt(0, 100);
+				if (chance < 2) {
+					weaponType = WeaponType.WRATH_OF_THE_GODS;
+				}
+
+				// 49% chance of weakest weapon
+				else if (chance < 50) {
+					weaponType = WeaponType.POCKET_KNIFE;
+				}
+
+				// 20% chance of next highest weapon
+				else if (chance < 70) {
+					weaponType = WeaponType.SMALL_DAGGER;
+				}
+
+				// 10% chance of moderate weapon
+				else if (chance < 80) {
+					weaponType = WeaponType.SOLDIERS_SWORD;
+				}
+
+				// 15% chance of good weapon
+				else if (chance < 95) {
+					weaponType = WeaponType.HEAVY_CLAYMORE;
+				}
+
+				// 5% chance of good armor
+				else if (chance < 100) {
+					weaponType = WeaponType.FLAMING_SWORD;
+				}
+				item = new Weapon(weaponType);
+				break;
+			}
+			itemBag.add(item);
+		}
+		
+		for(int i = 0; i < itemBag.size(); i++) {
+			VBox itemBox = new VBox();
+			Label item = new Label(itemBag.get(i).toString());
+			item.setPrefSize(200, 200);
+			Button Buy = new Button("Buy");
+			itemBox.getChildren().add(item);
+			itemBox.getChildren().add(Buy);
+			int ii = i;
+			Buy.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					player1.setMoney(player1.getMoney() - itemBag.get(ii).value);
+					player1.addItem(itemBag.get(ii));
+				}
+			});
+			vendorItems.getChildren().add(itemBox);
+		}
+		
 		playerItems.getChildren().add(playerLabel);
+		playerItems.setMinSize(700, 200);
 		vendorItems.getChildren().add(vendorLabel);
+		vendorItems.setMinSize(700, 200);
 		vendor.getChildren().add(vendorItems);
-		vendor.getChildren().add(Buy);
 		vendor.getChildren().add(playerItems);
 		window.setScene(scene);
 		window.show();

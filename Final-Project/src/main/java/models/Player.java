@@ -69,10 +69,13 @@ public class Player extends Character implements Serializable{
 	public int setNextLevelXP(int level) {
 		System.out.println(level);
 		if (level == 1) {
-			return 1000;
+			setStrBase(getStrBase() + 2);
+			setIntBase(getIntBase() + 2);
+			setLuckBase(getLuckBase() + 2);
+			return 500;
 		} else {
 			level -= 1;
-			return (level * 1000) + setNextLevelXP(level);
+			return (level * 500) + setNextLevelXP(level);
 		}
 	}
 	@Override
