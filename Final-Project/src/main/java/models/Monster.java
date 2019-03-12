@@ -44,10 +44,20 @@ public class Monster extends Character {
 			luck = RNG.generateInt(3, 40) * level;
 			xp = RNG.generateInt(25, 200) * level;
 			break;
+		case KREBS:
+			setName(name);
+			str = RNG.generateInt(30, 60) * getLevel();
+			intelligence = RNG.generateInt(60, 70) * getLevel();
+			luck = RNG.generateInt(30, 60) * getLevel();
+			xp = getLevel() * 1000;
+			break;
+		default:
+			break;
 		}
 		setStrBase(str);
 		setIntBase(intelligence);
 		setLuckBase(luck);
+		setXPYield(xp);
 		setBaseHP(getStrBase() * 10);
 		setCurrentHP(getBaseHP());
 		setBaseEnergy(getIntBase() * 7);

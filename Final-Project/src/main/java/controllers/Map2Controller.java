@@ -73,20 +73,20 @@ public class Map2Controller implements Initializable{
 
 		// Creates a pop up that allows user to view items
 		Stage window = new Stage();
-		Scene scene = new Scene(updateItems());
+		Scene scene = new Scene(updateItems(window));
 		window.setScene(scene);
 		window.sizeToScene();
 		window.show();
 	}
 
-	public Pane updateItems() {
+	public Pane updateItems(Stage window) {
 		Pane items = new AnchorPane();
 		itemBox = new HBox();
 		for (int i = 0; i < player1.getItemBag().size(); i++) {
 			Pane item = new Pane();
 
 			// Adds potion to the view if user has a potion
-			if (player1.getItemBag().get(i).name.contains("Potion")) {
+			if (player1.getItemBag().get(i).getName().contains("Potion")) {
 				item.setMaxSize(100, 100);
 				Label label = new Label(player1.getItemBag().get(i).toString());
 				Button use = new Button("Use");
@@ -100,13 +100,15 @@ public class Map2Controller implements Initializable{
 						ArrayList<Item> itemBag = player1.getItemBag();
 						itemBag.remove(index);
 						player1.setItemBag(itemBag);
+						window.close();
+						getItems();
 					}
 				});
 				label.autosize();
 				item.getChildren().add(label);
 				item.getChildren().add(use);
+				itemBox.getChildren().add(item);
 			}
-			itemBox.getChildren().add(item);
 		}
 		items.getChildren().add(itemBox);
 		return items;
@@ -477,6 +479,10 @@ public class Map2Controller implements Initializable{
 			itemBox.getChildren().add(label);
 		}
 		// giving xp to player
+		Label label = new Label("Monster gave " + monster.getXPYield() + " xp!");
+		HBox xp = new HBox();
+		xp.getChildren().add(label);
+		itemBox.getChildren().add(xp);
 		player1.setXp(player1.getXp() + monster.getXPYield());
 		// checking if player levels up
 		int prevLevel = player1.getLevel();
@@ -579,7 +585,8 @@ public class Map2Controller implements Initializable{
 				combatView(createMonster());
 			}
 		} else if (sp.getSt() == SpaceType.BOSS) {
-			Boss boss = new Boss(0, 0, 0, 0, null, 0, 0, 0, 0, null, null);
+			Image bossImage = new Image("/images/enemy.png");
+			Boss boss = new Boss(0, 0, 0, 0, bossImage, 100, 100, 100, player1.getLevel(), "The Krebsinator!", MonsterType.KREBS);
 			combatView(boss);
 		}
 
