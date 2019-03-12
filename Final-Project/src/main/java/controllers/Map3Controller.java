@@ -293,7 +293,10 @@ public class Map3Controller implements Initializable{
 				monsterTurn(monster);
 				stats.getChildren().clear();
 				stats.getChildren().add(updateStats(monster));
-
+				if (checkDeath(monster)) {
+					window.close();
+					MainMenuController.saveGame(player1.getName(), player1);
+				}
 			}
 		});
 		usePotion.setOnAction(new EventHandler<ActionEvent>() {
