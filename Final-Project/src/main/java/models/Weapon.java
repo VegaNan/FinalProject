@@ -3,9 +3,10 @@ package models;
 import java.io.Serializable;
 
 import enums.WeaponType;
+import interfaces.Equippable;
 import utilities.RNG;
 
-public class Weapon extends Item implements Serializable{
+public class Weapon extends Item implements Serializable, Equippable{
 	private static final long serialVersionUID = 1L;
 	protected int damage;
 	protected WeaponType weaponType;
@@ -79,5 +80,14 @@ public class Weapon extends Item implements Serializable{
 		.append("\nValue=").append(getValue());
 		return builder.toString();
 	}
+	@Override
+	public String getDescription() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
+	@Override
+	public void equip(Player player1) {
+		player1.setEquippedWeapon(this);
+	}
 }

@@ -159,13 +159,13 @@ public class Map2Controller implements Initializable{
 				.append("\n HP").append(player1.getCurrentHP()).append(" / ").append(player1.getBaseHP())
 				.append("\nEnergy: ").append(player1.getCurrentEnergy()).append(" / ").append(player1.getBaseEnergy());
 		Label playerLabel = new Label(playersb.toString());
-		playerLabel.setMinSize(300, 100);
+		playerLabel.setMinSize(500, 200);
 
 		// Display monster stats
-		StringBuilder monstersb = new StringBuilder(monster.getName());
+		StringBuilder monstersb = new StringBuilder(monster.getName()).append(" lvl ").append(monster.getLevel());
 		monstersb.append("\n").append(monster.getCurrentHP()).append(" / ").append(monster.getBaseHP());
 		Label monsterLabel = new Label(monstersb.toString());
-		monsterLabel.setMinSize(300, 100);
+		monsterLabel.setMinSize(500, 200);
 		
 		if(monster.getCurrentHP() < 1) {
 			monster.setAlive(false);
@@ -312,7 +312,10 @@ public class Map2Controller implements Initializable{
 				monsterTurn(monster);
 				stats.getChildren().clear();
 				stats.getChildren().add(updateStats(monster));
-
+				if (checkDeath(monster)) {
+					window.close();
+					MainMenuController.saveGame(player1.getName(), player1);
+				}
 			}
 		});
 		usePotion.setOnAction(new EventHandler<ActionEvent>() {
@@ -519,7 +522,7 @@ public class Map2Controller implements Initializable{
 			map2.getSpaces().put(4 + " " + i, emptySp);
 			map2Grid.add((Node) emptySp, 4, i);
 		}
-		// setting monster spaces left of path
+		// setting monster spaces left
 		for (int i = 0; i < 3; i++) {
 			for (int i2 = 0; i2 < 10; i2++) {
 				Space monSp = new Space(193, 111, SpaceType.MONSTER_ENCOUNTER, monImg);
@@ -539,7 +542,7 @@ public class Map2Controller implements Initializable{
 			map2.getSpaces().put(5 + " " + i, monSp);
 			map2Grid.add(monSp, 5, i);
 		}
-		// setting monster spaces right of the path
+		// setting monster spaces right
 		for (int i = 6; i < 10; i++) {
 			for (int i2 = 0; i2 < 10; i2++) {
 				Space monSp = new Space(193, 111, SpaceType.MONSTER_ENCOUNTER, monImg);
