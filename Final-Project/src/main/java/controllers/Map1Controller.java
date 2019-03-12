@@ -388,7 +388,18 @@ public class Map1Controller extends MapType implements Initializable{
 		window.show();
 	}
 	
+	@FXML
+	private RadioButton sword;
+	@FXML
+	private RadioButton knife;
+	@FXML
+	private RadioButton dagger;
+	@FXML
+	private ToggleGroup buySelection;
+	@FXML
+	private Button exit;
 	public void vendorView () {
+		
 		Stage window = new Stage();
 		window.setOnCloseRequest(event -> {
 			event.consume();
@@ -398,14 +409,84 @@ public class Map1Controller extends MapType implements Initializable{
 		VBox playerItems = new VBox();
 		VBox vendorItems = new VBox();
 		
-		Label vendorLabel = new Label();
 	
 		Label playerLabel = new Label(player1.printItemBag(player1.getItemBag()));
+		Vendor ven = new Vendor();
 		
+		Label vendorLabel = new Label(ven.printItemBag(ven.getItemBag()));
 		
 		Button Buy=new Button("Buy");
 		Button Sell= new Button("Sell");
+		
+		Buy.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				boolean allItemsSold = false;
+				
+				// change to buyVendor.fxml
+				
+				Weapon weapon = new Weapon(WeaponType.SMALL_DAGGER);
+				Weapon weapon1 = new Weapon(WeaponType.POCKET_KNIFE);
+				Weapon weapon2 = new Weapon(WeaponType.SOLDIERS_SWORD);
+				
+//				if(buySelection.getSelectedToggle().equals(dagger) && player1.getMoney() > weapon.getValue()) {
+//					player1.addItem(weapon);
+//					player1.setMoney(player1.getMoney() - weapon.getValue());
+//				}
+//				else if (buySelection.getSelectedToggle().equals(knife) && player1.getMoney() > weapon1.getValue()) {
+//					player1.addItem(weapon1);
+//					player1.setMoney(player1.getMoney() - weapon1.getValue());
+//				}
+//				else if(buySelection.getSelectedToggle().equals(sword) && player1.getMoney() > weapon2.getValue()) {
+//					player1.addItem(weapon2);
+//					player1.setMoney(player1.getMoney() - weapon2.getValue());
+//				}
+//				else if(exit.getOnMousePressed() != null) {
+//					window.close();
+//				}
+				
+				
+				
+				if(allItemsSold) {
+					window.close();
+				}
+			}
+		});
+		
+		Sell.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				boolean allItemsSold = false;
+				
+				// change to sellVendor.fxml
+				
+				player1.printItemBag(player1.getItemBag());
+				
+//				if(buySelection.getSelectedToggle().equals(dagger)) {
+//					player1.setMoney(player1.getMoney() - weapon.getValue());
+//				}
+//				else if (buySelection.getSelectedToggle().equals(knife) && player1.getMoney() > weapon1.getValue()) {
+//					player1.addItem(weapon1);
+//					player1.setMoney(player1.getMoney() - weapon1.getValue());
+//				}
+//				else if(buySelection.getSelectedToggle().equals(sword) && player1.getMoney() > weapon2.getValue()) {
+//					player1.addItem(weapon2);
+//					player1.setMoney(player1.getMoney() - weapon2.getValue());
+//				}
+//				else if(exit.getOnMousePressed() != null) {
+//					window.close();
+//				}
+				
+				
+				
+				if(allItemsSold) {
+					window.close();
+				}
+			}
+		});
+		
 	}
+
 		
 	
 	
