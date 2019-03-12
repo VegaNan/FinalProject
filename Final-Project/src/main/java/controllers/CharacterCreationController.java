@@ -21,7 +21,7 @@ import models.Player;
 import utilities.RNG;
 
 public class CharacterCreationController implements Initializable {
-	@FXML 
+	@FXML
 	private TextField characterNameField;
 	@FXML
 	private RadioButton knightButton;
@@ -33,12 +33,12 @@ public class CharacterCreationController implements Initializable {
 	private ToggleGroup characterSelection;
 
 	private static Player activePlayer;
-	
+
 	public Player getPlayer() {
 		Player player = activePlayer;
 		return player;
 	}
-	
+
 	public void goBackMM(ActionEvent event) throws IOException {
 		changeScene("/view/MainMenu.fxml", event);
 	}
@@ -72,41 +72,49 @@ public class CharacterCreationController implements Initializable {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void importPlayerData(String filename) {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource(filename));
-		try {			
+		try {
 			loader.load();
-			// makes new scene based on parent
-			Map1Controller controller = loader.getController();
-			controller.importPlayer();
+			switch (filename) {
+			case "/view/Map1.fxml":
+				Map1Controller controller = loader.getController();
+				controller.importPlayer();
+				break;
+			case "/view/Map2.fxml":
+				Map2Controller controller2 = loader.getController();
+				controller2.importPlayer();
+				break;
+			case "/view/Map3.fxml":
+				// Map3Controller controller3 = loader.getController();
+				// controller3.importPlayer();
+				break;
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	
 	private Player createPlayer() {
 		String playerName = characterNameField.getText();
-		if(characterNameField.getText().trim().isEmpty()) {
+		if (characterNameField.getText().trim().isEmpty()) {
 			playerName = "Buffalo";
 		}
 		String playerClass;
-		//Switch does not accept selected toggle for argument :(
-		if(characterSelection.getSelectedToggle().equals(knightButton)) {
+		// Switch does not accept selected toggle for argument :(
+		if (characterSelection.getSelectedToggle().equals(knightButton)) {
 			playerClass = "Knight";
-		}
-		else if(characterSelection.getSelectedToggle().equals(wizardButton)) {
+		} else if (characterSelection.getSelectedToggle().equals(wizardButton)) {
 			playerClass = "Wizard";
-		}
-		else {
+		} else {
 			playerClass = "Leprechaun";
 		}
 		int str = generateStat();
 		int intelligence = generateStat();
 		int luck = generateStat();
-		switch(playerClass) {
+		switch (playerClass) {
 		case "Knight":
 			str += 10;
 			break;
@@ -117,16 +125,17 @@ public class CharacterCreationController implements Initializable {
 			luck += 10;
 			break;
 		}
-		Image img = new Image("/view/knight.png");
+		Image img = new Image("/images/knight.png");
 		Player player = new Player(4, 9, 193, 110, img, str, intelligence, luck, 1, playerName);
 		return player;
 	}
+
 	private int generateStat() {
 		int stat = RNG.generateInt(3, 18);
-		if(stat > 16) {
+		if (stat > 16) {
 			int secondRoll = RNG.generateInt(1, 6);
 			stat += secondRoll;
-			if(secondRoll == 6) {
+			if (secondRoll == 6) {
 				stat += RNG.generateInt(1, 6);
 			}
 		}
