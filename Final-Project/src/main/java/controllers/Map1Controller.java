@@ -94,7 +94,7 @@ public class Map1Controller implements Initializable {
 
 			// Adds potion to the view if user has a potion
 			if (player1.getItemBag().get(i).name.contains("Potion")) {
-				item.setMaxSize(100, 100);
+				item.setMaxSize(200, 200);
 				Label label = new Label(player1.getItemBag().get(i).toString());
 				Button use = new Button("Use");
 				Potion potion = (Potion) player1.getItemBag().get(i);
@@ -450,13 +450,14 @@ public class Map1Controller implements Initializable {
 
 	public void vendorView() {
 		Stage window = new Stage();
-		window.setOnCloseRequest(event -> {
-			event.consume();
-		});
+		//window.setOnCloseRequest(event -> {
+		//	event.consume();
+		//});
 		Pane vendor = new AnchorPane();
+		Scene scene = new Scene(vendor);
 		vendor.setPrefSize(700, 700);
-		VBox playerItems = new VBox();
-		VBox vendorItems = new VBox();
+		HBox playerItems = new HBox();
+		HBox vendorItems = new HBox();
 
 		String music = "/audio/BattleMusic.mp3";
 		URL resource = getClass().getResource(music);
@@ -476,13 +477,31 @@ public class Map1Controller implements Initializable {
 
 		Label vendorLabel = new Label(ven.printItemBag(ven.getItemBag()));
 		Potion hp = new Potion(PotionType.HEALING, 20, "HealthPotion", 100);
-		String s = "";
-
-		healthPotion.setText(hp.toString());
 
 		Button Buy = new Button("Buy");
-		Button Sell = new Button("Sell");
 
+		for(int i = 0; i < player1.getItemBag().size(); i++) {
+			Label item = new Label(player1.getItemBag().get(i).toString());
+			item.setPrefSize(200, 200);
+			Button Sell = new Button("Sell");
+			int ii = i;
+			Sell.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					
+					player1.setMoney(player1.getMoney() + player1.getItemBag().get(ii).value);
+					player1.removeItem(ii);					
+					if (exit.getOnMousePressed() != null) {
+						window.close();
+					}
+					playerItems.getChildren().clear();
+				}
+
+			});
+			playerItems.getChildren().add(item);
+			playerItems.getChildren().add(Sell);
+		}
+		
 		Buy.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -508,26 +527,14 @@ public class Map1Controller implements Initializable {
 			}
 		});
 
-		Sell.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-
-				// change to sellVendor.fxml
-
-				player1.printItemBag(player1.getItemBag());
-				for (int i = 0; i <= player1.getItemBag().size(); i++) {
-					if (sellItemField.equals(player1.getItemBag().get(i).name)) {
-
-					}
-
-				}
-
-				if (exit.getOnMousePressed() != null) {
-					window.close();
-				}
-
-			}
-		});
+		
+		playerItems.getChildren().add(playerLabel);
+		vendorItems.getChildren().add(vendorLabel);
+		vendor.getChildren().add(vendorItems);
+		vendor.getChildren().add(Buy);
+		vendor.getChildren().add(playerItems);
+		window.setScene(scene);
+		window.show();
 
 	}
 
@@ -666,7 +673,7 @@ public class Map1Controller implements Initializable {
 
 		// Allows user to interact with the vendor
 		else if (sp.getSt() == SpaceType.VENDOR) {
-			// TODO implement Vendor view
+			vendorView();
 		}
 	}
 
