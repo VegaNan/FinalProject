@@ -529,7 +529,7 @@ public class Map1Controller extends MapType implements Initializable{
 	}
 	public void gameOver(ActionEvent event)
 	{
-	changeScene("/view/GameOver.fxml", event);
+		changeScene("/view/GameOver.fxml", event);
 	}
 	
 	public void dropLoot(Monster monster) {
@@ -797,9 +797,10 @@ public class Map1Controller extends MapType implements Initializable{
 		}
 	}
  	
- 	public void importPlayer(Player player) {
+ 	public static void importPlayer(Player player) {
  		player1 = player;
  	}
+ 	
  	//Movement methods
 	public void moveLeft() {
 		if (player1.getCoordX() != 0) {
