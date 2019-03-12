@@ -456,9 +456,9 @@ public class Map1Controller implements Initializable {
 
 	public void vendorView() {
 		Stage window = new Stage();
-		//window.setOnCloseRequest(event -> {
-		//	event.consume();
-		//});
+		// window.setOnCloseRequest(event -> {
+		// event.consume();
+		// });
 		VBox vendor = new VBox();
 		Scene scene = new Scene(vendor);
 		vendor.setPrefSize(700, 700);
@@ -493,7 +493,7 @@ public class Map1Controller implements Initializable {
 				@Override
 				public void handle(ActionEvent event) {
 					player1.setMoney(player1.getMoney() + player1.getItemBag().get(ii).value);
-					player1.removeItem(ii);					
+					player1.removeItem(ii);
 				}
 			});
 			itemBox.getChildren().add(item);
@@ -501,7 +501,6 @@ public class Map1Controller implements Initializable {
 			playerItems.getChildren().add(itemBox);
 		}
 
-		
 		ArrayList<Item> itemBag = new ArrayList<>();
 		int itemNum = RNG.generateInt(5, player1.getLevel() + 6);
 		for (int i = 0; i < itemNum; i++) {
@@ -512,21 +511,21 @@ public class Map1Controller implements Initializable {
 			int itemInt;
 			switch (itemType) {
 			case 1:
-					// Selects random armor type (Has 1% chance of legendary armor
+				// Selects random armor type (Has 1% chance of legendary armor
 				ArmorType armorType = ArmorType.DEFAULT_ARMOR;
 				chance = RNG.generateInt(0, 100);
 				if (chance < 2) {
 					armorType = ArmorType.FABLED_ARMOR_OF_OOP;
 				}
-					// 48% chance of weakest armor
+				// 48% chance of weakest armor
 				else if (chance < 50) {
 					armorType = ArmorType.ROGUES_CLOAK;
 				}
-					// 30% chance of moderate armor
+				// 30% chance of moderate armor
 				else if (chance < 80) {
 					armorType = ArmorType.SOLDIERS_ARMOR;
 				}
-					// 20% chance of good armor
+				// 20% chance of good armor
 				else if (chance < 100) {
 					armorType = ArmorType.HEAVY_ARMOR;
 				}
@@ -535,7 +534,7 @@ public class Map1Controller implements Initializable {
 			case 2:
 			case 3:
 			case 4:
-					// Selects random potion
+				// Selects random potion
 				int potionTypeInt = RNG.generateInt(0, PotionType.class.getEnumConstants().length - 1);
 				PotionType potionType = PotionType.class.getEnumConstants()[potionTypeInt];
 				if (!potionType.equals(PotionType.HEALING)) {
@@ -560,30 +559,30 @@ public class Map1Controller implements Initializable {
 				item = new Potion(potionType, potionTypeInt, name, potionTypeInt);
 				break;
 			case 5:
-					// Selects random weapon type
+				// Selects random weapon type
 				// Has 1% chance of legendary weapon
 				WeaponType weaponType = WeaponType.LENE;
 				chance = RNG.generateInt(0, 100);
 				if (chance < 2) {
 					weaponType = WeaponType.WRATH_OF_THE_GODS;
 				}
-					// 49% chance of weakest weapon
+				// 49% chance of weakest weapon
 				else if (chance < 50) {
 					weaponType = WeaponType.POCKET_KNIFE;
 				}
-					// 20% chance of next highest weapon
+				// 20% chance of next highest weapon
 				else if (chance < 70) {
 					weaponType = WeaponType.SMALL_DAGGER;
 				}
-					// 10% chance of moderate weapon
+				// 10% chance of moderate weapon
 				else if (chance < 80) {
 					weaponType = WeaponType.SOLDIERS_SWORD;
 				}
-					// 15% chance of good weapon
+				// 15% chance of good weapon
 				else if (chance < 95) {
 					weaponType = WeaponType.HEAVY_CLAYMORE;
 				}
-					// 5% chance of good armor
+				// 5% chance of good armor
 				else if (chance < 100) {
 					weaponType = WeaponType.FLAMING_SWORD;
 				}
@@ -592,8 +591,8 @@ public class Map1Controller implements Initializable {
 			}
 			itemBag.add(item);
 		}
-	
-		for(int i = 0; i < itemBag.size(); i++) {
+
+		for (int i = 0; i < itemBag.size(); i++) {
 			VBox itemBox = new VBox();
 			Label item = new Label(itemBag.get(i).toString());
 			item.setPrefSize(300, 200);
@@ -610,7 +609,7 @@ public class Map1Controller implements Initializable {
 			});
 			vendorItems.getChildren().add(itemBox);
 		}
-		
+
 		VBox money = new VBox();
 		money.getChildren().add(new Label("Money: " + player1.getMoney()));
 		playerItems.getChildren().add(playerLabel);

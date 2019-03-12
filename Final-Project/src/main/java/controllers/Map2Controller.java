@@ -44,7 +44,7 @@ import models.Space;
 import models.Weapon;
 import utilities.RNG;
 
-public class Map2Controller implements Initializable{
+public class Map2Controller implements Initializable {
 
 	@FXML
 	GridPane map2Grid;
@@ -63,12 +63,12 @@ public class Map2Controller implements Initializable{
 
 	public Map2Controller() {
 	}
-	
+
 	public Map2Controller(Player player) {
 		player1 = player;
 		importPlayer(player1);
 	}
-	
+
 	public void getItems() {
 
 		// Creates a pop up that allows user to view items
@@ -155,9 +155,11 @@ public class Map2Controller implements Initializable{
 	public HBox updateStats(Monster monster) {
 		HBox stats = new HBox();
 		// Display player stats
-		StringBuilder playersb = new StringBuilder(player1.getName()).append(" lvl ").append(player1.getLevel())
-				.append("\n HP").append(player1.getCurrentHP()).append(" / ").append(player1.getBaseHP())
-				.append("\nEnergy: ").append(player1.getCurrentEnergy()).append(" / ").append(player1.getBaseEnergy());
+		StringBuilder playersb = new StringBuilder("\n\n" + player1.getName()).append(" lvl ")
+				.append(player1.getLevel()).append("\n HP").append(player1.getCurrentHP()).append(" / ")
+				.append(player1.getBaseHP()).append("\nEnergy: ").append(player1.getCurrentEnergy()).append(" / ")
+				.append(player1.getBaseEnergy()).append("\n").append("Equipped Armor:" + player1.getEquippedArmor())
+				.append("\n").append("Equipped Weapon:" + player1.getEquippedWeapon());
 		Label playerLabel = new Label(playersb.toString());
 		playerLabel.setMinSize(500, 200);
 
@@ -166,8 +168,8 @@ public class Map2Controller implements Initializable{
 		monstersb.append("\n").append(monster.getCurrentHP()).append(" / ").append(monster.getBaseHP());
 		Label monsterLabel = new Label(monstersb.toString());
 		monsterLabel.setMinSize(500, 200);
-		
-		if(monster.getCurrentHP() < 1) {
+
+		if (monster.getCurrentHP() < 1) {
 			monster.setAlive(false);
 			player1.setXp(monster.getXPYield() + player1.getXp());
 		}
@@ -200,14 +202,9 @@ public class Map2Controller implements Initializable{
 		HBox stats = updateStats(monster);
 		HBox battle = new HBox();
 
+		// Create buttons for options
 		Button specialAttack = new Button("Special Attack");
-		Button normalAttack;
-		if(monster.getMonsterType().equals(MonsterType.KREBS)) {
-			 normalAttack = new Button("Stab it in the face!");
-		}
-		else {
-			 normalAttack = new Button("Normal Attack");
-		}
+		Button normalAttack = new Button("Normal Attack");
 		Button defend = new Button("Defend");
 		Button usePotion = new Button("Use Potion");
 		Button runAway = new Button("Run Away");
@@ -267,7 +264,6 @@ public class Map2Controller implements Initializable{
 				if (checkDeath(monster)) {
 					window.close();
 					MainMenuController.saveGame(player1.getName(), player1);
-
 				}
 			}
 		});
@@ -295,7 +291,6 @@ public class Map2Controller implements Initializable{
 				if (checkDeath(monster)) {
 					window.close();
 					MainMenuController.saveGame(player1.getName(), player1);
-
 				}
 			}
 		});
@@ -322,16 +317,15 @@ public class Map2Controller implements Initializable{
 			@Override
 			public void handle(ActionEvent event) {
 				getItems();
-				stats.getChildren().clear();
-				stats.getChildren().add(updateStats(monster));
-				monsterTurn(monster);
-				stats.getChildren().clear();
-				stats.getChildren().add(updateStats(monster));
+//					stats.getChildren().clear();
+//					stats.getChildren().add(updateStats(monster));
+//					monsterTurn(monster);
+//					stats.getChildren().clear();
+//					stats.getChildren().add(updateStats(monster));
 
 				if (checkDeath(monster)) {
 					window.close();
 					MainMenuController.saveGame(player1.getName(), player1);
-
 				}
 			}
 		});
@@ -399,7 +393,7 @@ public class Map2Controller implements Initializable{
 
 				if (checkDeath(monster)) {
 					// window.close();
-					System.out.println("monster ded save player");
+					System.out.println("Monster ded");
 					MainMenuController.saveGame(player1.getName(), player1);
 				}
 			}
@@ -589,7 +583,8 @@ public class Map2Controller implements Initializable{
 			}
 		} else if (sp.getSt() == SpaceType.BOSS) {
 			Image bossImage = new Image("/images/enemy.png");
-			Boss boss = new Boss(0, 0, 0, 0, bossImage, 100, 100, 100, player1.getLevel(), "The Krebsinator!", MonsterType.KREBS);
+			Boss boss = new Boss(0, 0, 0, 0, bossImage, 100, 100, 100, player1.getLevel(), "The Krebsinator!",
+					MonsterType.KREBS);
 			combatView(boss);
 		}
 
@@ -606,9 +601,9 @@ public class Map2Controller implements Initializable{
 	}
 
 	public void nextMap(ActionEvent event) {
- 		player1.setCoordX(4);
- 		player1.setCoordY(9);
- 		player1.setMapLocation("/view/Map3.fxml");
+		player1.setCoordX(4);
+		player1.setCoordY(9);
+		player1.setMapLocation("/view/Map3.fxml");
 		changeScene("/view/Map3.fxml", event);
 		Map3Controller.importPlayer(player1);
 	}
@@ -640,11 +635,12 @@ public class Map2Controller implements Initializable{
 		}
 
 		Image monImg = new Image("/images/enemy.png");
-		Monster monster = new Monster(player1.getCoordX(), player1.getCoordY(), 193, 110, monImg, 1, 1, 1, 1, null, monsterType);
+		Monster monster = new Monster(player1.getCoordX(), player1.getCoordY(), 193, 110, monImg, 1, 1, 1, 1, null,
+				monsterType);
 		monster.setItemBag(createLootBag());
 		return monster;
 	}
-	
+
 	public ArrayList<Item> createLootBag() {
 		ArrayList<Item> itemBag = new ArrayList<>();
 		int itemNum = RNG.generateInt(0, player1.getLevel() + 2);
@@ -684,15 +680,16 @@ public class Map2Controller implements Initializable{
 				// Selects random potion
 				int potionTypeInt = RNG.generateInt(0, PotionType.class.getEnumConstants().length - 1);
 				PotionType potionType = PotionType.class.getEnumConstants()[potionTypeInt];
-				
-				//Adds higher chance for potion to be healing by reselecting if it's not healing
-				if(!potionType.equals(PotionType.HEALING)) {
+
+				// Adds higher chance for potion to be healing by reselecting if it's not
+				// healing
+				if (!potionType.equals(PotionType.HEALING)) {
 					potionTypeInt = RNG.generateInt(0, PotionType.class.getEnumConstants().length - 1);
 					potionType = PotionType.class.getEnumConstants()[potionTypeInt];
-					if(!potionType.equals(PotionType.HEALING)) {
+					if (!potionType.equals(PotionType.HEALING)) {
 						potionTypeInt = RNG.generateInt(0, PotionType.class.getEnumConstants().length - 1);
 						potionType = PotionType.class.getEnumConstants()[potionTypeInt];
-						if(!potionType.equals(PotionType.HEALING)) {
+						if (!potionType.equals(PotionType.HEALING)) {
 							potionTypeInt = RNG.generateInt(0, PotionType.class.getEnumConstants().length - 1);
 							potionType = PotionType.class.getEnumConstants()[potionTypeInt];
 						}
@@ -755,7 +752,6 @@ public class Map2Controller implements Initializable{
 		}
 		return itemBag;
 	}
-	
 
 	// Updates player1 variable with user input from CharacterCreationController
 	public void importPlayer() {
@@ -778,37 +774,37 @@ public class Map2Controller implements Initializable{
 			e.printStackTrace();
 		}
 	}
- 	
+
 	public static void importPlayer(Player player) {
- 		player1 = player;
+		player1 = player;
 		Image img = new Image("/images/knight.png");
- 		player1.setImage(193, 110, img);
- 	}
+		player1.setImage(193, 110, img);
+	}
 
 	// Movement methods
 	public void moveLeft() {
-		if (player1.getCoordX() != 0 && !isBlocked(player1.getCoordX()-1, player1.getCoordY())) {
+		if (player1.getCoordX() != 0 && !isBlocked(player1.getCoordX() - 1, player1.getCoordY())) {
 			player1.setCoordX(player1.getCoordX() - 1);
 			movePlayer();
 		}
 	}
 
 	public void moveRight() {
-		if (player1.getCoordX() != 9 && !isBlocked(player1.getCoordX()+1, player1.getCoordY())) {
+		if (player1.getCoordX() != 9 && !isBlocked(player1.getCoordX() + 1, player1.getCoordY())) {
 			player1.setCoordX(player1.getCoordX() + 1);
 			movePlayer();
 		}
 	}
 
 	public void moveUp() {
-		if (player1.getCoordY() != 0 && !isBlocked(player1.getCoordX(), player1.getCoordY()-1)) {
+		if (player1.getCoordY() != 0 && !isBlocked(player1.getCoordX(), player1.getCoordY() - 1)) {
 			player1.setCoordY(player1.getCoordY() - 1);
 			movePlayer();
 		}
 	}
 
 	public void moveDown() {
-		if (player1.getCoordY() != 9 && !isBlocked(player1.getCoordX(), player1.getCoordY()+1)) {
+		if (player1.getCoordY() != 9 && !isBlocked(player1.getCoordX(), player1.getCoordY() + 1)) {
 			player1.setCoordY(player1.getCoordY() + 1);
 			movePlayer();
 		}
@@ -887,6 +883,6 @@ public class Map2Controller implements Initializable{
 		// Set up the map
 		initSpaces(map2);
 
-		//importPlayer();
+		// importPlayer();
 	}
 }

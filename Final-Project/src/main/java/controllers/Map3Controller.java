@@ -36,7 +36,7 @@ import javafx.util.Duration;
 import models.*;
 import utilities.RNG;
 
-public class Map3Controller implements Initializable{
+public class Map3Controller implements Initializable {
 
 	@FXML
 	GridPane map3Grid;
@@ -52,10 +52,10 @@ public class Map3Controller implements Initializable{
 	public boolean move;
 
 	HBox itemBox;
-	
+
 	public Map3Controller() {
 	}
-	
+
 	public Map3Controller(Player player) {
 		player1 = player;
 		importPlayer(player1);
@@ -144,10 +144,11 @@ public class Map3Controller implements Initializable{
 	public HBox updateStats(Monster monster) {
 		HBox stats = new HBox();
 		// Display player stats
-		StringBuilder playersb = new StringBuilder(player1.getName()).append(" lvl ").append(player1.getLevel())
-				.append("\n HP").append(player1.getCurrentHP()).append(" / ").append(player1.getBaseHP())
-
-				.append("\nEnergy: ").append(player1.getCurrentEnergy()).append(" / ").append(player1.getBaseEnergy());
+		StringBuilder playersb = new StringBuilder("\n\n" + player1.getName()).append(" lvl ")
+				.append(player1.getLevel()).append("\n HP").append(player1.getCurrentHP()).append(" / ")
+				.append(player1.getBaseHP()).append("\nEnergy: ").append(player1.getCurrentEnergy()).append(" / ")
+				.append(player1.getBaseEnergy()).append("\n").append("Equipped Armor:" + player1.getEquippedArmor())
+				.append("\n").append("Equipped Weapon:" + player1.getEquippedWeapon());
 		Label playerLabel = new Label(playersb.toString());
 		playerLabel.setMinSize(500, 200);
 
@@ -156,6 +157,11 @@ public class Map3Controller implements Initializable{
 		monstersb.append("\n").append(monster.getCurrentHP()).append(" / ").append(monster.getBaseHP());
 		Label monsterLabel = new Label(monstersb.toString());
 		monsterLabel.setMinSize(500, 200);
+
+		if (monster.getCurrentHP() < 1) {
+			monster.setAlive(false);
+			player1.setXp(monster.getXPYield() + player1.getXp());
+		}
 
 		stats.getChildren().add(playerLabel);
 		stats.getChildren().add(monsterLabel);
@@ -247,7 +253,6 @@ public class Map3Controller implements Initializable{
 				if (checkDeath(monster)) {
 					window.close();
 					MainMenuController.saveGame(player1.getName(), player1);
-
 				}
 			}
 		});
@@ -271,11 +276,10 @@ public class Map3Controller implements Initializable{
 					stats.getChildren().add(updateStats(monster));
 				}
 
-				// Check if combat is over. zzzzzzz
+				// Check if combat is over
 				if (checkDeath(monster)) {
 					window.close();
 					MainMenuController.saveGame(player1.getName(), player1);
-
 				}
 			}
 		});
@@ -302,16 +306,15 @@ public class Map3Controller implements Initializable{
 			@Override
 			public void handle(ActionEvent event) {
 				getItems();
-				stats.getChildren().clear();
-				stats.getChildren().add(updateStats(monster));
-				monsterTurn(monster);
-				stats.getChildren().clear();
-				stats.getChildren().add(updateStats(monster));
+//					stats.getChildren().clear();
+//					stats.getChildren().add(updateStats(monster));
+//					monsterTurn(monster);
+//					stats.getChildren().clear();
+//					stats.getChildren().add(updateStats(monster));
 
 				if (checkDeath(monster)) {
 					window.close();
 					MainMenuController.saveGame(player1.getName(), player1);
-
 				}
 			}
 		});
@@ -379,6 +382,7 @@ public class Map3Controller implements Initializable{
 
 				if (checkDeath(monster)) {
 					// window.close();
+					System.out.println("Monster ded");
 					MainMenuController.saveGame(player1.getName(), player1);
 				}
 			}
@@ -485,27 +489,23 @@ public class Map3Controller implements Initializable{
 		map3.getSpaces().put(4 + " " + 0, door);
 		map3Grid.add((Node) door, 4, 0);
 		// setting safe spaces
-		//safe spaces left of path
-		for(int i = 0; i < 4; i++)
-		{
-			for(int i2 = 0; i2< 10; i2++)
-			{
-				Space emptySp = new Space(193,111, SpaceType.EMPTY, safeImg);
+		// safe spaces left of path
+		for (int i = 0; i < 4; i++) {
+			for (int i2 = 0; i2 < 10; i2++) {
+				Space emptySp = new Space(193, 111, SpaceType.EMPTY, safeImg);
 				map3.getSpaces().put(i + " " + i2, emptySp);
 				map3Grid.add(emptySp, i, i2);
 			}
 		}
-		//safe spaces right of path
-		for(int i = 5; i < 10; i++)
-		{
-			for(int i2 = 0; i2< 10; i2++)
-			{
-				Space emptySp = new Space(193,111, SpaceType.EMPTY, safeImg);
+		// safe spaces right of path
+		for (int i = 5; i < 10; i++) {
+			for (int i2 = 0; i2 < 10; i2++) {
+				Space emptySp = new Space(193, 111, SpaceType.EMPTY, safeImg);
 				map3.getSpaces().put(i + " " + i2, emptySp);
 				map3Grid.add(emptySp, i, i2);
 			}
 		}
-		//safe spaces in path
+		// safe spaces in path
 		for (int i = 1; i < 10; i++) {
 			Space emptySp = new Space(193, 111, SpaceType.EMPTY, safeImg);
 			map3.getSpaces().put(4 + " " + i, emptySp);
@@ -718,37 +718,37 @@ public class Map3Controller implements Initializable{
 			e.printStackTrace();
 		}
 	}
-	
- 	public static void importPlayer(Player player) {
- 		player1 = player;
+
+	public static void importPlayer(Player player) {
+		player1 = player;
 		Image img = new Image("/images/knight.png");
- 		player1.setImage(193, 110, img);
- 	}
+		player1.setImage(193, 110, img);
+	}
 
 	// Movement methods
 	public void moveLeft() {
-		if (player1.getCoordX() != 0 && !isBlocked(player1.getCoordX()-1, player1.getCoordY())) {
+		if (player1.getCoordX() != 0 && !isBlocked(player1.getCoordX() - 1, player1.getCoordY())) {
 			player1.setCoordX(player1.getCoordX() - 1);
 			movePlayer();
 		}
 	}
 
 	public void moveRight() {
-		if (player1.getCoordX() != 9 && !isBlocked(player1.getCoordX()+1, player1.getCoordY())) {
+		if (player1.getCoordX() != 9 && !isBlocked(player1.getCoordX() + 1, player1.getCoordY())) {
 			player1.setCoordX(player1.getCoordX() + 1);
 			movePlayer();
 		}
 	}
 
 	public void moveUp() {
-		if (player1.getCoordY() != 0 && !isBlocked(player1.getCoordX(), player1.getCoordY()-1)) {
+		if (player1.getCoordY() != 0 && !isBlocked(player1.getCoordX(), player1.getCoordY() - 1)) {
 			player1.setCoordY(player1.getCoordY() - 1);
 			movePlayer();
 		}
 	}
 
 	public void moveDown() {
-		if (player1.getCoordY() != 9 && !isBlocked(player1.getCoordX(), player1.getCoordY()+1)) {
+		if (player1.getCoordY() != 9 && !isBlocked(player1.getCoordX(), player1.getCoordY() + 1)) {
 			player1.setCoordY(player1.getCoordY() + 1);
 			movePlayer();
 		}
@@ -827,6 +827,6 @@ public class Map3Controller implements Initializable{
 		// Set up the map
 		initSpaces(map3);
 
-		//importPlayer();
+		// importPlayer();
 	}
 }
