@@ -71,16 +71,9 @@ public class Map1Controller implements Initializable{
 
 	public Map1Controller() {
 
-	}
-	
-	public Map1Controller(Player player) {
-
-		player1 = player;
-	}
-	
 	public void getItems() {
-		//Creates a pop up that allows user to view items
 		Stage window = new Stage();
+		// Creates a pop up that allows user to view items
 		Scene scene = new Scene(updateItems());
 		window.setScene(scene);
 		window.sizeToScene();
