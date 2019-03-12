@@ -1,11 +1,15 @@
 package models;
 
 import models.Character;
+
+import java.io.Serializable;
+
 import enums.PotionType;
 import interfaces.Consumable;
 import javafx.scene.control.Label;
 
-public class Potion extends Item implements Consumable {
+public class Potion extends Item implements Consumable, Serializable {
+	private static final long serialVersionUID = 1L;
 	protected PotionType effect;
 	protected int effectNum;
 

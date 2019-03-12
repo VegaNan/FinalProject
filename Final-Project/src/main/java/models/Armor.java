@@ -1,10 +1,13 @@
 package models;
 
+import java.io.Serializable;
+
 import enums.ArmorType;
 import interfaces.Equippable;
 import utilities.RNG;
 
-public class Armor extends Item implements Equippable{
+public class Armor extends Item implements Equippable, Serializable{
+	private static final long serialVersionUID = 1L;
 	protected int armorRating;
 	protected int damageReduction;
 	protected ArmorType armorType;
