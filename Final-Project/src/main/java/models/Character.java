@@ -260,7 +260,7 @@ public abstract class Character extends Rectangle{
 		this.money = money;
 	}
 	
-	public int getMoney(int money) {
+	public int getMoney() {
 		return money;
 	}
 

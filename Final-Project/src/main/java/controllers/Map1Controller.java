@@ -20,10 +20,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
@@ -139,10 +140,10 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 	//Updates stats to display correctly
 	public HBox updateStats(Monster monster) {
 		HBox stats = new HBox();
-  //Display player stats
-		StringBuilder playersb = new StringBuilder(player1.getName()).append(" lvl ").append(player1.getLevel())
-		.append("\n HP").append(player1.getCurrentHP()).append(" / ").append(player1.getBaseHP())
 		
+		//Display player stats
+		StringBuilder playersb = new StringBuilder(player1.getName());
+		playersb.append("\n").append(player1.getCurrentHP()).append(" / ").append(player1.getBaseHP())
 		.append("\nEnergy: ").append(player1.getCurrentEnergy()).append(" / ").append(player1.getBaseEnergy());
 		Label playerLabel = new Label(playersb.toString());
 		playerLabel.setMinSize(300, 100);
@@ -177,7 +178,7 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 		});
 		Pane combat = new AnchorPane();
 		combat.setPrefSize(700, 700);
-		HBox stats = updateStats(monster);
+		HBox stats = new HBox();
 		HBox battle = new HBox();
 		
 		//Create buttons for options
@@ -187,6 +188,21 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 		Button usePotion = new Button("Use Potion");
 		Button runAway = new Button("Run Away");
 
+		//Sets label to display player data
+		StringBuilder playersb = new StringBuilder(player1.getName());
+		playersb.append("\n").append(player1.getCurrentHP()).append(" / ").append(player1.getBaseHP())
+		.append("\nEnergy: ").append(player1.getCurrentEnergy()).append(" / ").append(player1.getBaseEnergy());
+		Label playerLabel = new Label(playersb.toString());
+		playerLabel.setMinSize(300, 100);
+		
+		//Sets label to display monster data
+		StringBuilder monstersb = new StringBuilder(monster.getName());
+		monstersb.append("\n").append(monster.getCurrentHP()).append(" / ").append(monster.getBaseHP());
+		Label monsterLabel = new Label(monstersb.toString());
+		monsterLabel.setMinSize(300, 100);
+
+		stats.getChildren().add(playerLabel);
+		stats.getChildren().add(monsterLabel);
 
 		//If player has enough energy, display special attack
 		if(player1.getCurrentEnergy() >=5) {
@@ -306,9 +322,9 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 		runAway.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-        
-				//TODO quit combat w rand chance
+
 				int chance = RNG.generateInt(1, 10) + 10;
+				
 				//Informs user you cannot escape from battles with Krebs
 				if(monster.getMonsterType().equals(MonsterType.KREBS)) {
 					Stage bossWindow = new Stage();
@@ -326,21 +342,8 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 					popupCloseWindow(bossWindow);
 					
 				}else {
-					if(RNG.generateInt(1,  10) + player1.getLuck() > chance) {
-						Stage bossWindow = new Stage();
-						AnchorPane pane = new AnchorPane();
-						pane.setPrefSize(70, 70);
-						Label label = new Label("You escaped!");
-						HBox escape = new HBox();
-						escape.getChildren().add(label);
-						pane.getChildren().add(escape);
-						Scene bossScene = new Scene(pane);
-						bossWindow.setScene(bossScene);
-						bossWindow.sizeToScene();
-						bossWindow.show();
-						popupCloseWindow(bossWindow);
+					if(RNG.generateInt(1,  10) + player1.getLuckMod() > chance) {
 						window.close();
-						move = true;
 					}
 					else {
 						
@@ -367,7 +370,7 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 				stats.getChildren().add(updateStats(monster));
 				
 				if(checkDeath(monster)) {
-					//window.close();
+					window.close();
 				}
 			}
 		});
@@ -382,7 +385,18 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 		window.show();
 	}
 	
+	@FXML
+	private RadioButton sword;
+	@FXML
+	private RadioButton knife;
+	@FXML
+	private RadioButton dagger;
+	@FXML
+	private ToggleGroup buySelection;
+	@FXML
+	private Button exit;
 	public void vendorView () {
+		
 		Stage window = new Stage();
 		window.setOnCloseRequest(event -> {
 			event.consume();
@@ -392,13 +406,82 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 		VBox playerItems = new VBox();
 		VBox vendorItems = new VBox();
 		
-		Label vendorLabel = new Label();
 	
 		Label playerLabel = new Label(player1.printItemBag(player1.getItemBag()));
+		Vendor ven = new Vendor();
 		
+		Label vendorLabel = new Label(ven.printItemBag(ven.getItemBag()));
 		
 		Button Buy=new Button("Buy");
 		Button Sell= new Button("Sell");
+		
+		Buy.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				boolean allItemsSold = false;
+				
+				// change to buyVendor.fxml
+				
+				Weapon weapon = new Weapon(WeaponType.SMALL_DAGGER);
+				Weapon weapon1 = new Weapon(WeaponType.POCKET_KNIFE);
+				Weapon weapon2 = new Weapon(WeaponType.SOLDIERS_SWORD);
+				
+				if(buySelection.getSelectedToggle().equals(dagger) && player1.getMoney() > weapon.getValue()) {
+					player1.addItem(weapon);
+					player1.setMoney(player1.getMoney() - weapon.getValue());
+				}
+				else if (buySelection.getSelectedToggle().equals(knife) && player1.getMoney() > weapon1.getValue()) {
+					player1.addItem(weapon1);
+					player1.setMoney(player1.getMoney() - weapon1.getValue());
+				}
+				else if(buySelection.getSelectedToggle().equals(sword) && player1.getMoney() > weapon2.getValue()) {
+					player1.addItem(weapon2);
+					player1.setMoney(player1.getMoney() - weapon2.getValue());
+				}
+				else if(exit.getOnMousePressed() != null) {
+					window.close();
+				}
+				
+				
+				
+				if(allItemsSold) {
+					window.close();
+				}
+			}
+		});
+		
+		Sell.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				boolean allItemsSold = false;
+				
+				// change to sellVendor.fxml
+				
+				player1.printItemBag(player1.getItemBag());
+				
+//				if(buySelection.getSelectedToggle().equals(dagger)) {
+//					player1.setMoney(player1.getMoney() - weapon.getValue());
+//				}
+//				else if (buySelection.getSelectedToggle().equals(knife) && player1.getMoney() > weapon1.getValue()) {
+//					player1.addItem(weapon1);
+//					player1.setMoney(player1.getMoney() - weapon1.getValue());
+//				}
+//				else if(buySelection.getSelectedToggle().equals(sword) && player1.getMoney() > weapon2.getValue()) {
+//					player1.addItem(weapon2);
+//					player1.setMoney(player1.getMoney() - weapon2.getValue());
+//				}
+//				else if(exit.getOnMousePressed() != null) {
+//					window.close();
+//				}
+				
+				
+				
+				if(allItemsSold) {
+					window.close();
+				}
+			}
+		});
+		
 	}
 		
 	
@@ -415,52 +498,47 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 		if(player1.getCurrentHP() <= 0) {
 			player1.setAlive(false);
 			death = true;
-			button.fire();
+
+			//Gives user a message informing they lost the battle
+			Stage deathWindow = new Stage();
+			AnchorPane pane = new AnchorPane();
+			pane.setPrefSize(70, 70);
+			Label label = new Label("You have died. You have failed OOP.");
+			HBox gameOver = new HBox();
+			gameOver.getChildren().add(label);
+			pane.getChildren().add(gameOver);
+			Scene bossScene = new Scene(pane);
+			deathWindow.setScene(bossScene);
+			deathWindow.sizeToScene();
+			deathWindow.show();
 		}
 		return death;
-	}
-	public void gameOver(ActionEvent event)
-	{
-	changeScene("/view/GameOver.fxml", event);
 	}
 	
 	public void dropLoot(Monster monster) {
 		Stage window = new Stage();
 		itemBox = new HBox();
-		//loops throw monster's item bag and prints it to the window
+		
 		//Goes through monsterLoot and creates a box to tell user what they dropped
 		for (int i = 0; i < monster.getItemBag().size(); i++) {
-			Pane itemDisplay = new Pane();
-			itemDisplay.setMinSize(200, 200);
+			Pane item = new Pane();
+			item.setMinSize(200, 200);
 			Label label = new Label(monster.getItemBag().get(i).toString());
-			//if the item is a potion print it to the window
-			if(itemDisplay.toString().contains("Potion")) {
+			if(item.toString().contains("Potion")) {
 				Potion potion = (Potion) monster.getItemBag().get(i);
 				label = new Label(potion.toString());
 			}
-			//adding the items to the player's inventory
-			for(Item loot : monster.getItemBag())
-			{
-				player1.getItemBag().add(loot);
-			}
-			//displaying the items
-			itemDisplay.getChildren().add(label);
-			itemBox.getChildren().add(itemDisplay);
+			item.getChildren().add(label);
+			itemBox.getChildren().add(item);
 		}
-		//if there is no loot
+		
 		//Informs user that monster dropped no loot
 		if(monster.getItemBag().isEmpty()) {
 			Label label = new Label("No loot was dropped");
 			itemBox.getChildren().add(label);
 		}
-		//giving xp to player
-		player1.setXp(player1.getXp() + monster.getXPYield());
-		//checking if player levels up
-		int prevLevel = player1.getLevel();
-		player1.checkLevelUp(player1.getXp(), player1.getNextLevelXP());
-		if(prevLevel < player1.getLevel())
-		{
-		}
+		
+	
 		Scene scene = new Scene(itemBox);
 		window.setScene(scene);
 		window.show();
@@ -504,12 +582,10 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 		//Creates combat if space is a monster_encounter space
 		Space sp = map1.getSpaces().get(player1.getCoordX() + " " + player1.getCoordY());
 		if (sp.getSt() == SpaceType.MONSTER_ENCOUNTER) {
-			int randEn = RNG.generateInt(0, 10);
-			if(randEn == 10)
-			{
-				move = false;
-				combatView(createMonster());				
-			}
+			move = false;
+			combatView(createMonster());
+			
+		//Creates combat if space is a boss
 		} else if (sp.getSt() == SpaceType.BOSS) {
 			//TODO implement boss combat
 		}
@@ -707,23 +783,6 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 		map1Grid.add((Node) player1, player1.getCoordX(), player1.getCoordY());
 		checkSpace();
 	}
-	private void changeScene(String filename, ActionEvent event) {
-		// parent takes in the file
-		Parent parent;
-		try {
-			parent = FXMLLoader.load(getClass().getResource(filename));
-			// makes new scene based on parent
-			Scene scene = new Scene(parent);
-			// takes in the stage of this class
-			Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-			// sets the scene
-			window.setScene(scene);
-			// displays the scene
-			window.show();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -772,6 +831,7 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 		});
 		Image monImg = new Image("file:graphics/character/big_demon_idle_anim_f0.png");
 		monster1 = new Monster(6, 6, 193, 110, monImg, 1, 1, 1, 1, "Supreme", MonsterType.OGRE);
+		
 		//Set up the map
 		initSpaces(map1);
 		

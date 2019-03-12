@@ -3,6 +3,7 @@ package models;
 import java.util.ArrayList;
 
 import controllers.CharacterCreationController;
+import enums.MiscItemType;
 import utilities.RNG;
 
 public class Vendor {
@@ -21,15 +22,28 @@ public class Vendor {
 		inventory.add(item);
 	}
 	
+	
+	
 	public void removeItem(int index) {
 		inventory.remove(index);
 	}
 
-	Vendor(Item item, Item item1, Item item2) {
-		addItem(item);
-		addItem(item1);
-		addItem(item2);
+	public Vendor() {
+//		addItem(item);
+//		addItem(item1);
+//		addItem(item2);
 		
+	}
+	
+	public String printItemBag(ArrayList<Item> itemBag) {
+		String itemList = "";
+		for(int i = 0; i < itemBag.size(); i++) {
+			StringBuilder sb = new StringBuilder();
+			
+			
+			 itemList +=  itemBag.get(i).toString();
+		}
+		return itemList;
 	}
 
 	// Selling items to the vendor
