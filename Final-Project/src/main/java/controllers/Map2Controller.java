@@ -37,7 +37,7 @@ import models.*;
 import models.Weapon;
 import utilities.RNG;
 
-public class Map2Controller implements Initializable, Serializable {
+public class Map2Controller implements Initializable, Serializable{
 
 	@FXML
 	GridPane map2Grid;
