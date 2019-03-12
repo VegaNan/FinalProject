@@ -96,9 +96,9 @@ public class Map1Controller extends MapType implements Initializable{
 				use.setOnAction(new EventHandler<ActionEvent>() {
 					public void handle(ActionEvent arg0) {
 						potion.use(player1);
-						ArrayList<Item> itemBag = player1.getItemBag();
-						itemBag.remove(index);
-						player1.setItemBag(itemBag);
+						player1.getItemBag().remove(index);
+						Stage window = (Stage) ((Node) arg0.getSource()).getScene().getWindow();
+						window.close();
 					}
 				});
 				label.autosize();
@@ -150,7 +150,6 @@ public class Map1Controller extends MapType implements Initializable{
   //Display player stats
 		StringBuilder playersb = new StringBuilder(player1.getName()).append(" lvl ").append(player1.getLevel())
 		.append("\n HP").append(player1.getCurrentHP()).append(" / ").append(player1.getBaseHP())
-		
 		.append("\nEnergy: ").append(player1.getCurrentEnergy()).append(" / ").append(player1.getBaseEnergy());
 		Label playerLabel = new Label(playersb.toString());
 		playerLabel.setMinSize(300, 100);
@@ -160,6 +159,11 @@ public class Map1Controller extends MapType implements Initializable{
 		monstersb.append("\n").append(monster.getCurrentHP()).append(" / ").append(monster.getBaseHP());
 		Label monsterLabel = new Label(monstersb.toString());
 		monsterLabel.setMinSize(300, 100);
+		
+		if(monster.getCurrentHP() < 1) {
+			monster.setAlive(false);
+			player1.setXp(monster.getXPYield() + player1.getXp());
+		}
 		
 		stats.getChildren().add(playerLabel);
 		stats.getChildren().add(monsterLabel);
@@ -664,15 +668,15 @@ public class Map1Controller extends MapType implements Initializable{
 		}
 		
 		
-		Image monImg = new Image("/view/enemy.png");
+		Image monImg = new Image("/images/enemy.png");
 		ArrayList<Item> itemBag = new ArrayList<>();
-		int itemNum = RNG.generateInt(0, player1.getLevel());
+		int itemNum = RNG.generateInt(0, player1.getLevel() + 2);
 		Monster monster = new Monster(player1.getCoordX(), player1.getCoordY(), 193, 110, monImg, 1, 1, 1, 1, null, monsterType);
 		
 		for(int i =0; i < itemNum; i ++) {
 			String name = "Misc Item";
 			Item item = new MiscItem(name, player1.getLevel());
-			int itemType = RNG.generateInt(1, 3);
+			int itemType = RNG.generateInt(1, 5);
 			int itemInt = RNG.generateInt(monster.getLevel(), player1.getLevel());
 			switch (itemType){
 			case 1:
@@ -701,10 +705,20 @@ public class Map1Controller extends MapType implements Initializable{
 				item = new Armor(armorType);
 				break;
 			case 2:
+			case 3:
+			case 4:
 				
 				//Selects random potion
 				int potionTypeInt = RNG.generateInt(0, PotionType.class.getEnumConstants().length - 1);
 				PotionType potionType = PotionType.class.getEnumConstants()[potionTypeInt];
+				if(!potionType.equals(PotionType.HEALING)) {
+					potionTypeInt = RNG.generateInt(0, PotionType.class.getEnumConstants().length - 1);
+					potionType = PotionType.class.getEnumConstants()[potionTypeInt];
+					if(!potionType.equals(PotionType.HEALING)) {
+						potionTypeInt = RNG.generateInt(0, PotionType.class.getEnumConstants().length - 1);
+						potionType = PotionType.class.getEnumConstants()[potionTypeInt];
+					}
+				}
 				switch(potionType) {
 				case HEALING:
 					name = "Healing Potion";
@@ -721,7 +735,7 @@ public class Map1Controller extends MapType implements Initializable{
 				}
 				item = new Potion(potionType, itemInt, name, itemInt);
 				break;
-			case 3:
+			case 5:
 				
 				//Selects random weapon type 
 				//Has 1% chance of legendary weapon

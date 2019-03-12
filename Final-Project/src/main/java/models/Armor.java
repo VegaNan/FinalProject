@@ -93,10 +93,10 @@ public class Armor extends Item implements Equippable{
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Armor \t").append(name)
-		.append("\n\t\tArmorRating: ").append(armorRating)
-		.append("\tDamageReduction:").append(damageReduction)
-		.append("\tvalue:").append(value);
+		builder.append(getName())
+		.append("\nArmorRating: ").append(getArmorRating())
+		.append("\nDamageReduction: ").append(getDamageReduction())
+		.append("\nValue: ").append(getValue());
 		return builder.toString();
 	}
 

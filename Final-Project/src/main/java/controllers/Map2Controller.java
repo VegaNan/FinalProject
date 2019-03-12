@@ -140,7 +140,6 @@ public class Map2Controller implements Initializable, Serializable{
 		// Display player stats
 		StringBuilder playersb = new StringBuilder(player1.getName()).append(" lvl ").append(player1.getLevel())
 				.append("\n HP").append(player1.getCurrentHP()).append(" / ").append(player1.getBaseHP())
-
 				.append("\nEnergy: ").append(player1.getCurrentEnergy()).append(" / ").append(player1.getBaseEnergy());
 		Label playerLabel = new Label(playersb.toString());
 		playerLabel.setMinSize(300, 100);
@@ -150,6 +149,11 @@ public class Map2Controller implements Initializable, Serializable{
 		monstersb.append("\n").append(monster.getCurrentHP()).append(" / ").append(monster.getBaseHP());
 		Label monsterLabel = new Label(monstersb.toString());
 		monsterLabel.setMinSize(300, 100);
+		
+		if(monster.getCurrentHP() < 1) {
+			monster.setAlive(false);
+			player1.setXp(monster.getXPYield() + player1.getXp());
+		}
 
 		stats.getChildren().add(playerLabel);
 		stats.getChildren().add(monsterLabel);
@@ -180,7 +184,13 @@ public class Map2Controller implements Initializable, Serializable{
 		HBox battle = new HBox();
 
 		Button specialAttack = new Button("Special Attack");
-		Button normalAttack = new Button("Normal Attack");
+		Button normalAttack;
+		if(monster.getMonsterType().equals(MonsterType.KREBS)) {
+			 normalAttack = new Button("Stab it in the face!");
+		}
+		else {
+			 normalAttack = new Button("Normal Attack");
+		}
 		Button defend = new Button("Defend");
 		Button usePotion = new Button("Use Potion");
 		Button runAway = new Button("Run Away");
@@ -546,7 +556,8 @@ public class Map2Controller implements Initializable, Serializable{
 				combatView(createMonster());
 			}
 		} else if (sp.getSt() == SpaceType.BOSS) {
-			// TODO implement boss combat
+			Boss boss = new Boss(0, 0, 0, 0, null, 0, 0, 0, 0, null, null);
+			combatView(boss);
 		}
 
 		// Goes to next map if space is a door
@@ -591,22 +602,24 @@ public class Map2Controller implements Initializable, Serializable{
 		}
 
 		Image monImg = new Image("/images/enemy.png");
+		Monster monster = new Monster(player1.getCoordX(), player1.getCoordY(), 193, 110, monImg, 1, 1, 1, 1, null, monsterType);
+		monster.setItemBag(createLootBag());
+		return monster;
+	}
+	
+	public ArrayList<Item> createLootBag() {
 		ArrayList<Item> itemBag = new ArrayList<>();
-		int itemNum = RNG.generateInt(0, player1.getLevel());
-		Monster monster = new Monster(player1.getCoordX(), player1.getCoordY(), 193, 110, monImg, 1, 1, 1, 1, null,
-				monsterType);
-
+		int itemNum = RNG.generateInt(0, player1.getLevel() + 2);
 		for (int i = 0; i < itemNum; i++) {
 			String name = "Misc Item";
 			Item item = new MiscItem(name, player1.getLevel());
-			int itemType = RNG.generateInt(1, 3);
-			int itemInt = RNG.generateInt(monster.getLevel(), player1.getLevel());
+			int itemType = RNG.generateInt(1, 5);
 			switch (itemType) {
 			case 1:
 
 				// Selects random armor type (Has 1% chance of legendary armor
 				ArmorType armorType = ArmorType.DEFAULT_ARMOR;
-				chance = RNG.generateInt(0, 100);
+				int chance = RNG.generateInt(0, 100);
 				if (chance < 2) {
 					armorType = ArmorType.FABLED_ARMOR_OF_OOP;
 				}
@@ -628,10 +641,25 @@ public class Map2Controller implements Initializable, Serializable{
 				item = new Armor(armorType);
 				break;
 			case 2:
-
+			case 3:
+			case 4:
 				// Selects random potion
 				int potionTypeInt = RNG.generateInt(0, PotionType.class.getEnumConstants().length - 1);
 				PotionType potionType = PotionType.class.getEnumConstants()[potionTypeInt];
+				
+				//Adds higher chance for potion to be healing by reselecting if it's not healing
+				if(!potionType.equals(PotionType.HEALING)) {
+					potionTypeInt = RNG.generateInt(0, PotionType.class.getEnumConstants().length - 1);
+					potionType = PotionType.class.getEnumConstants()[potionTypeInt];
+					if(!potionType.equals(PotionType.HEALING)) {
+						potionTypeInt = RNG.generateInt(0, PotionType.class.getEnumConstants().length - 1);
+						potionType = PotionType.class.getEnumConstants()[potionTypeInt];
+						if(!potionType.equals(PotionType.HEALING)) {
+							potionTypeInt = RNG.generateInt(0, PotionType.class.getEnumConstants().length - 1);
+							potionType = PotionType.class.getEnumConstants()[potionTypeInt];
+						}
+					}
+				}
 				switch (potionType) {
 				case HEALING:
 					name = "Healing Potion";
@@ -646,9 +674,9 @@ public class Map2Controller implements Initializable, Serializable{
 					name = "Strength Potion";
 					break;
 				}
-				item = new Potion(potionType, itemInt, name, itemInt);
+				item = new Potion(potionType, RNG.generateInt(1, 10), name, 1);
 				break;
-			case 3:
+			case 5:
 
 				// Selects random weapon type
 				// Has 1% chance of legendary weapon
@@ -687,9 +715,9 @@ public class Map2Controller implements Initializable, Serializable{
 			}
 			itemBag.add(item);
 		}
-		monster.setItemBag(itemBag);
-		return monster;
+		return itemBag;
 	}
+	
 
 	// Updates player1 variable with user input from CharacterCreationController
 	public void importPlayer() {

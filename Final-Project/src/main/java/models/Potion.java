@@ -14,7 +14,8 @@ public class Potion extends Item implements Consumable {
 
 		setEffect(effect);
 		setEffectNum(effectNum);
-		setName(this.effect);
+		setName(getEffect());
+		setValue(getEffectNum() * 5);
 	}
 
 	public int getValue() {

@@ -71,13 +71,9 @@ public class Weapon extends Item {
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Weapon Damage=")
-		.append(damage)
-		.append(", value=")
-		.append(value)
-		.append(", name=")
-		.append(name);
+		StringBuilder builder = new StringBuilder(getName());
+		builder.append("\nWeapon Damage: ").append(getDamage())
+		.append("\nValue=").append(getValue());
 		return builder.toString();
 	}
 

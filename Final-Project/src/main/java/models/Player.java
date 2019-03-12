@@ -59,6 +59,11 @@ public class Player extends Character implements Serializable{
 
 	public void setXp(int xp) {
 		this.xp = xp;
+		if(this.xp >= getNextLevelXP()) {
+			System.out.println("Leveled Up!");
+			setLevel(getLevel() + 1);
+			setNextLevelXP(getLevel());
+		}
 	}
 
 	public int getNextLevelXP() {
