@@ -677,7 +677,6 @@ public class Map1Controller extends MapType implements Initializable{
 			CharacterCreationController controller = loader.getController();
 			player1 = controller.getPlayer();
 			
-			//TODO bug here?
 			initSpaces(map1);
 			map1Grid.add((Node) player1, player1.getCoordX(), player1.getCoordY());
 			
@@ -685,7 +684,13 @@ public class Map1Controller extends MapType implements Initializable{
 			e.printStackTrace();
 		}
 	}
-
+ 	
+ 	public void importLoadedPlayer(Player player) {
+ 		player1 = player;
+		initSpaces(map1);
+		map1Grid.add((Node) player1, player1.getCoordX(), player1.getCoordY());
+ 	}
+ 	
  	//Movement methods
 	public void moveLeft() {
 		if (player1.getCoordX() != 0) {
