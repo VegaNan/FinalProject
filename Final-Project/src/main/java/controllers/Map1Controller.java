@@ -4,6 +4,7 @@ package controllers;
 import java.awt.TextField;
 import java.io.IOException;
 import java.io.Serializable;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,6 +35,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import models.*;
@@ -570,9 +573,9 @@ public class Map1Controller extends MapType implements Initializable{
 
 	public void initSpaces(Map map1) {
 		//images
-		Image monImg = new Image("/view/grass.png");
-		Image safeImg = new Image("/view/tile.png");
-		Image doorImg = new Image("/view/door.png");
+		Image monImg = new Image("/images/grass.png");
+		Image safeImg = new Image("/images/tile.png");
+		Image doorImg = new Image("/images/door.png");
 		//setting door space
 		Space door = new Space(193, 111, SpaceType.DOOR, doorImg);
 		map1.getSpaces().put(4 + " " + 0, door);
@@ -876,7 +879,7 @@ public class Map1Controller extends MapType implements Initializable{
 				// TODO remove item node
 			}
 		});
-		Image monImg = new Image("/view/enemy.png");
+		Image monImg = new Image("/images/enemy.png");
 		//Set up the map
 		initSpaces(map1);
 	}
