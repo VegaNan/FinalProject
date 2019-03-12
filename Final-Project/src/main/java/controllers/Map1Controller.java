@@ -51,7 +51,8 @@ import models.Vendor;
 import models.Weapon;
 import utilities.RNG;
 
-public class Map1Controller extends MapType implements Initializable {
+
+public class Map1Controller implements Initializable{
 
 	@FXML
 	GridPane map1Grid;
@@ -69,8 +70,6 @@ public class Map1Controller extends MapType implements Initializable {
 	HBox itemBox;
 
 	public Map1Controller() {
-		super("Krebs", "/view/Map1.fxml");
-	}
 
 	public void getItems() {
 		Stage window = new Stage();
@@ -610,8 +609,11 @@ public class Map1Controller extends MapType implements Initializable {
 			// TODO implement boss combat
 		}
 
-		// Goes to next map if space is a door
-		else if (sp.getSt() == SpaceType.DOOR) {
+		
+		//Goes to next map if space is a door
+		else if(sp.getSt() == SpaceType.DOOR)
+		{
+			player1.setMapLocation("/view/Map2.fxml");
 			doorButton.fire();
 		}
 

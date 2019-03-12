@@ -34,10 +34,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import models.*;
-import models.Weapon;
 import utilities.RNG;
 
-public class Map3Controller implements Initializable, Serializable {
+public class Map3Controller implements Initializable{
 
 	@FXML
 	GridPane map3Grid;
@@ -53,6 +52,13 @@ public class Map3Controller implements Initializable, Serializable {
 	public boolean move;
 
 	HBox itemBox;
+	
+	public Map3Controller() {
+	}
+	
+	public Map3Controller(Player player) {
+		player1 = player;
+	}
 
 	public void getItems() {
 
@@ -700,6 +706,12 @@ public class Map3Controller implements Initializable, Serializable {
 			e.printStackTrace();
 		}
 	}
+	
+ 	public static void importPlayer(Player player) {
+ 		player1 = player;
+		Image img = new Image("/images/knight.png");
+ 		player1.setImage(193, 110, img);
+ 	}
 
 	// Movement methods
 	public void moveLeft() {
@@ -801,6 +813,8 @@ public class Map3Controller implements Initializable, Serializable {
 		});
 		Image monImg = new Image("/images/enemy.png");
 		// Set up the map
-		importPlayer();
+		initSpaces(map3);
+
+		//importPlayer();
 	}
 }

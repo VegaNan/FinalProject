@@ -2,7 +2,6 @@
 package controllers;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,11 +32,19 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import models.*;
+import models.Armor;
+import models.Boss;
+import models.Item;
+import models.Map;
+import models.MiscItem;
+import models.Monster;
+import models.Player;
+import models.Potion;
+import models.Space;
 import models.Weapon;
 import utilities.RNG;
 
-public class Map2Controller implements Initializable, Serializable{
+public class Map2Controller implements Initializable{
 
 	@FXML
 	GridPane map2Grid;
@@ -54,6 +61,13 @@ public class Map2Controller implements Initializable, Serializable{
 
 	HBox itemBox;
 
+	public Map2Controller() {
+	}
+	
+	public Map2Controller(Player player) {
+		player1 = player;
+	}
+	
 	public void getItems() {
 
 		// Creates a pop up that allows user to view items
@@ -562,6 +576,7 @@ public class Map2Controller implements Initializable, Serializable{
 
 		// Goes to next map if space is a door
 		else if (sp.getSt() == SpaceType.DOOR) {
+			player1.setMapLocation("/view/Map3.fxml");
 			doorButton.fire();
 		}
 
@@ -740,6 +755,12 @@ public class Map2Controller implements Initializable, Serializable{
 			e.printStackTrace();
 		}
 	}
+ 	
+	public static void importPlayer(Player player) {
+ 		player1 = player;
+		Image img = new Image("/images/knight.png");
+ 		player1.setImage(193, 110, img);
+ 	}
 
 	// Movement methods
 	public void moveLeft() {
@@ -841,6 +862,8 @@ public class Map2Controller implements Initializable, Serializable{
 		});
 		Image monImg = new Image("/images/enemy.png");
 		// Set up the map
-		importPlayer();
+		initSpaces(map2);
+
+		//importPlayer();
 	}
 }
