@@ -583,7 +583,7 @@ public class Map1Controller extends MapType implements Initializable{
 		//setting door space
 		Space door = new Space(193, 111, SpaceType.DOOR, doorImg);
 		map1.getSpaces().put(4 + " " + 0, door);
-		map1Grid.add((Node)door, 4, 8);
+		map1Grid.add((Node)door, 4, 0);
 		// setting safe spaces
 		for (int i = 1; i < 10; i++) {
 			Space sp = new Space(193, 111, SpaceType.EMPTY, safeImg);

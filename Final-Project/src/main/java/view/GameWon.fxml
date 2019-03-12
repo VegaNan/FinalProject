@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="gameWonScreen" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GameWonController">
+   <children>
+      <Label id="wonText" layoutX="377.0" layoutY="198.0" text="Congratulations You Won!" textAlignment="CENTER">
+         <font>
+            <Font size="100.0" />
+         </font>
+      </Label>
+      <Label id="wonText" layoutX="845.0" layoutY="399.0" text="You Passed OOP!">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <Button layoutX="852.0" layoutY="476.0" mnemonicParsing="false" onAction="#returnMM" prefHeight="58.0" prefWidth="216.0" text="Return to Main Menu" />
+      <Button layoutX="852.0" layoutY="557.0" mnemonicParsing="false" onAction="#quit" prefHeight="58.0" prefWidth="216.0" text="Quit" />
+   </children>
+</AnchorPane>

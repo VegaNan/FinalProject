@@ -490,7 +490,7 @@ public class Map3Controller implements Initializable, Serializable {
 			}
 		}
 		//safe spaces in path
-		for (int i = 0; i < 10; i++) {
+		for (int i = 1; i < 10; i++) {
 			Space emptySp = new Space(193, 111, SpaceType.EMPTY, safeImg);
 			map3.getSpaces().put(4 + " " + i, emptySp);
 			map3Grid.add((Node) emptySp, 4, i);
@@ -539,7 +539,7 @@ public class Map3Controller implements Initializable, Serializable {
 
 		// Goes to next map if space is a door
 		else if (sp.getSt() == SpaceType.DOOR) {
-			// TODO implement move to next map
+			doorButton.fire();
 		}
 
 		// Allows user to interact with the vendor
@@ -549,7 +549,7 @@ public class Map3Controller implements Initializable, Serializable {
 	}
 
 	public void nextMap(ActionEvent event) {
-		changeScene("/view/map3.fxml", event);
+		changeScene("/view/GameWon.fxml", event);
 	}
 
 	public Monster createMonster() {
