@@ -98,7 +98,7 @@ public class Map1Controller implements Initializable {
 				Label label = new Label(player1.getItemBag().get(i).toString());
 				Button use = new Button("Use");
 				Potion potion = (Potion) player1.getItemBag().get(i);
-				label = new Label(potion.toString());
+				label = new Label("\n\n" + potion.toString());
 
 				int index = i;
 				use.setOnAction(new EventHandler<ActionEvent>() {
@@ -117,7 +117,7 @@ public class Map1Controller implements Initializable {
 				Label label = new Label(player1.getItemBag().get(i).toString());
 				Button equip = new Button("Equip");
 				Weapon weapon = (Weapon) player1.getItemBag().get(i);
-				label = new Label(weapon.toString());
+				label = new Label("\n\n" + weapon.toString());
 				equip.setOnAction(new EventHandler<ActionEvent>() {
 					public void handle(ActionEvent arg0) {
 						weapon.equip(player1);
@@ -130,7 +130,7 @@ public class Map1Controller implements Initializable {
 				Label label = new Label(player1.getItemBag().get(i).toString());
 				Button equip = new Button("Equip");
 				Armor armor = (Armor) player1.getItemBag().get(i);
-				label = new Label(armor.toString());
+				label = new Label("\n\n" + armor.toString());
 				equip.setOnAction(new EventHandler<ActionEvent>() {
 					public void handle(ActionEvent arg0) {
 						armor.equip(player1);
@@ -186,9 +186,11 @@ public class Map1Controller implements Initializable {
 	public HBox updateStats(Monster monster) {
 		HBox stats = new HBox();
 		// Display player stats
-		StringBuilder playersb = new StringBuilder(player1.getName()).append(" lvl ").append(player1.getLevel())
-				.append("\n HP").append(player1.getCurrentHP()).append(" / ").append(player1.getBaseHP())
-				.append("\nEnergy: ").append(player1.getCurrentEnergy()).append(" / ").append(player1.getBaseEnergy());
+		StringBuilder playersb = new StringBuilder("\n\n" + player1.getName()).append(" lvl ")
+				.append(player1.getLevel()).append("\n HP").append(player1.getCurrentHP()).append(" / ")
+				.append(player1.getBaseHP()).append("\nEnergy: ").append(player1.getCurrentEnergy()).append(" / ")
+				.append(player1.getBaseEnergy()).append("\n").append("Equipped Armor:" + player1.getEquippedArmor())
+				.append("\n").append("Equipped Weapon:" + player1.getEquippedWeapon());
 		Label playerLabel = new Label(playersb.toString());
 		playerLabel.setMinSize(500, 200);
 
@@ -481,7 +483,9 @@ public class Map1Controller implements Initializable {
 
 		Label vendorLabel = new Label(ven.printItemBag(ven.getItemBag()));
 
-		for(int i = 0; i < player1.getItemBag().size(); i++) {
+		Button Buy = new Button("Buy");
+
+		for (int i = 0; i < player1.getItemBag().size(); i++) {
 			VBox itemBox = new VBox();
 			Label item = new Label(player1.getItemBag().get(i).toString());
 			item.setPrefSize(300, 200);
@@ -498,24 +502,27 @@ public class Map1Controller implements Initializable {
 			itemBox.getChildren().add(Sell);
 			playerItems.getChildren().add(itemBox);
 		}
-		
-		int chance = 1;
-		ArrayList<Item> itemBag = new ArrayList<>();
-		int itemNum = RNG.generateInt(5, player1.getLevel() + 10);
 
-		for (int i = 0; i < itemNum; i++) {
-			String name = "Misc Item";
-			Item item = new MiscItem(name, player1.getLevel());
-			int itemType = RNG.generateInt(1, 5);
-			int itemInt;
-			switch (itemType) {
-			case 1:
+		Buy.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				boolean allItemsSold = false;
 
-				// Selects random armor type (Has 1% chance of legendary armor
-				ArmorType armorType = ArmorType.DEFAULT_ARMOR;
-				chance = RNG.generateInt(0, 100);
-				if (chance < 2) {
-					armorType = ArmorType.FABLED_ARMOR_OF_OOP;
+				Weapon weapon = new Weapon(WeaponType.SMALL_DAGGER);
+				Weapon weapon1 = new Weapon(WeaponType.POCKET_KNIFE);
+				Weapon weapon2 = new Weapon(WeaponType.SOLDIERS_SWORD);
+
+				if (buySelection.getSelectedToggle().equals(dagger) && player1.getMoney() > weapon.getValue()) {
+					player1.addItem(weapon);
+					player1.setMoney(player1.getMoney() - weapon.getValue());
+				} else if (buySelection.getSelectedToggle().equals(knife) && player1.getMoney() > weapon1.getValue()) {
+					player1.addItem(weapon1);
+					player1.setMoney(player1.getMoney() - weapon1.getValue());
+				} else if (buySelection.getSelectedToggle().equals(sword) && player1.getMoney() > weapon2.getValue()) {
+					player1.addItem(weapon2);
+					player1.setMoney(player1.getMoney() - weapon2.getValue());
+				} else if (exit.getOnMousePressed() != null) {
+					window.close();
 				}
 
 				// 48% chance of weakest armor
@@ -671,7 +678,7 @@ public class Map1Controller implements Initializable {
 			itemDisplay.getChildren().add(label);
 			itemBox.getChildren().add(itemDisplay);
 		}
-		
+
 		for (Item loot : monster.getItemBag()) {
 			player1.getItemBag().add(loot);
 		}
