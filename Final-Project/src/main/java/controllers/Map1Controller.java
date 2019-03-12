@@ -476,15 +476,15 @@ public class Map1Controller implements Initializable {
 
 		// change to buyVendor.fxml
 
-		Label playerLabel = new Label(player1.printItemBag(player1.getItemBag()));
+		Label playerLabel = new Label();
 		Vendor ven = new Vendor();
 
 		Label vendorLabel = new Label(ven.printItemBag(ven.getItemBag()));
-		Potion hp = new Potion(PotionType.HEALING, 20, "HealthPotion", 100);
 
 		Button Buy = new Button("Buy");
 
 		for(int i = 0; i < player1.getItemBag().size(); i++) {
+			VBox itemBox = new VBox();
 			Label item = new Label(player1.getItemBag().get(i).toString());
 			item.setPrefSize(200, 200);
 			Button Sell = new Button("Sell");
@@ -492,18 +492,16 @@ public class Map1Controller implements Initializable {
 			Sell.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-					
 					player1.setMoney(player1.getMoney() + player1.getItemBag().get(ii).value);
 					player1.removeItem(ii);					
 					if (exit.getOnMousePressed() != null) {
 						window.close();
 					}
-					playerItems.getChildren().clear();
 				}
-
 			});
-			playerItems.getChildren().add(item);
-			playerItems.getChildren().add(Sell);
+			itemBox.getChildren().add(item);
+			itemBox.getChildren().add(Sell);
+			playerItems.getChildren().add(itemBox);
 		}
 		
 		Buy.setOnAction(new EventHandler<ActionEvent>() {
@@ -578,12 +576,13 @@ public class Map1Controller implements Initializable {
 				label = new Label(potion.toString());
 			}
 			// adding the items to the player's inventory
-			for (Item loot : monster.getItemBag()) {
-				player1.getItemBag().add(loot);
-			}
 			// displaying the items
 			itemDisplay.getChildren().add(label);
 			itemBox.getChildren().add(itemDisplay);
+		}
+		
+		for (Item loot : monster.getItemBag()) {
+			player1.getItemBag().add(loot);
 		}
 		// if there is no loot
 		// Informs user that monster dropped no loot
