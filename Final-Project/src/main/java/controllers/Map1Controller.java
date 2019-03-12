@@ -141,13 +141,18 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 	//Updates stats to display correctly
 	public HBox updateStats(Monster monster) {
 		HBox stats = new HBox();
-  //Display player stats
+		
+		//Display player stats
 		StringBuilder playersb = new StringBuilder(player1.getName()).append(" lvl ").append(player1.getLevel())
 		.append("\n HP").append(player1.getCurrentHP()).append(" / ").append(player1.getBaseHP())
-		
 		.append("\nEnergy: ").append(player1.getCurrentEnergy()).append(" / ").append(player1.getBaseEnergy());
+		
 		Label playerLabel = new Label(playersb.toString());
 		playerLabel.setMinSize(300, 100);
+		
+		if(monster.getCurrentHP() < 1) {
+			monster.setAlive(false);
+		}
 		
 		//Display monster stats
 		StringBuilder monstersb = new StringBuilder(monster.getName());
