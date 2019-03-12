@@ -66,8 +66,8 @@ public class MainMenuController implements Initializable {
 					ioe.printStackTrace();
 				}
 			}
-		}
-	
+		}	
+		//TODO need to start game with this player
 	}
 	
 	protected static void saveGame(String name, Player player) {
