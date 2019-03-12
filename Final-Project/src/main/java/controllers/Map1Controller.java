@@ -245,6 +245,7 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 				//Check if combat is over
 				if(checkDeath(monster)) {
 					window.close();
+					MainMenuController.saveGame(player1.getName(), player1);
 				}
 			}
 		});
@@ -271,6 +272,7 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 				//Check if combat is over
 				if(checkDeath(monster)) {
 					window.close();
+					MainMenuController.saveGame(player1.getName(), player1);
 				}
 			}
 		});
@@ -302,6 +304,7 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 				
 				if(checkDeath(monster)) {
 					window.close();
+					MainMenuController.saveGame(player1.getName(), player1);
 				}
 			}
 		});
@@ -370,6 +373,7 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 				
 				if(checkDeath(monster)) {
 					//window.close();
+					MainMenuController.saveGame(player1.getName(), player1);
 				}
 			}
 		});

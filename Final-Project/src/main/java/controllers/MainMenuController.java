@@ -28,7 +28,7 @@ public class MainMenuController implements Initializable {
 	}
 
 	public void loadGame(ActionEvent event) throws IOException {
-		Player loadedPlayer;
+		Player loadedPlayer = new Player();
 		changeScene("/view/LoadGame.fxml", event);
 		String path = "saves";
 		File initialFile = new File(path);
@@ -67,6 +67,7 @@ public class MainMenuController implements Initializable {
 				}
 			}
 		}
+	
 	}
 	
 	protected static void saveGame(String name, Player player) {

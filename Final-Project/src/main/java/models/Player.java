@@ -27,6 +27,14 @@ public class Player extends Character implements Serializable{
 		mapLocation = "Map1.fxml";
 	}
 
+	public String getMapLocation() {
+		return mapLocation;
+	}
+
+	public void setMapLocation(String mapLocation) {
+		this.mapLocation = mapLocation;
+	}
+
 	public void setDefend(boolean defend) {
 		this.defend = defend;
 	}
