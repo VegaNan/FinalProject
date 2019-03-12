@@ -51,7 +51,7 @@ import models.Vendor;
 import models.Weapon;
 import utilities.RNG;
 
-public class Map1Controller extends MapType implements Initializable{
+public class Map1Controller implements Initializable{
 
 	@FXML
 	GridPane map1Grid;
@@ -69,19 +69,13 @@ public class Map1Controller extends MapType implements Initializable{
 	HBox itemBox;
 	
 	public Map1Controller() {
-		super("Krebs", "/view/Map1.fxml");
-	}
-	
-	public Map1Controller(String saveName, String mapLocation) {
-		super(saveName, mapLocation);
 	}
 	
 	public Map1Controller(Player player) {
-		super("Krebs", "/view/Map1.fxml");
 		player1 = player;
 	}
+	
 	public void getItems() {
-		
 		//Creates a pop up that allows user to view items
 		Stage window = new Stage();
 		Scene scene = new Scene(updateItems());
@@ -640,6 +634,7 @@ public class Map1Controller extends MapType implements Initializable{
 		//Goes to next map if space is a door
 		else if(sp.getSt() == SpaceType.DOOR)
 		{
+			player1.setMapLocation("Map2");
 			doorButton.fire();
 		}
 		
