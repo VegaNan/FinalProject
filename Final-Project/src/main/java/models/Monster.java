@@ -46,9 +46,9 @@ public class Monster extends Character {
 			break;
 		case KREBS:
 			setName(name);
-			str = RNG.generateInt(30, 60) * getLevel();
-			intelligence = RNG.generateInt(60, 70) * getLevel();
-			luck = RNG.generateInt(30, 60) * getLevel();
+			str = RNG.generateInt(20, 35) * getLevel();
+			intelligence = RNG.generateInt(20, 35) * getLevel();
+			luck = RNG.generateInt(25, 35) * getLevel();
 			xp = getLevel() * 1000;
 			break;
 		default:
