@@ -37,17 +37,17 @@ import models.*;
 import models.Weapon;
 import utilities.RNG;
 
-public class Map2Controller implements Initializable, Serializable{
+public class Map3Controller implements Initializable, Serializable {
 
 	@FXML
-	GridPane map2Grid;
+	GridPane map3Grid;
 	@FXML
 	Button gameOverButton;
 	@FXML
 	Button doorButton;
 
 	public HashMap<String, Space> spaces = new HashMap<>();
-	public Map map2 = new Map(spaces);
+	public Map map3 = new Map(spaces);
 	public static Player player1;
 	public Monster monster1;
 	public boolean move;
@@ -179,6 +179,7 @@ public class Map2Controller implements Initializable, Serializable{
 		HBox stats = updateStats(monster);
 		HBox battle = new HBox();
 
+		// Create buttons for options
 		Button specialAttack = new Button("Special Attack");
 		Button normalAttack = new Button("Normal Attack");
 		Button defend = new Button("Defend");
@@ -455,80 +456,80 @@ public class Map2Controller implements Initializable, Serializable{
 		window.show();
 	}
 
-	public void initSpaces(Map map2) {
+	public void initSpaces(Map map3) {
 
 		// init safe spaces
 		Image monImg = new Image("/images/grass.png");
 		Image safeImg = new Image("/images/tile.png");
 		Image doorImg = new Image("/images/door.png");
 		Image wallImg = new Image("/images/wall.png");
-		Image krebsinatorImg = new Image("/images/krebsinator.png");
+		Image krebsImg = new Image("/images/krebs.png");
 		// setting up door
 		Space door = new Space(193, 111, SpaceType.DOOR, doorImg);
-		map2.getSpaces().put(4 + " " + 0, door);
-		map2Grid.add((Node) door, 4, 0);
-		// sets the krebsinator background
-		Space krebsinatorBG = new Space(193, 111, SpaceType.EMPTY, safeImg);
-		map2Grid.add(krebsinatorBG, 4, 1);
-		// setting up the krebsinator
-		Space krebsinator = new Space(193, 111, SpaceType.BOSS, krebsinatorImg);
-		map2.getSpaces().put(4 + " " + 1, krebsinator);
-		map2Grid.add(krebsinator, 4, 1);
+		map3.getSpaces().put(4 + " " + 0, door);
+		map3Grid.add((Node) door, 4, 0);
 		// setting safe spaces
 		for (int i = 7; i < 10; i++) {
 			Space emptySp = new Space(193, 111, SpaceType.EMPTY, safeImg);
-			map2.getSpaces().put(4 + " " + i, emptySp);
-			map2Grid.add((Node) emptySp, 4, i);
+			map3.getSpaces().put(4 + " " + i, emptySp);
+			map3Grid.add((Node) emptySp, 4, i);
 		}
 		// setting monster spaces left of path
 		for (int i = 0; i < 3; i++) {
 			for (int i2 = 0; i2 < 10; i2++) {
 				Space monSp = new Space(193, 111, SpaceType.MONSTER_ENCOUNTER, monImg);
-				map2.getSpaces().put(i + " " + i2, monSp);
-				map2Grid.add((Node) monSp, i, i2);
+				map3.getSpaces().put(i + " " + i2, monSp);
+				map3Grid.add((Node) monSp, i, i2);
 			}
 		}
 		// setting monster wall spaces right
 		for (int i = 2; i < 10; i++) {
 			Space monSp = new Space(193, 111, SpaceType.MONSTER_ENCOUNTER, monImg);
-			map2.getSpaces().put(3 + " " + i, monSp);
-			map2Grid.add(monSp, 3, i);
+			map3.getSpaces().put(3 + " " + i, monSp);
+			map3Grid.add(monSp, 3, i);
 		}
 		// setting monster wall spaces left
 		for (int i = 2; i < 10; i++) {
 			Space monSp = new Space(193, 111, SpaceType.MONSTER_ENCOUNTER, monImg);
-			map2.getSpaces().put(5 + " " + i, monSp);
-			map2Grid.add(monSp, 5, i);
+			map3.getSpaces().put(5 + " " + i, monSp);
+			map3Grid.add(monSp, 5, i);
 		}
 		// setting monster spaces right of the path
 		for (int i = 6; i < 10; i++) {
 			for (int i2 = 0; i2 < 10; i2++) {
 				Space monSp = new Space(193, 111, SpaceType.MONSTER_ENCOUNTER, monImg);
-				map2.getSpaces().put(i + " " + i2, monSp);
-				map2Grid.add((Node) monSp, i, i2);
+				map3.getSpaces().put(i + " " + i2, monSp);
+				map3Grid.add((Node) monSp, i, i2);
 			}
 		}
 		// more monster spaces
 		for (int i = 2; i < 8; i++) {
 			Space monSp = new Space(193, 111, SpaceType.MONSTER_ENCOUNTER, monImg);
-			map2.getSpaces().put(4 + " " + i, monSp);
-			map2Grid.add(monSp, 4, i);
+			map3.getSpaces().put(4 + " " + i, monSp);
+			map3Grid.add(monSp, 4, i);
 		}
 		// wall spaces
 		for (int i = 0; i < 2; i++) {
 			Space wallSp = new Space(193, 111, SpaceType.BLOCK, wallImg);
-			map2.getSpaces().put(3 + " " + i, wallSp);
-			map2Grid.add(wallSp, 3, i);
+			map3.getSpaces().put(3 + " " + i, wallSp);
+			map3Grid.add(wallSp, 3, i);
 		}
 		for (int i = 0; i < 2; i++) {
 			Space wallSp = new Space(193, 111, SpaceType.BLOCK, wallImg);
-			map2.getSpaces().put(5 + " " + i, wallSp);
-			map2Grid.add(wallSp, 5, i);
+			map3.getSpaces().put(5 + " " + i, wallSp);
+			map3Grid.add(wallSp, 5, i);
 		}
+		// sets the krebs background
+		Space krebsBG = new Space(193, 111, SpaceType.EMPTY, safeImg);
+		map3Grid.add(krebsBG, 4, 1);
+		// setting up the krebs
+		Space krebs = new Space(1000, 1000, SpaceType.BOSS, krebsImg);
+		map3.getSpaces().put(4 + " " + 1, krebs);
+		map3Grid.add(krebs, 4, 1);
 	}
 
 	public boolean isBlocked(int x, int y) {
-		if (map2.getSpaces().get(x + " " + y).getSt() == SpaceType.BLOCK) {
+		if (map3.getSpaces().get(x + " " + y).getSt() == SpaceType.BLOCK) {
 			return true;
 		} else {
 			return false;
@@ -538,7 +539,7 @@ public class Map2Controller implements Initializable, Serializable{
 	public void checkSpace() {
 
 		// Creates combat if space is a monster_encounter space
-		Space sp = map2.getSpaces().get(player1.getCoordX() + " " + player1.getCoordY());
+		Space sp = map3.getSpaces().get(player1.getCoordX() + " " + player1.getCoordY());
 		if (sp.getSt() == SpaceType.MONSTER_ENCOUNTER) {
 			int randEn = RNG.generateInt(0, 10);
 			if (randEn == 10) {
@@ -551,7 +552,7 @@ public class Map2Controller implements Initializable, Serializable{
 
 		// Goes to next map if space is a door
 		else if (sp.getSt() == SpaceType.DOOR) {
-			doorButton.fire();
+			// TODO implement move to next map
 		}
 
 		// Allows user to interact with the vendor
@@ -561,7 +562,7 @@ public class Map2Controller implements Initializable, Serializable{
 	}
 
 	public void nextMap(ActionEvent event) {
-		changeScene("/view/Map3.fxml", event);
+		changeScene("/view/map3.fxml", event);
 	}
 
 	public Monster createMonster() {
@@ -703,10 +704,10 @@ public class Map2Controller implements Initializable, Serializable{
 			player1 = controller.getPlayer();
 			System.out.println("this is the importer :)" + player1.toString());
 			// TODO bug here?
-			initSpaces(map2);
+			initSpaces(map3);
 			player1.setCoordX(4);
 			player1.setCoordY(8);
-			map2Grid.add((Node) player1, player1.getCoordX(), player1.getCoordY());
+			map3Grid.add((Node) player1, player1.getCoordX(), player1.getCoordY());
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -743,8 +744,8 @@ public class Map2Controller implements Initializable, Serializable{
 	}
 
 	public void movePlayer() {
-		map2Grid.getChildren().remove(player1);
-		map2Grid.add((Node) player1, player1.getCoordX(), player1.getCoordY());
+		map3Grid.getChildren().remove(player1);
+		map3Grid.add((Node) player1, player1.getCoordX(), player1.getCoordY());
 		checkSpace();
 	}
 
@@ -771,7 +772,7 @@ public class Map2Controller implements Initializable, Serializable{
 		move = true;
 
 		// Sets up movement based on user keyPress
-		map2Grid.setOnKeyPressed(key -> {
+		map3Grid.setOnKeyPressed(key -> {
 			KeyCode keycode = key.getCode();
 			if (move) {
 				switch (keycode) {

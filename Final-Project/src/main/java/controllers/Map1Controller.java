@@ -1,6 +1,7 @@
 
 package controllers;
 
+import java.awt.TextField;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URISyntaxException;
@@ -27,6 +28,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
@@ -393,6 +396,33 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 		window.setScene(scene);
 		window.sizeToScene();
 		window.show();
+	}
+	
+	@FXML
+	private RadioButton sword;
+	@FXML
+	private RadioButton knife;
+	@FXML
+	private RadioButton dagger;
+	@FXML
+	private ToggleGroup buySelection;
+	@FXML
+	private Button exit;
+	@FXML 
+	private TextField sellItemField;
+	@FXML 
+	private Label healthPotion;
+	
+	
+	public void vendorView() {
+		Stage window = new Stage();
+		window.setOnCloseRequest(event -> {
+			event.consume();
+		});
+		Pane vendor = new AnchorPane();
+		vendor.setPrefSize(700, 700);
+		VBox playerItems = new VBox();
+		VBox vendorItems = new VBox();
 		
 		String music = "/audio/BattleMusic.mp3";
 		URL resource = getClass().getResource(music);
@@ -404,26 +434,80 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public void vendorView () {
-		Stage window = new Stage();
-		window.setOnCloseRequest(event -> {
-			event.consume();
-		});
-		Pane vendor = new AnchorPane();
-		vendor.setPrefSize(700, 700);
-		VBox playerItems = new VBox();
-		VBox vendorItems = new VBox();
 		
-		Label vendorLabel = new Label();
+		// change to buyVendor.fxml
 	
 		Label playerLabel = new Label(player1.printItemBag(player1.getItemBag()));
+		Vendor ven = new Vendor();
 		
+		Label vendorLabel = new Label(ven.printItemBag(ven.getItemBag()));
+		Potion hp = new Potion(PotionType.HEALING, 20, "HealthPotion", 100);
+		String s = "";
+		
+		healthPotion.setText(hp.toString());
 		
 		Button Buy=new Button("Buy");
 		Button Sell= new Button("Sell");
+		
+		Buy.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				boolean allItemsSold = false;
+				
+				
+				Weapon weapon = new Weapon(WeaponType.SMALL_DAGGER);
+				Weapon weapon1 = new Weapon(WeaponType.POCKET_KNIFE);
+				Weapon weapon2 = new Weapon(WeaponType.SOLDIERS_SWORD);
+				
+				if(buySelection.getSelectedToggle().equals(dagger) && player1.getMoney() > weapon.getValue()) {
+					player1.addItem(weapon);
+					player1.setMoney(player1.getMoney() - weapon.getValue());
+				}
+				else if (buySelection.getSelectedToggle().equals(knife) && player1.getMoney() > weapon1.getValue()) {
+					player1.addItem(weapon1);
+					player1.setMoney(player1.getMoney() - weapon1.getValue());
+				}
+				else if(buySelection.getSelectedToggle().equals(sword) && player1.getMoney() > weapon2.getValue()) {
+					player1.addItem(weapon2);
+					player1.setMoney(player1.getMoney() - weapon2.getValue());
+				}
+				else if(exit.getOnMousePressed() != null) {
+					window.close();
+				}
+				
+				
+				
+				
+			}
+		});
+		
+		Sell.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				
+				
+				// change to sellVendor.fxml
+				
+				player1.printItemBag(player1.getItemBag());
+				for(int i = 0; i <= player1.getItemBag().size(); i++ ) {
+					if(sellItemField.equals(player1.getItemBag().get(i).name)) {
+						
+					}
+					
+				}
+				
+				 if(exit.getOnMousePressed() != null) {
+					window.close();
+				}
+				
+				
+				
+				
+			}
+		});
+		
 	}
+
 		
 	
 	
@@ -703,7 +787,6 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 			e.printStackTrace();
 		}
 	}
-
  	//Movement methods
 	public void moveLeft() {
 		if (player1.getCoordX() != 0) {
@@ -806,4 +889,3 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 		initSpaces(map1);
 	}
 }
-

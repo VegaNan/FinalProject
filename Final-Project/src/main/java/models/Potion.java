@@ -3,6 +3,7 @@ package models;
 import models.Character;
 import enums.PotionType;
 import interfaces.Consumable;
+import javafx.scene.control.Label;
 
 public class Potion extends Item implements Consumable {
 	protected PotionType effect;
