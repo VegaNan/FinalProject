@@ -2,7 +2,6 @@
 package controllers;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,10 +32,19 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import models.*;
+import models.Armor;
+import models.Boss;
+import models.Item;
+import models.Map;
+import models.MiscItem;
+import models.Monster;
+import models.Player;
+import models.Potion;
+import models.Space;
+import models.Weapon;
 import utilities.RNG;
 
-public class Map2Controller implements Initializable, Serializable{
+public class Map2Controller implements Initializable{
 
 	@FXML
 	GridPane map2Grid;
