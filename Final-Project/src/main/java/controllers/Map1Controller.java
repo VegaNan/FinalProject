@@ -1,6 +1,7 @@
 
 package controllers;
 
+import java.awt.TextField;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URISyntaxException;
@@ -27,6 +28,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
@@ -409,8 +412,17 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 	private TextField sellItemField;
 	@FXML 
 	private Label healthPotion;
-	public void vendorView () {
-		
+	
+	
+	public void vendorView() {
+		Stage window = new Stage();
+		window.setOnCloseRequest(event -> {
+			event.consume();
+		});
+		Pane vendor = new AnchorPane();
+		vendor.setPrefSize(700, 700);
+		VBox playerItems = new VBox();
+		VBox vendorItems = new VBox();
 		
 		String music = "/audio/BattleMusic.mp3";
 		URL resource = getClass().getResource(music);
@@ -422,17 +434,6 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public void vendorView () {
-		Stage window = new Stage();
-		window.setOnCloseRequest(event -> {
-			event.consume();
-		});
-		Pane vendor = new AnchorPane();
-		vendor.setPrefSize(700, 700);
-		VBox playerItems = new VBox();
-		VBox vendorItems = new VBox();
 		
 		// change to buyVendor.fxml
 	
