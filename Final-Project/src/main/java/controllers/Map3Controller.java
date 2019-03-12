@@ -460,7 +460,7 @@ public class Map3Controller implements Initializable, Serializable {
 
 		// init safe spaces
 		Image monImg = new Image("/images/grass.png");
-		Image safeImg = new Image("/images/tile.png");
+		Image safeImg = new Image("/images/cobblestone.png");
 		Image doorImg = new Image("/images/door.png");
 		Image wallImg = new Image("/images/wall.png");
 		Image krebsImg = new Image("/images/krebs.png");
@@ -469,44 +469,31 @@ public class Map3Controller implements Initializable, Serializable {
 		map3.getSpaces().put(4 + " " + 0, door);
 		map3Grid.add((Node) door, 4, 0);
 		// setting safe spaces
-		for (int i = 7; i < 10; i++) {
+		//safe spaces left of path
+		for(int i = 0; i < 4; i++)
+		{
+			for(int i2 = 0; i2< 10; i2++)
+			{
+				Space emptySp = new Space(193,111, SpaceType.EMPTY, safeImg);
+				map3.getSpaces().put(i + " " + i2, emptySp);
+				map3Grid.add(emptySp, i, i2);
+			}
+		}
+		//safe spaces right of path
+		for(int i = 5; i < 10; i++)
+		{
+			for(int i2 = 0; i2< 10; i2++)
+			{
+				Space emptySp = new Space(193,111, SpaceType.EMPTY, safeImg);
+				map3.getSpaces().put(i + " " + i2, emptySp);
+				map3Grid.add(emptySp, i, i2);
+			}
+		}
+		//safe spaces in path
+		for (int i = 0; i < 10; i++) {
 			Space emptySp = new Space(193, 111, SpaceType.EMPTY, safeImg);
 			map3.getSpaces().put(4 + " " + i, emptySp);
 			map3Grid.add((Node) emptySp, 4, i);
-		}
-		// setting monster spaces left of path
-		for (int i = 0; i < 3; i++) {
-			for (int i2 = 0; i2 < 10; i2++) {
-				Space monSp = new Space(193, 111, SpaceType.MONSTER_ENCOUNTER, monImg);
-				map3.getSpaces().put(i + " " + i2, monSp);
-				map3Grid.add((Node) monSp, i, i2);
-			}
-		}
-		// setting monster wall spaces right
-		for (int i = 2; i < 10; i++) {
-			Space monSp = new Space(193, 111, SpaceType.MONSTER_ENCOUNTER, monImg);
-			map3.getSpaces().put(3 + " " + i, monSp);
-			map3Grid.add(monSp, 3, i);
-		}
-		// setting monster wall spaces left
-		for (int i = 2; i < 10; i++) {
-			Space monSp = new Space(193, 111, SpaceType.MONSTER_ENCOUNTER, monImg);
-			map3.getSpaces().put(5 + " " + i, monSp);
-			map3Grid.add(monSp, 5, i);
-		}
-		// setting monster spaces right of the path
-		for (int i = 6; i < 10; i++) {
-			for (int i2 = 0; i2 < 10; i2++) {
-				Space monSp = new Space(193, 111, SpaceType.MONSTER_ENCOUNTER, monImg);
-				map3.getSpaces().put(i + " " + i2, monSp);
-				map3Grid.add((Node) monSp, i, i2);
-			}
-		}
-		// more monster spaces
-		for (int i = 2; i < 8; i++) {
-			Space monSp = new Space(193, 111, SpaceType.MONSTER_ENCOUNTER, monImg);
-			map3.getSpaces().put(4 + " " + i, monSp);
-			map3Grid.add(monSp, 4, i);
 		}
 		// wall spaces
 		for (int i = 0; i < 2; i++) {
@@ -523,7 +510,7 @@ public class Map3Controller implements Initializable, Serializable {
 		Space krebsBG = new Space(193, 111, SpaceType.EMPTY, safeImg);
 		map3Grid.add(krebsBG, 4, 1);
 		// setting up the krebs
-		Space krebs = new Space(1000, 1000, SpaceType.BOSS, krebsImg);
+		Space krebs = new Space(193, 111, SpaceType.BOSS, krebsImg);
 		map3.getSpaces().put(4 + " " + 1, krebs);
 		map3Grid.add(krebs, 4, 1);
 	}
