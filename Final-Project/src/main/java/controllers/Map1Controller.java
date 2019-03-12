@@ -481,9 +481,7 @@ public class Map1Controller implements Initializable {
 		Label playerLabel = new Label();
 		Vendor ven = new Vendor();
 
-		Label vendorLabel = new Label(ven.printItemBag(ven.getItemBag()));
-
-		Button Buy = new Button("Buy");
+		Label vendorLabel = new Label();
 
 		for (int i = 0; i < player1.getItemBag().size(); i++) {
 			VBox itemBox = new VBox();
@@ -503,39 +501,32 @@ public class Map1Controller implements Initializable {
 			playerItems.getChildren().add(itemBox);
 		}
 
-		Buy.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				boolean allItemsSold = false;
-
-				Weapon weapon = new Weapon(WeaponType.SMALL_DAGGER);
-				Weapon weapon1 = new Weapon(WeaponType.POCKET_KNIFE);
-				Weapon weapon2 = new Weapon(WeaponType.SOLDIERS_SWORD);
-
-				if (buySelection.getSelectedToggle().equals(dagger) && player1.getMoney() > weapon.getValue()) {
-					player1.addItem(weapon);
-					player1.setMoney(player1.getMoney() - weapon.getValue());
-				} else if (buySelection.getSelectedToggle().equals(knife) && player1.getMoney() > weapon1.getValue()) {
-					player1.addItem(weapon1);
-					player1.setMoney(player1.getMoney() - weapon1.getValue());
-				} else if (buySelection.getSelectedToggle().equals(sword) && player1.getMoney() > weapon2.getValue()) {
-					player1.addItem(weapon2);
-					player1.setMoney(player1.getMoney() - weapon2.getValue());
-				} else if (exit.getOnMousePressed() != null) {
-					window.close();
+		
+		ArrayList<Item> itemBag = new ArrayList<>();
+		int itemNum = RNG.generateInt(0, player1.getLevel() + 2);
+		for (int i = 0; i < itemNum; i++) {
+			int chance = 1;
+			String name = "Misc Item";
+			Item item = new MiscItem(name, player1.getLevel());
+			int itemType = RNG.generateInt(1, 5);
+			int itemInt;
+			switch (itemType) {
+			case 1:
+					// Selects random armor type (Has 1% chance of legendary armor
+				ArmorType armorType = ArmorType.DEFAULT_ARMOR;
+				chance = RNG.generateInt(0, 100);
+				if (chance < 2) {
+					armorType = ArmorType.FABLED_ARMOR_OF_OOP;
 				}
-
-				// 48% chance of weakest armor
+					// 48% chance of weakest armor
 				else if (chance < 50) {
 					armorType = ArmorType.ROGUES_CLOAK;
 				}
-
-				// 30% chance of moderate armor
+					// 30% chance of moderate armor
 				else if (chance < 80) {
 					armorType = ArmorType.SOLDIERS_ARMOR;
 				}
-
-				// 20% chance of good armor
+					// 20% chance of good armor
 				else if (chance < 100) {
 					armorType = ArmorType.HEAVY_ARMOR;
 				}
@@ -544,8 +535,7 @@ public class Map1Controller implements Initializable {
 			case 2:
 			case 3:
 			case 4:
-
-				// Selects random potion
+					// Selects random potion
 				int potionTypeInt = RNG.generateInt(0, PotionType.class.getEnumConstants().length - 1);
 				PotionType potionType = PotionType.class.getEnumConstants()[potionTypeInt];
 				if (!potionType.equals(PotionType.HEALING)) {
@@ -570,36 +560,30 @@ public class Map1Controller implements Initializable {
 				item = new Potion(potionType, potionTypeInt, name, potionTypeInt);
 				break;
 			case 5:
-
-				// Selects random weapon type
+					// Selects random weapon type
 				// Has 1% chance of legendary weapon
 				WeaponType weaponType = WeaponType.LENE;
 				chance = RNG.generateInt(0, 100);
 				if (chance < 2) {
 					weaponType = WeaponType.WRATH_OF_THE_GODS;
 				}
-
-				// 49% chance of weakest weapon
+					// 49% chance of weakest weapon
 				else if (chance < 50) {
 					weaponType = WeaponType.POCKET_KNIFE;
 				}
-
-				// 20% chance of next highest weapon
+					// 20% chance of next highest weapon
 				else if (chance < 70) {
 					weaponType = WeaponType.SMALL_DAGGER;
 				}
-
-				// 10% chance of moderate weapon
+					// 10% chance of moderate weapon
 				else if (chance < 80) {
 					weaponType = WeaponType.SOLDIERS_SWORD;
 				}
-
-				// 15% chance of good weapon
+					// 15% chance of good weapon
 				else if (chance < 95) {
 					weaponType = WeaponType.HEAVY_CLAYMORE;
 				}
-
-				// 5% chance of good armor
+					// 5% chance of good armor
 				else if (chance < 100) {
 					weaponType = WeaponType.FLAMING_SWORD;
 				}
@@ -608,7 +592,7 @@ public class Map1Controller implements Initializable {
 			}
 			itemBag.add(item);
 		}
-		
+	
 		for(int i = 0; i < itemBag.size(); i++) {
 			VBox itemBox = new VBox();
 			Label item = new Label(itemBag.get(i).toString());
