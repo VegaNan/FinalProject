@@ -796,6 +796,10 @@ public class Map1Controller extends MapType implements Initializable{
 			e.printStackTrace();
 		}
 	}
+ 	
+ 	public void importPlayer(Player player) {
+ 		player1 = player;
+ 	}
  	//Movement methods
 	public void moveLeft() {
 		if (player1.getCoordX() != 0) {
