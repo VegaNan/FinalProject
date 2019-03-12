@@ -10,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import models.Player;
 
 public class LoadGameController implements Initializable {
 
@@ -32,6 +33,20 @@ public class LoadGameController implements Initializable {
 		
 	}
 
+	public void startGame(ActionEvent event) {
+		Player loadedPlayer = MainMenuController.getLoadedPlayer();
+		try {
+			Map1Controller.importPlayer(loadedPlayer);
+			changeScene(loadedPlayer.getMapLocation(), event);
+			if(loadedPlayer.getMapLocation().contains("Map1")) {
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		

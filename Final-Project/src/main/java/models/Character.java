@@ -1,5 +1,6 @@
 package models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import enums.ArmorType;
@@ -9,7 +10,8 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
-public abstract class Character extends Rectangle{
+public abstract class Character extends Rectangle implements Serializable{
+	private static final long serialVersionUID = 1L;
 	protected String name;
 	protected boolean isAlive;
 	protected int coordX;

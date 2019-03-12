@@ -1,9 +1,12 @@
 package models;
 
+import java.io.Serializable;
+
 import enums.WeaponType;
 import utilities.RNG;
 
-public class Weapon extends Item {
+public class Weapon extends Item implements Serializable{
+	private static final long serialVersionUID = 1L;
 	protected int damage;
 	protected WeaponType weaponType;
 
