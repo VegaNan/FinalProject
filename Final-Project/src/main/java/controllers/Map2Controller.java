@@ -516,7 +516,7 @@ public class Map2Controller implements Initializable{
 			map2.getSpaces().put(4 + " " + i, emptySp);
 			map2Grid.add((Node) emptySp, 4, i);
 		}
-		// setting monster spaces left of path
+		// setting monster spaces left
 		for (int i = 0; i < 3; i++) {
 			for (int i2 = 0; i2 < 10; i2++) {
 				Space monSp = new Space(193, 111, SpaceType.MONSTER_ENCOUNTER, monImg);
@@ -536,7 +536,7 @@ public class Map2Controller implements Initializable{
 			map2.getSpaces().put(5 + " " + i, monSp);
 			map2Grid.add(monSp, 5, i);
 		}
-		// setting monster spaces right of the path
+		// setting monster spaces right
 		for (int i = 6; i < 10; i++) {
 			for (int i2 = 0; i2 < 10; i2++) {
 				Space monSp = new Space(193, 111, SpaceType.MONSTER_ENCOUNTER, monImg);

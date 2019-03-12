@@ -104,16 +104,15 @@ public class Armor extends Item implements Equippable, Serializable{
 	}
 
 	@Override
-	public boolean equip() {
-		boolean equipped = false;
-		return equipped;
-	}
-
-	@Override
 	public String getDescription() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(super.toString());
 		return sb.toString();
 	}
 
+	@Override
+	public void equip(Player player1) {
+		player1.setEquippedArmor(this);
+	}
+	
 }

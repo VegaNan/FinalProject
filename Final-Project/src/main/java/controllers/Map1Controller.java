@@ -14,6 +14,7 @@ import enums.MonsterType;
 import enums.PotionType;
 import enums.SpaceType;
 import enums.WeaponType;
+import interfaces.Equippable;
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -51,8 +52,7 @@ import models.Vendor;
 import models.Weapon;
 import utilities.RNG;
 
-
-public class Map1Controller implements Initializable{
+public class Map1Controller implements Initializable {
 
 	@FXML
 	GridPane map1Grid;
@@ -71,6 +71,7 @@ public class Map1Controller implements Initializable{
 
 	public Map1Controller() {
 	}
+
 	public Map1Controller(Player player) {
 		player1 = player;
 		importPlayer(player);
@@ -111,6 +112,28 @@ public class Map1Controller implements Initializable{
 				label.autosize();
 				item.getChildren().add(label);
 				item.getChildren().add(use);
+			}
+			if (player1.getItemBag().get(i) instanceof Weapon) {
+				Label label = new Label(player1.getItemBag().get(i).toString());
+				Button equip = new Button("Equip");
+				Weapon weapon = (Weapon) player1.getItemBag().get(i);
+				label = new Label(weapon.toString());
+				equip.setOnAction(new EventHandler<ActionEvent>() {
+					public void handle(ActionEvent arg0) {
+						weapon.equip(player1);
+					}
+				});
+			}
+			if (player1.getItemBag().get(i) instanceof Armor) {
+				Label label = new Label(player1.getItemBag().get(i).toString());
+				Button equip = new Button("Equip");
+				Armor armor = (Armor) player1.getItemBag().get(i);
+				label = new Label(armor.toString());
+				equip.setOnAction(new EventHandler<ActionEvent>() {
+					public void handle(ActionEvent arg0) {
+						armor.equip(player1);
+					}
+				});
 			}
 			itemBox.getChildren().add(item);
 		}
@@ -585,7 +608,7 @@ public class Map1Controller implements Initializable{
 			map1.getSpaces().put(4 + " " + i, sp);
 			map1Grid.add((Node) sp, 4, i);
 		}
-		
+
 		// setting monster spaces left of path
 		for (int i = 0; i < 3; i++) {
 			for (int i2 = 0; i2 < 10; i2++) {
@@ -595,21 +618,21 @@ public class Map1Controller implements Initializable{
 			}
 		}
 		// setting monster top half col 3
-			for (int i = 0; i < 5; i++) {
-				Space sp = new Space(193, 111, SpaceType.MONSTER_ENCOUNTER, monImg);
-				map1.getSpaces().put(3 + " " + i, sp);
-				map1Grid.add((Node) sp, 3, i);
-			}
-			// setting monster bottom half col 3
-			for (int i = 6; i < 10; i++) {
-				Space sp = new Space(193, 111, SpaceType.MONSTER_ENCOUNTER, monImg);
-				map1.getSpaces().put(3 + " " + i, sp);
-				map1Grid.add((Node) sp, 3, i);
-			}
-			//vendor space
-			Space vendor = new Space(193, 111, SpaceType.VENDOR, vendorImg);
-			map1.getSpaces().put(3 + " " + 5, vendor);
-			map1Grid.add((Node)vendor, 3, 5);
+		for (int i = 0; i < 5; i++) {
+			Space sp = new Space(193, 111, SpaceType.MONSTER_ENCOUNTER, monImg);
+			map1.getSpaces().put(3 + " " + i, sp);
+			map1Grid.add((Node) sp, 3, i);
+		}
+		// setting monster bottom half col 3
+		for (int i = 6; i < 10; i++) {
+			Space sp = new Space(193, 111, SpaceType.MONSTER_ENCOUNTER, monImg);
+			map1.getSpaces().put(3 + " " + i, sp);
+			map1Grid.add((Node) sp, 3, i);
+		}
+		// vendor space
+		Space vendor = new Space(193, 111, SpaceType.VENDOR, vendorImg);
+		map1.getSpaces().put(3 + " " + 5, vendor);
+		map1Grid.add((Node) vendor, 3, 5);
 		// setting monster spaces right of the path
 		for (int i = 5; i < 10; i++) {
 			for (int i2 = 0; i2 < 10; i2++) {
@@ -635,10 +658,8 @@ public class Map1Controller implements Initializable{
 			// TODO implement boss combat
 		}
 
-		
-		//Goes to next map if space is a door
-		else if(sp.getSt() == SpaceType.DOOR)
-		{
+		// Goes to next map if space is a door
+		else if (sp.getSt() == SpaceType.DOOR) {
 			player1.setMapLocation("/view/Map2.fxml");
 			doorButton.fire();
 		}
@@ -650,9 +671,9 @@ public class Map1Controller implements Initializable{
 	}
 
 	public void nextMap(ActionEvent event) {
- 		player1.setCoordX(4);
- 		player1.setCoordY(9);
- 		player1.setMapLocation("/view/Map2.fxml");
+		player1.setCoordX(4);
+		player1.setCoordY(9);
+		player1.setMapLocation("/view/Map2.fxml");
 		changeScene("/view/Map2.fxml", event);
 		Map2Controller.importPlayer(player1);
 	}
@@ -729,10 +750,8 @@ public class Map1Controller implements Initializable{
 				PotionType potionType = PotionType.class.getEnumConstants()[potionTypeInt];
 				if (!potionType.equals(PotionType.HEALING)) {
 					potionTypeInt = RNG.generateInt(1, 5);
-				}
-				else
-				{
-					potionTypeInt = (player1.getLevel()*10)+RNG.generateInt(1, 10);
+				} else {
+					potionTypeInt = (player1.getLevel() * 10) + RNG.generateInt(1, 10);
 				}
 				switch (potionType) {
 				case HEALING:
@@ -811,14 +830,14 @@ public class Map1Controller implements Initializable{
 			e.printStackTrace();
 		}
 	}
- 	
- 	public static void importPlayer(Player player) {
- 		player1 = player;
+
+	public static void importPlayer(Player player) {
+		player1 = player;
 		Image img = new Image("/images/knight.png");
- 		player1.setImage(193, 110, img);
- 	}
- 	
- 	//Movement methods
+		player1.setImage(193, 110, img);
+	}
+
+	// Movement methods
 	public void moveLeft() {
 		if (player1.getCoordX() != 0) {
 			player1.setCoordX(player1.getCoordX() - 1);

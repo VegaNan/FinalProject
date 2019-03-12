@@ -1,6 +1,10 @@
 package interfaces;
 
+import models.Armor;
+import models.Player;
+import models.Weapon;
+
 public interface Equippable {
-	public boolean equip();
 	public String getDescription();
+	public void equip(Player player1);
 }
