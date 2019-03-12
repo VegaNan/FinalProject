@@ -36,7 +36,7 @@ import javafx.util.Duration;
 import models.*;
 import utilities.RNG;
 
-public class Map3Controller implements Initializable, Serializable {
+public class Map3Controller implements Initializable{
 
 	@FXML
 	GridPane map3Grid;
@@ -813,6 +813,6 @@ public class Map3Controller implements Initializable, Serializable {
 		});
 		Image monImg = new Image("/images/enemy.png");
 		// Set up the map
-		importPlayer();
+		//importPlayer();
 	}
 }
