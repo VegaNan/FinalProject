@@ -465,30 +465,42 @@ public class Map2Controller implements Initializable, Serializable{
 		// init safe spaces
 		Image monImg = new Image("/view/grass.png");
 		Image safeImg = new Image("/view/tile.png");
-		
+		Image doorImg = new Image("/view/door.png");
+		Image krebsinatorImg = new Image("/view/krebsinator.png");
+		Space door = new Space(193, 111, SpaceType.DOOR, doorImg);
+		map2.getSpaces().put(4 + " " + 0, door);
+		map2Grid.add((Node)door, 4, 8);
+		Space krebsinator = new Space(193, 111, SpaceType.BOSS, krebsinatorImg);
+		map2.getSpaces().put(4 + " " + 0, krebsinator);
+		map2Grid.add(krebsinator, 4, 1);
 		// setting safe spaces
-		for (int i = 0; i < 10; i++) {
+		for (int i = 7; i < 10; i++) {
 			Space sp = new Space(193, 111, SpaceType.EMPTY, safeImg);
 			map2.getSpaces().put(4 + " " + i, sp);
 			map2Grid.add((Node) sp, 4, i);
 		}
-		
 		// setting monster spaces left of path
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 3; i++) {
 			for (int i2 = 0; i2 < 10; i2++) {
 				Space sp = new Space(193, 111, SpaceType.MONSTER_ENCOUNTER, monImg);
 				map2.getSpaces().put(i + " " + i2, sp);
 				map2Grid.add((Node)sp, i, i2);
 			}
 		}
-		
 		// setting monster spaces right of the path
-		for (int i = 5; i < 10; i++) {
+		for (int i = 6; i < 10; i++) {
 			for (int i2 = 0; i2 < 10; i2++) {
 				Space sp = new Space(193, 111, SpaceType.MONSTER_ENCOUNTER, monImg);
 				map2.getSpaces().put(i + " " + i2, sp);
 				map2Grid.add((Node)sp, i, i2);
-			}
+			}		
+		}
+		//more monster spaces
+		for(int i = 2; i < 8; i++)
+		{
+			Space sp = new Space(193, 111, SpaceType.MONSTER_ENCOUNTER, monImg);
+			map2.getSpaces().put(4 + " " + i, sp);
+			map2Grid.add(sp, 4, i);
 		}
 	}
 

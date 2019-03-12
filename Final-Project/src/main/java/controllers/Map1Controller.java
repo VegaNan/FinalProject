@@ -475,31 +475,31 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 		Image safeImg = new Image("/view/tile.png");
 		Image doorImg = new Image("/view/door.png");
 		//setting door space
-		Space sp = new Space(193, 111, SpaceType.DOOR, doorImg);
-		map1.getSpaces().put(4 + " " + 0, sp);
-		map1Grid.add((Node)sp, 4, 8);
+		Space door = new Space(193, 111, SpaceType.DOOR, doorImg);
+		map1.getSpaces().put(4 + " " + 0, door);
+		map1Grid.add((Node)door, 4, 8);
 		// setting safe spaces
 		for (int i = 1; i < 10; i++) {
-			Space sp2 = new Space(193, 111, SpaceType.EMPTY, safeImg);
-			map1.getSpaces().put(4 + " " + i, sp2);
-			map1Grid.add((Node) sp2, 4, i);
+			Space sp = new Space(193, 111, SpaceType.EMPTY, safeImg);
+			map1.getSpaces().put(4 + " " + i, sp);
+			map1Grid.add((Node) sp, 4, i);
 		}
 		
 		// setting monster spaces left of path
 		for (int i = 0; i < 4; i++) {
 			for (int i2 = 0; i2 < 10; i2++) {
-				Space sp2 = new Space(193, 111, SpaceType.MONSTER_ENCOUNTER, monImg);
-				map1.getSpaces().put(i + " " + i2, sp2);
-				map1Grid.add((Node)sp2, i, i2);
+				Space sp = new Space(193, 111, SpaceType.MONSTER_ENCOUNTER, monImg);
+				map1.getSpaces().put(i + " " + i2, sp);
+				map1Grid.add((Node)sp, i, i2);
 			}
 		}
 		
 		// setting monster spaces right of the path
 		for (int i = 5; i < 10; i++) {
 			for (int i2 = 0; i2 < 10; i2++) {
-				Space sp2 = new Space(193, 111, SpaceType.MONSTER_ENCOUNTER, monImg);
-				map1.getSpaces().put(i + " " + i2, sp2);
-				map1Grid.add((Node)sp2, i, i2);
+				Space sp = new Space(193, 111, SpaceType.MONSTER_ENCOUNTER, monImg);
+				map1.getSpaces().put(i + " " + i2, sp);
+				map1Grid.add((Node)sp, i, i2);
 			}
 		}
 	}

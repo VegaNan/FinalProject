@@ -190,7 +190,7 @@ public abstract class Character extends Rectangle{
 	
 	public void setCurrentEnergy(int currentEnergy) {
 		if(getCurrentEnergy() < currentEnergy) {
-			setCurrentEnergy(getBaseEnergy());
+			this.currentEnergy = getBaseEnergy();
 		}else {
 			this.currentEnergy = currentEnergy;
 		}
