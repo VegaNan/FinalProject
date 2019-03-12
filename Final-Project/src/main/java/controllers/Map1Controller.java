@@ -70,6 +70,11 @@ public class Map1Controller implements Initializable{
 	HBox itemBox;
 
 	public Map1Controller() {
+	}
+	public Map1Controller(Player player) {
+		player1 = player;
+		importPlayer(player);
+	}
 
 	public void getItems() {
 		Stage window = new Stage();
