@@ -10,6 +10,9 @@ import java.io.ObjectOutputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -32,8 +35,9 @@ public class MainMenuController implements Initializable {
 		changeScene("/view/CharacterCreation.fxml", event);
 	}
 
-	public void loadGame(ActionEvent event) throws IOException {
-		Player loadedPlayer;
+	public void loadGame(ActionEvent event) throws IOException{
+		ActionEvent ourEvent = event;
+		Player loadedPlayer = new Player();
 		changeScene("/view/LoadGame.fxml", event);
 		String path = "saves";
 		File initialFile = new File(path);
@@ -53,7 +57,7 @@ public class MainMenuController implements Initializable {
 			try {
 				fileIn = new FileInputStream(loadFile);
 				objectIn = new ObjectInputStream(fileIn);
-				loadedPlayer = (Player) objectIn.readObject();
+				loadedPlayer = (Player)objectIn.readObject();
 			}catch(FileNotFoundException fnf) {
 				System.out.println("Path does not exist.");
 			}catch(ClassNotFoundException cnfe) {
@@ -72,6 +76,8 @@ public class MainMenuController implements Initializable {
 				}
 			}
 		}
+		//TODO need to start game with this player
+		changeScene(loadedPlayer.getMapLocation(), ourEvent);
 	}
 	
 	protected static void saveGame(String name, Player player) {

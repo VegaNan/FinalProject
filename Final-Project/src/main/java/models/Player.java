@@ -15,7 +15,7 @@ public class Player extends Character implements Serializable{
 	protected int xp;
 	protected int nextLevelXP;
 	protected boolean defend = false;
-	private String mapLocation;
+	protected String mapLocation;
 	
 	public Player() {
 		super();
@@ -24,7 +24,15 @@ public class Player extends Character implements Serializable{
 	public Player(int x, int y, int w, int h, Image img, int strBase, int intBase, int luckBase, int level, String name) {
 		super(x, y, w, h, img, strBase, intBase, luckBase, level, name);
 		this.nextLevelXP = setNextLevelXP(level);
-		mapLocation = "Map1.fxml";
+		setMapLocation("/view/Map1.fxml");
+	}
+
+	public String getMapLocation() {
+		return mapLocation;
+	}
+
+	public void setMapLocation(String mapLocation) {
+		this.mapLocation = mapLocation;
 	}
 
 	public void setDefend(boolean defend) {

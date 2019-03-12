@@ -465,6 +465,7 @@ public class Map2Controller implements Initializable, Serializable{
 		Image monImg = new Image("/view/grass.png");
 		Image safeImg = new Image("/view/tile.png");
 		Image doorImg = new Image("/view/door.png");
+		Image wallImg = new Image("/view/wall.png");
 		Image krebsinatorImg = new Image("/view/krebsinator.png");
 		Space door = new Space(193, 111, SpaceType.DOOR, doorImg);
 		map2.getSpaces().put(4 + " " + 0, door);
@@ -486,6 +487,20 @@ public class Map2Controller implements Initializable, Serializable{
 				map2Grid.add((Node)sp, i, i2);
 			}
 		}
+		//setting monster wall spaces right
+		for(int i = 2; i < 10; i++)
+		{
+			Space sp = new Space(193, 111, SpaceType.MONSTER_ENCOUNTER, monImg);
+			map2.getSpaces().put(3 + " " + i, sp);
+			map2Grid.add(sp, 3, i);
+		}
+		//setting monster wall spaces left
+		for(int i = 2; i < 10; i++)
+		{
+			Space sp = new Space(193, 111, SpaceType.MONSTER_ENCOUNTER, monImg);
+			map2.getSpaces().put(5 + " " + i, sp);
+			map2Grid.add(sp, 5, i);
+		}
 		// setting monster spaces right of the path
 		for (int i = 6; i < 10; i++) {
 			for (int i2 = 0; i2 < 10; i2++) {
@@ -500,6 +515,19 @@ public class Map2Controller implements Initializable, Serializable{
 			Space sp = new Space(193, 111, SpaceType.MONSTER_ENCOUNTER, monImg);
 			map2.getSpaces().put(4 + " " + i, sp);
 			map2Grid.add(sp, 4, i);
+		}
+		//wall spaces
+		for(int i = 0; i < 2; i++)
+		{
+			Space sp = new Space(193, 111, SpaceType.BLOCK, wallImg);
+			map2.getSpaces().put(3 + " " + i, sp);
+			map2Grid.add(sp, 3, i);
+		}
+		for(int i = 0; i < 2; i++)
+		{
+			Space sp = new Space(193,111, SpaceType.BLOCK, wallImg);
+			map2.getSpaces().put(5 + " " + i, sp);
+			map2Grid.add(sp, 5, i);
 		}
 	}
 
