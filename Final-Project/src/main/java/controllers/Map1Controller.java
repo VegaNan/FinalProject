@@ -503,7 +503,7 @@ public class Map1Controller implements Initializable {
 
 		
 		ArrayList<Item> itemBag = new ArrayList<>();
-		int itemNum = RNG.generateInt(0, player1.getLevel() + 2);
+		int itemNum = RNG.generateInt(5, player1.getLevel() + 6);
 		for (int i = 0; i < itemNum; i++) {
 			int chance = 1;
 			String name = "Misc Item";
