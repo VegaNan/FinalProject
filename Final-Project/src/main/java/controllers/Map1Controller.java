@@ -3,7 +3,6 @@ package controllers;
 
 import java.awt.TextField;
 import java.io.IOException;
-import java.io.Serializable;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -39,7 +38,16 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import models.*;
+import models.Armor;
+import models.Item;
+import models.Map;
+import models.MapType;
+import models.MiscItem;
+import models.Monster;
+import models.Player;
+import models.Potion;
+import models.Space;
+import models.Vendor;
 import models.Weapon;
 import utilities.RNG;
 
@@ -68,6 +76,10 @@ public class Map1Controller extends MapType implements Initializable{
 		super(saveName, mapLocation);
 	}
 	
+	public Map1Controller(Player player) {
+		super("Krebs", "/view/Map1.fxml");
+		player1 = player;
+	}
 	public void getItems() {
 		
 		//Creates a pop up that allows user to view items
@@ -799,6 +811,8 @@ public class Map1Controller extends MapType implements Initializable{
  	
  	public static void importPlayer(Player player) {
  		player1 = player;
+		Image img = new Image("/images/knight.png");
+ 		player1.setImage(193, 110, img);
  	}
  	
  	//Movement methods

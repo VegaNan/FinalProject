@@ -94,6 +94,12 @@ public abstract class Character extends Rectangle implements Serializable{
 		}
 	}
 	
+	public void setImage(int w, int h, Image img) {
+		setWidth(w);
+		setHeight(h);
+		setFill(new ImagePattern(img));
+	}
+	
 	private int generateDamageBonus() {
 		if(getStrBase() > 15) {
 			return (getStrBase() - 15);

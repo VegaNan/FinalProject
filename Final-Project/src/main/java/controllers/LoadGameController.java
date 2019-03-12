@@ -36,9 +36,10 @@ public class LoadGameController implements Initializable {
 	public void startGame(ActionEvent event) {
 		Player loadedPlayer = MainMenuController.getLoadedPlayer();
 		try {
-			Map1Controller.importPlayer(loadedPlayer);
-			changeScene(loadedPlayer.getMapLocation(), event);
 			if(loadedPlayer.getMapLocation().contains("Map1")) {
+				Map1Controller mapCon = new Map1Controller(loadedPlayer);
+				Map1Controller.importPlayer(loadedPlayer);
+				changeScene(loadedPlayer.getMapLocation(), event);
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
