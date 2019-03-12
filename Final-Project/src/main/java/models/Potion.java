@@ -32,16 +32,16 @@ public class Potion extends Item implements Consumable {
 	public void setName(PotionType effect) {
 		switch (effect) {
 		case LUCK:
-			this.name = "Dexterity Potion";
+			setName("Potion of Luck");
 			break;
 		case HEALING:
-			this.name = "Dexterity Potion";
+			setName("Healing Potion");
 			break;
 		case STRENGTH:
-			this.name = "Strength Potion";
+			setName("Strength Potion");
 			break;
 		case INTELLIGENCE:
-			this.name = "Intelligence Potion";
+			setName("Intelligence Potion");
 			break;
 		}
 	}
@@ -57,33 +57,32 @@ public class Potion extends Item implements Consumable {
 	public int getEffectNum() {
 		return effectNum;
 	}
-
+	
 	public void setEffectNum(int effectNum) {
 		this.effectNum = effectNum;
 	}
 
 	public void use(Character target) {
-		switch (this.effect) {
+		switch (getEffect()) {
 		case LUCK:
-			System.out.println(
-					target.getName() + " used a " + this.name + " and gained " + this.effectNum + " points of Luck");
+			System.out.println(target.getName() + " used a " + getName() + " and gained " + getEffectNum() + " points of Luck");
 			target.setLuckBase(target.getLuckBase() + getEffectNum());
 			break;
 		case STRENGTH:
-			System.out.println(target.getName() + " used a " + this.name + " and gained " + this.effectNum
-					+ " points of Strength");
+			System.out.println(target.getName() + " used a " + getName() + " and gained " + getEffectNum() + " points of Strength");
 			target.setStrBase(target.getStrBase() + getEffectNum());
 			break;
 		case INTELLIGENCE:
-			System.out.println(target.getName() + " used a " + this.name + " and gained " + this.effectNum
-					+ " points of Intelligence");
-			target.setIntBase(this.effectNum);
+			System.out.println(target.getName() + " used a " + getName() + " and gained " + getEffectNum() + " points of Intelligence");
+			target.setIntBase(target.getIntBase() + getEffectNum());
 			break;
 		case HEALING:
-			System.out.println(
-					target.getName() + " used a " + this.name + " and gained " + this.effectNum + " points of Healing");
-			target.setCurrentHP(target.getBaseHP());
+			System.out.println(target.getName() + " used a " + getName() + " and gained " + getEffectNum() + " points of Healing");
+			target.setCurrentHP(target.getCurrentHP() + getEffectNum());
+			break;
 		}
+		//Sets effect num to 0 in case you try to use multiple times
+		setEffectNum(0);
 	}
 
 	@Override
@@ -97,7 +96,22 @@ public class Potion extends Item implements Consumable {
 
 	@Override
 	public String getDescription() {
-		// TODO Auto-generated method stub
+		StringBuilder sb = new StringBuilder("This potion will: ");
+		switch(getEffect()) {
+		case LUCK:
+			sb.append("Boost the user's luck by ");
+			break;
+		case HEALING:
+			sb.append("Heal the user by ");
+			break;
+		case STRENGTH:
+			sb.append("Boost user's strength by ");
+			break;
+		case INTELLIGENCE:
+			sb.append("Boost user intelligence by");
+			break;
+		}
+		sb.append(getEffectNum()).append(" points");
 		return null;
 	}
 
