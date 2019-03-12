@@ -394,6 +394,7 @@ public class Map1Controller implements Initializable{
 
 				if (checkDeath(monster)) {
 					// window.close();
+					System.out.println("Monster ded");
 					MainMenuController.saveGame(player1.getName(), player1);
 				}
 			}
@@ -631,7 +632,11 @@ public class Map1Controller implements Initializable{
 	}
 
 	public void nextMap(ActionEvent event) {
+ 		player1.setCoordX(4);
+ 		player1.setCoordY(9);
+ 		player1.setMapLocation("/view/Map2.fxml");
 		changeScene("/view/Map2.fxml", event);
+		Map2Controller.importPlayer(player1);
 	}
 
 	public Monster createMonster() {

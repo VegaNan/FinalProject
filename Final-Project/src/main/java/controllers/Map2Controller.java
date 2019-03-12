@@ -66,6 +66,7 @@ public class Map2Controller implements Initializable{
 	
 	public Map2Controller(Player player) {
 		player1 = player;
+		importPlayer(player1);
 	}
 	
 	public void getItems() {
@@ -263,6 +264,8 @@ public class Map2Controller implements Initializable{
 				// Check if combat is over
 				if (checkDeath(monster)) {
 					window.close();
+					MainMenuController.saveGame(player1.getName(), player1);
+
 				}
 			}
 		});
@@ -289,6 +292,8 @@ public class Map2Controller implements Initializable{
 				// Check if combat is over
 				if (checkDeath(monster)) {
 					window.close();
+					MainMenuController.saveGame(player1.getName(), player1);
+
 				}
 			}
 		});
@@ -320,6 +325,8 @@ public class Map2Controller implements Initializable{
 
 				if (checkDeath(monster)) {
 					window.close();
+					MainMenuController.saveGame(player1.getName(), player1);
+
 				}
 			}
 		});
@@ -387,6 +394,8 @@ public class Map2Controller implements Initializable{
 
 				if (checkDeath(monster)) {
 					// window.close();
+					System.out.println("monster ded save player");
+					MainMenuController.saveGame(player1.getName(), player1);
 				}
 			}
 		});
@@ -587,7 +596,11 @@ public class Map2Controller implements Initializable{
 	}
 
 	public void nextMap(ActionEvent event) {
+ 		player1.setCoordX(4);
+ 		player1.setCoordY(9);
+ 		player1.setMapLocation("/view/Map3.fxml");
 		changeScene("/view/Map3.fxml", event);
+		Map3Controller.importPlayer(player1);
 	}
 
 	public Monster createMonster() {

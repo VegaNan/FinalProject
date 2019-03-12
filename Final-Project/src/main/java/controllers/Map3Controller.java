@@ -58,6 +58,7 @@ public class Map3Controller implements Initializable{
 	
 	public Map3Controller(Player player) {
 		player1 = player;
+		importPlayer(player1);
 	}
 
 	public void getItems() {
@@ -246,6 +247,8 @@ public class Map3Controller implements Initializable{
 				// Check if combat is over
 				if (checkDeath(monster)) {
 					window.close();
+					MainMenuController.saveGame(player1.getName(), player1);
+
 				}
 			}
 		});
@@ -272,6 +275,8 @@ public class Map3Controller implements Initializable{
 				// Check if combat is over
 				if (checkDeath(monster)) {
 					window.close();
+					MainMenuController.saveGame(player1.getName(), player1);
+
 				}
 			}
 		});
@@ -303,6 +308,8 @@ public class Map3Controller implements Initializable{
 
 				if (checkDeath(monster)) {
 					window.close();
+					MainMenuController.saveGame(player1.getName(), player1);
+
 				}
 			}
 		});
@@ -370,6 +377,7 @@ public class Map3Controller implements Initializable{
 
 				if (checkDeath(monster)) {
 					// window.close();
+					MainMenuController.saveGame(player1.getName(), player1);
 				}
 			}
 		});
