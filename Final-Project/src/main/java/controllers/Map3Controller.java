@@ -813,6 +813,8 @@ public class Map3Controller implements Initializable{
 		});
 		Image monImg = new Image("/images/enemy.png");
 		// Set up the map
+		initSpaces(map3);
+
 		//importPlayer();
 	}
 }

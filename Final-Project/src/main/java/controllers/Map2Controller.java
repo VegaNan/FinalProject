@@ -862,6 +862,8 @@ public class Map2Controller implements Initializable{
 		});
 		Image monImg = new Image("/images/enemy.png");
 		// Set up the map
+		initSpaces(map2);
+
 		//importPlayer();
 	}
 }
