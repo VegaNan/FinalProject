@@ -4,9 +4,7 @@ package controllers;
 import java.awt.TextField;
 import java.io.IOException;
 import java.io.Serializable;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
@@ -17,7 +15,6 @@ import enums.PotionType;
 import enums.SpaceType;
 import enums.WeaponType;
 import javafx.animation.PauseTransition;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -37,16 +34,13 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.media.AudioClip;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import models.*;
 import models.Weapon;
 import utilities.RNG;
 
-public class Map1Controller extends MapType implements Initializable, Serializable{
+public class Map1Controller extends MapType implements Initializable{
 
 	@FXML
 	GridPane map1Grid;
@@ -150,18 +144,13 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 	//Updates stats to display correctly
 	public HBox updateStats(Monster monster) {
 		HBox stats = new HBox();
-		
-		//Display player stats
+  //Display player stats
 		StringBuilder playersb = new StringBuilder(player1.getName()).append(" lvl ").append(player1.getLevel())
 		.append("\n HP").append(player1.getCurrentHP()).append(" / ").append(player1.getBaseHP())
-		.append("\nEnergy: ").append(player1.getCurrentEnergy()).append(" / ").append(player1.getBaseEnergy());
 		
+		.append("\nEnergy: ").append(player1.getCurrentEnergy()).append(" / ").append(player1.getBaseEnergy());
 		Label playerLabel = new Label(playersb.toString());
 		playerLabel.setMinSize(300, 100);
-		
-		if(monster.getCurrentHP() < 1) {
-			monster.setAlive(false);
-		}
 		
 		//Display monster stats
 		StringBuilder monstersb = new StringBuilder(monster.getName());
@@ -259,6 +248,7 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 				//Check if combat is over
 				if(checkDeath(monster)) {
 					window.close();
+					MainMenuController.saveGame(player1.getName(), player1);
 				}
 			}
 		});
@@ -285,6 +275,7 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 				//Check if combat is over
 				if(checkDeath(monster)) {
 					window.close();
+					MainMenuController.saveGame(player1.getName(), player1);
 				}
 			}
 		});
@@ -316,6 +307,7 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 				
 				if(checkDeath(monster)) {
 					window.close();
+					MainMenuController.saveGame(player1.getName(), player1);
 				}
 			}
 		});
@@ -384,6 +376,7 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 				
 				if(checkDeath(monster)) {
 					//window.close();
+					MainMenuController.saveGame(player1.getName(), player1);
 				}
 			}
 		});
@@ -779,7 +772,6 @@ public class Map1Controller extends MapType implements Initializable, Serializab
 			CharacterCreationController controller = loader.getController();
 			player1 = controller.getPlayer();
 			
-			//TODO bug here?
 			initSpaces(map1);
 			map1Grid.add((Node) player1, player1.getCoordX(), player1.getCoordY());
 			
