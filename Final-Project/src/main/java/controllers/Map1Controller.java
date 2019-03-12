@@ -309,7 +309,6 @@ public class Map1Controller implements Initializable{
 				monsterTurn(monster);
 				stats.getChildren().clear();
 				stats.getChildren().add(updateStats(monster));
-
 			}
 		});
 		usePotion.setOnAction(new EventHandler<ActionEvent>() {
@@ -571,6 +570,7 @@ public class Map1Controller implements Initializable{
 		Image monImg = new Image("/images/grass.png");
 		Image safeImg = new Image("/images/tile.png");
 		Image doorImg = new Image("/images/door.png");
+		Image vendorImg = new Image("/images/vendor.png");
 		// setting door space
 		Space door = new Space(193, 111, SpaceType.DOOR, doorImg);
 		map1.getSpaces().put(4 + " " + 0, door);
@@ -581,16 +581,31 @@ public class Map1Controller implements Initializable{
 			map1.getSpaces().put(4 + " " + i, sp);
 			map1Grid.add((Node) sp, 4, i);
 		}
-
+		
 		// setting monster spaces left of path
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 3; i++) {
 			for (int i2 = 0; i2 < 10; i2++) {
 				Space sp = new Space(193, 111, SpaceType.MONSTER_ENCOUNTER, monImg);
 				map1.getSpaces().put(i + " " + i2, sp);
 				map1Grid.add((Node) sp, i, i2);
 			}
 		}
-
+		// setting monster top half col 3
+			for (int i = 0; i < 5; i++) {
+				Space sp = new Space(193, 111, SpaceType.MONSTER_ENCOUNTER, monImg);
+				map1.getSpaces().put(3 + " " + i, sp);
+				map1Grid.add((Node) sp, 3, i);
+			}
+			// setting monster bottom half col 3
+			for (int i = 6; i < 10; i++) {
+				Space sp = new Space(193, 111, SpaceType.MONSTER_ENCOUNTER, monImg);
+				map1.getSpaces().put(3 + " " + i, sp);
+				map1Grid.add((Node) sp, 3, i);
+			}
+			//vendor space
+			Space vendor = new Space(193, 111, SpaceType.VENDOR, vendorImg);
+			map1.getSpaces().put(3 + " " + 5, vendor);
+			map1Grid.add((Node)vendor, 3, 5);
 		// setting monster spaces right of the path
 		for (int i = 5; i < 10; i++) {
 			for (int i2 = 0; i2 < 10; i2++) {
@@ -599,6 +614,7 @@ public class Map1Controller implements Initializable{
 				map1Grid.add((Node) sp, i, i2);
 			}
 		}
+		map1.getSpaces().remove(3, 6);
 	}
 
 	public void checkSpace() {

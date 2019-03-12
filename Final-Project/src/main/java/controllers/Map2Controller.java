@@ -310,7 +310,6 @@ public class Map2Controller implements Initializable{
 				monsterTurn(monster);
 				stats.getChildren().clear();
 				stats.getChildren().add(updateStats(monster));
-
 			}
 		});
 		usePotion.setOnAction(new EventHandler<ActionEvent>() {
