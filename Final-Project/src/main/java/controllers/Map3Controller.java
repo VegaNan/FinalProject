@@ -550,7 +550,9 @@ public class Map3Controller implements Initializable{
 				combatView(createMonster());
 			}
 		} else if (sp.getSt() == SpaceType.BOSS) {
-			// TODO implement boss combat
+			Image bossImg = new Image("/images/krebsinator.png");
+			Boss boss = new Boss(0, 0, 0, 0, bossImg, 20, 20, 20, 5, "BOSS", MonsterType.KREBS);
+			combatView(boss);
 		}
 
 		// Goes to next map if space is a door
