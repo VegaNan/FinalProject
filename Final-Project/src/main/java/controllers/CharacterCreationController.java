@@ -142,9 +142,6 @@ public class CharacterCreationController implements Initializable {
 		return stat;
 	}
 	
-	private void setPlayer(Player player) {
-		activePlayer = player;
-	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
