@@ -457,7 +457,7 @@ public class Map1Controller implements Initializable {
 		//window.setOnCloseRequest(event -> {
 		//	event.consume();
 		//});
-		Pane vendor = new AnchorPane();
+		VBox vendor = new VBox();
 		Scene scene = new Scene(vendor);
 		vendor.setPrefSize(700, 700);
 		HBox playerItems = new HBox();
@@ -484,7 +484,7 @@ public class Map1Controller implements Initializable {
 		for(int i = 0; i < player1.getItemBag().size(); i++) {
 			VBox itemBox = new VBox();
 			Label item = new Label(player1.getItemBag().get(i).toString());
-			item.setPrefSize(200, 200);
+			item.setPrefSize(300, 200);
 			Button Sell = new Button("Sell");
 			int ii = i;
 			Sell.setOnAction(new EventHandler<ActionEvent>() {
@@ -492,9 +492,6 @@ public class Map1Controller implements Initializable {
 				public void handle(ActionEvent event) {
 					player1.setMoney(player1.getMoney() + player1.getItemBag().get(ii).value);
 					player1.removeItem(ii);					
-					if (exit.getOnMousePressed() != null) {
-						window.close();
-					}
 				}
 			});
 			itemBox.getChildren().add(item);
@@ -608,7 +605,7 @@ public class Map1Controller implements Initializable {
 		for(int i = 0; i < itemBag.size(); i++) {
 			VBox itemBox = new VBox();
 			Label item = new Label(itemBag.get(i).toString());
-			item.setPrefSize(200, 200);
+			item.setPrefSize(300, 200);
 			Button Buy = new Button("Buy");
 			itemBox.getChildren().add(item);
 			itemBox.getChildren().add(Buy);
@@ -624,9 +621,9 @@ public class Map1Controller implements Initializable {
 		}
 		
 		playerItems.getChildren().add(playerLabel);
-		playerItems.setMinSize(700, 200);
+		playerItems.setMinSize(500, 200);
 		vendorItems.getChildren().add(vendorLabel);
-		vendorItems.setMinSize(700, 200);
+		vendorItems.setMinSize(500, 200);
 		vendor.getChildren().add(vendorItems);
 		vendor.getChildren().add(playerItems);
 		window.setScene(scene);
