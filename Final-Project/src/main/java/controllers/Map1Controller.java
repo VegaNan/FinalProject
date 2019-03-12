@@ -72,13 +72,8 @@ public class Map1Controller extends MapType implements Initializable {
 		super("Krebs", "/view/Map1.fxml");
 	}
 
-	public Map1Controller(String saveName, String mapLocation) {
-		super(saveName, mapLocation);
-	}
-		player1 = player;
-	}
 	public void getItems() {
-
+		Stage window = new Stage();
 		// Creates a pop up that allows user to view items
 		Scene scene = new Scene(updateItems());
 		window.setScene(scene);
