@@ -31,10 +31,6 @@ public class MainMenuController implements Initializable {
 		return loadedPlayer;
 	}
 
-	public void setLoadedPlayer(Player loadedPlayer) {
-		this.loadedPlayer = loadedPlayer;
-	}
-
 	public void startNewGame(ActionEvent event) throws IOException {
 		changeScene("/view/CharacterCreation.fxml", event);
 	}
