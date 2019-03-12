@@ -163,13 +163,13 @@ public class Map1Controller implements Initializable{
 				.append("\n HP").append(player1.getCurrentHP()).append(" / ").append(player1.getBaseHP())
 				.append("\nEnergy: ").append(player1.getCurrentEnergy()).append(" / ").append(player1.getBaseEnergy());
 		Label playerLabel = new Label(playersb.toString());
-		playerLabel.setMinSize(300, 100);
+		playerLabel.setMinSize(500, 200);
 
 		// Display monster stats
-		StringBuilder monstersb = new StringBuilder(monster.getName());
+		StringBuilder monstersb = new StringBuilder(monster.getName()).append(" lvl ").append(monster.getLevel());
 		monstersb.append("\n").append(monster.getCurrentHP()).append(" / ").append(monster.getBaseHP());
 		Label monsterLabel = new Label(monstersb.toString());
-		monsterLabel.setMinSize(300, 100);
+		monsterLabel.setMinSize(500, 200);
 
 		if (monster.getCurrentHP() < 1) {
 			monster.setAlive(false);
@@ -309,6 +309,10 @@ public class Map1Controller implements Initializable{
 				monsterTurn(monster);
 				stats.getChildren().clear();
 				stats.getChildren().add(updateStats(monster));
+				if (checkDeath(monster)) {
+					window.close();
+					MainMenuController.saveGame(player1.getName(), player1);
+				}
 			}
 		});
 		usePotion.setOnAction(new EventHandler<ActionEvent>() {
