@@ -88,8 +88,8 @@ public class CharacterCreationController implements Initializable {
 				controller2.importPlayer();
 				break;
 			case "/view/Map3.fxml":
-				// Map3Controller controller3 = loader.getController();
-				// controller3.importPlayer();
+				 Map3Controller controller3 = loader.getController();
+				 controller3.importPlayer();
 				break;
 			}
 		} catch (IOException e) {
