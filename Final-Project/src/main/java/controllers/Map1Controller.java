@@ -634,7 +634,7 @@ public class Map1Controller implements Initializable{
 		//Goes to next map if space is a door
 		else if(sp.getSt() == SpaceType.DOOR)
 		{
-			player1.setMapLocation("Map2");
+			player1.setMapLocation("/view/Map2.fxml");
 			doorButton.fire();
 		}
 		
